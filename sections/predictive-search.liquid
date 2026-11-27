@@ -1,0 +1,36 @@
+{%- if predictive_search.performed -%}
+  <div style="border: var(--q-hairline); background-color: var(--q-light-02); padding: 24px; margin-top: 12px;">
+    {%- if predictive_search.resources.products.size > 0 -%}
+      <p class="q-mono-spec" style="margin: 0 0 16px;">{{ 'general.search.products' | t }}</p>
+      <div class="q-grid-3" style="gap: 24px;">
+        {%- for product in predictive_search.resources.products limit: 3 -%}
+          {% render 'fragrance-card', product: product, card_style: 'shop' %}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- if predictive_search.resources.pages.size > 0 or predictive_search.resources.articles.size > 0 -%}
+      <div style="margin-top: 24px; padding-top: 18px; border-top: var(--q-hairline); display: flex; flex-direction: column; gap: 8px;">
+        {%- for p in predictive_search.resources.pages limit: 3 -%}
+          <a href="{{ p.url }}" class="q-body-sm q-link-editorial">{{ p.title }}</a>
+        {%- endfor -%}
+        {%- for a in predictive_search.resources.articles limit: 3 -%}
+          <a href="{{ a.url }}" class="q-body-sm q-link-editorial">{{ a.title }}</a>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    <div style="margin-top: 20px;">
+      <a href="{{ routes.search_url }}?q={{ predictive_search.terms | url_encode }}" class="q-mono-spec q-link-editorial">
+        {{ 'general.search.view_all' | t }}
+      </a>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Predictive Search",
+  "settings": []
+}
+{% endschema %}

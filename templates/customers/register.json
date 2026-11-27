@@ -1,0 +1,43 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-register",
+      "blocks": {
+        "reserve_priority": {
+          "type": "privilege",
+          "settings": {
+            "title": "01 / RESERVE BATCH PRIORITY",
+            "body": "Receive 24-hour advance notice when numbered 50-flacon 30% Extrait releases complete maceration."
+          }
+        },
+        "archive_record": {
+          "type": "privilege",
+          "settings": {
+            "title": "02 / OLFACTORY ARCHIVE RECORD",
+            "body": "Keep a personal ledger of your owned compositions, bottle formats, and batch numbers."
+          }
+        },
+        "class3_dispatch": {
+          "type": "privilege",
+          "settings": {
+            "title": "03 / STREAMLINED CLASS 3 DISPATCH",
+            "body": "Save compliant street delivery addresses and monitor tracked ground shipments from one view."
+          }
+        }
+      },
+      "block_order": [
+        "reserve_priority",
+        "archive_record",
+        "class3_dispatch"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "privileges_eyebrow": "THE QIRÉLIA REGISTRY",
+        "privileges_heading": "Quiet Privileges."
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

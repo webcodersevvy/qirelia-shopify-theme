@@ -1,0 +1,169 @@
+{%- liquid
+  assign band_class = 'q-statement-band color-' | append: section.settings.color_scheme | append: ' q-color-scheme'
+  if section.settings.show_top_divider
+    assign band_class = band_class | append: ' q-section--divided'
+  endif
+  assign grid_class = 'q-principles-grid'
+  if section.settings.columns == '3'
+    assign grid_class = 'q-principles-grid q-principles-grid--3'
+  elsif section.settings.card_gap == 'compact'
+    assign grid_class = 'q-principles-grid q-principles-grid--cards'
+  endif
+-%}
+
+<section
+  class="{{ band_class }}"
+  style="background-color: var(--q-bg, var(--q-light-01)); padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;"
+>
+  <div class="q-container" style="display: flex; flex-direction: column; gap: 40px;">
+    {%- if section.settings.notice_heading != blank or section.settings.notice_body != blank -%}
+      <div
+        class="color-scheme-3 q-color-scheme"
+        style="padding: 28px 32px; background-color: var(--q-bg); border: 1px solid var(--q-bright-01); display: flex; flex-direction: column; gap: 8px;"
+      >
+        {%- if section.settings.notice_heading != blank -%}
+          <p class="q-mono-spec" style="margin: 0; color: var(--q-dark-01);">{{ section.settings.notice_heading }}</p>
+        {%- endif -%}
+        {%- if section.settings.notice_body != blank -%}
+          <p class="q-body" style="margin: 0; color: var(--q-dark-01);">{{ section.settings.notice_body }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="q-mono-spec" style="margin: 0;">{{ section.settings.eyebrow }}</p>
+    {%- endif -%}
+
+    <div class="{{ grid_class }}">
+      {% content_for 'blocks' %}
+    </div>
+
+    {%- if section.settings.primary_cta_label != blank or section.settings.secondary_cta_label != blank -%}
+      <div style="display: flex; flex-wrap: wrap; gap: 16px;">
+        {%- if section.settings.secondary_cta_label != blank -%}
+          <a href="{{ section.settings.secondary_cta_url | default: routes.root_url }}" class="q-btn q-btn--secondary">
+            {{ section.settings.secondary_cta_label }}
+          </a>
+        {%- endif -%}
+        {%- if section.settings.primary_cta_label != blank -%}
+          <a href="{{ section.settings.primary_cta_url | default: routes.root_url }}" class="q-btn q-btn--primary">
+            {{ section.settings.primary_cta_label }}
+          </a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Principles & Cards Grid",
+  "blocks": [
+    { "type": "@theme" },
+    { "type": "@app" }
+  ],
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_top_divider",
+      "label": "Show 1px top hairline divider",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Section eyebrow"
+    },
+    {
+      "type": "select",
+      "id": "columns",
+      "label": "Desktop columns",
+      "options": [
+        { "value": "2", "label": "2 columns" },
+        { "value": "3", "label": "3 columns" }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "select",
+      "id": "card_gap",
+      "label": "Grid gap density",
+      "options": [
+        { "value": "editorial", "label": "32px / 48px (House Principles)" },
+        { "value": "compact", "label": "24px (Disclosures / Care)" }
+      ],
+      "default": "compact"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 120,
+      "step": 8,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 24,
+      "max": 120,
+      "step": 8,
+      "unit": "px",
+      "default": 96
+    },
+    {
+      "type": "header",
+      "content": "Optional notice banner"
+    },
+    {
+      "type": "text",
+      "id": "notice_heading",
+      "label": "Notice heading"
+    },
+    {
+      "type": "textarea",
+      "id": "notice_body",
+      "label": "Notice text"
+    },
+    {
+      "type": "header",
+      "content": "Optional bottom actions"
+    },
+    {
+      "type": "text",
+      "id": "secondary_cta_label",
+      "label": "Secondary button label"
+    },
+    {
+      "type": "url",
+      "id": "secondary_cta_url",
+      "label": "Secondary button link"
+    },
+    {
+      "type": "text",
+      "id": "primary_cta_label",
+      "label": "Primary button label"
+    },
+    {
+      "type": "url",
+      "id": "primary_cta_url",
+      "label": "Primary button link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Principles & Cards Grid",
+      "category": "Editorial"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,88 @@
+<section class="color-{{ section.settings.color_scheme }} q-color-scheme q-section" style="padding-bottom: 48px;">
+  <div class="q-container">
+    <div class="q-table-wrap">
+      <table class="q-table">
+        <thead>
+          <tr>
+            <th scope="col" class="q-mono-spec" style="color: var(--q-dark-01);">{{ section.settings.col_1 }}</th>
+            <th scope="col" class="q-mono-spec" style="color: var(--q-dark-01);">{{ section.settings.col_2 }}</th>
+            <th scope="col" class="q-mono-spec" style="color: var(--q-dark-01);">{{ section.settings.col_3 }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {%- for block in section.blocks -%}
+            <tr {{ block.shopify_attributes }}>
+              <td class="q-body-sm" style="color: var(--q-dark-01);">{{ block.settings.spec_label }}</td>
+              <td class="q-body-sm" style="color: var(--q-dark-03);">{{ block.settings.val_50 }}</td>
+              <td class="q-body-sm" style="color: var(--q-dark-03);">{{ block.settings.val_100 }}</td>
+            </tr>
+          {%- endfor -%}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Format Comparison Table",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "col_1",
+      "label": "Column 1 header",
+      "default": "SPECIFICATION"
+    },
+    {
+      "type": "text",
+      "id": "col_2",
+      "label": "Column 2 header",
+      "default": "50 ML / 1.7 FL. OZ."
+    },
+    {
+      "type": "text",
+      "id": "col_3",
+      "label": "Column 3 header",
+      "default": "100 ML / 3.4 FL. OZ."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "spec_row",
+      "name": "Specification Row",
+      "settings": [
+        {
+          "type": "text",
+          "id": "spec_label",
+          "label": "Specification",
+          "default": "Proposed Dimensions"
+        },
+        {
+          "type": "text",
+          "id": "val_50",
+          "label": "50 ml value",
+          "default": "98 mm H × 46 mm Ø"
+        },
+        {
+          "type": "text",
+          "id": "val_100",
+          "label": "100 ml value",
+          "default": "124 mm H × 56 mm Ø"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Format Comparison Table",
+      "category": "Editorial"
+    }
+  ]
+}
+{% endschema %}

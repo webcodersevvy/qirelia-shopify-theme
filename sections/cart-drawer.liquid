@@ -1,0 +1,19 @@
+{%- liquid
+  assign archive_col = collections['the-permanent-archive']
+  assign reserve_col = collections['the-reserve-editions']
+  assign guide_page = pages['format-guide'] | default: pages['format-care-guide']
+-%}
+<div data-cart-drawer-section>
+  {% render 'cart-drawer-body',
+    curated_collection_primary: archive_col,
+    curated_collection_secondary: reserve_col,
+    guide_page: guide_page
+  %}
+</div>
+
+{% schema %}
+{
+  "name": "Bag Drawer",
+  "settings": []
+}
+{% endschema %}

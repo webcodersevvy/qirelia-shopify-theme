@@ -1,0 +1,63 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "identity": {
+          "type": "product-identity",
+          "settings": {}
+        },
+        "matrix": {
+          "type": "product-olfactory-matrix",
+          "settings": {}
+        },
+        "selector": {
+          "type": "product-format-selector",
+          "settings": {
+            "show_dynamic_checkout": false
+          }
+        },
+        "story": {
+          "type": "product-accordion",
+          "settings": {
+            "heading": "OLFACTORY STORY & WEAR",
+            "source": "story",
+            "open_by_default": false
+          }
+        },
+        "inci": {
+          "type": "product-accordion",
+          "settings": {
+            "heading": "INGREDIENTS (INCI) & CARE",
+            "source": "inci",
+            "content": "<p>Alcohol Denat., Parfum (Fragrance), Aqua (Water). Zero synthetic colourants. Store upright away from direct sunlight and bathroom steam.</p>",
+            "open_by_default": false
+          }
+        },
+        "shipping": {
+          "type": "product-accordion",
+          "settings": {
+            "heading": "FRAGRANCE SHIPPING & RETURNS",
+            "source": "custom",
+            "content": "<p>Ships via approved Class 3 Limited Quantity ground courier (UN1266). No PO Boxes or APO/FPO delivery. Returns accepted on completely unopened, factory cellophane-sealed flacons only; damaged glass replaced within 48 hours of delivery.</p>",
+            "open_by_default": false
+          }
+        }
+      },
+      "block_order": [
+        "identity",
+        "matrix",
+        "selector",
+        "story",
+        "inci",
+        "shipping"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

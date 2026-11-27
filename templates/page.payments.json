@@ -1,0 +1,50 @@
+{
+  "sections": {
+    "main": {
+      "type": "payment-billing-info",
+      "blocks": {
+        "pci": {
+          "type": "billing_term",
+          "settings": {
+            "title": "PCI-DSS LEVEL 1 ENCRYPTION",
+            "body": "All payment credentials are processed exclusively via Shopify’s encrypted checkout infrastructure. QIRÉLIA never stores raw card numbers on its servers."
+          }
+        },
+        "currency": {
+          "type": "billing_term",
+          "settings": {
+            "title": "PRIMARY SETTLEMENT CURRENCY",
+            "body": "Version 01 orders settle in USD. International card issuers may apply standard foreign-exchange conversion where applicable."
+          }
+        },
+        "customs": {
+          "type": "billing_term",
+          "settings": {
+            "title": "CUSTOMS & IMPORT DUTIES",
+            "body": "Where international shipping is active, destination VAT/GST or customs duties may apply unless explicitly displayed as Duties Paid at checkout."
+          }
+        }
+      },
+      "block_order": [
+        "pci",
+        "currency",
+        "customs"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "eyebrow": "EXPRESS SETTLEMENT  ·  SHOPIFY CHECKOUT",
+        "heading": "PAYMENT & BILLING",
+        "subtext": "Complete your QIRÉLIA order via encrypted Shopify Checkout—cards, Apple Pay, Shop Pay, and transparent billing terms.",
+        "card_eyebrow": "SHOPIFY ENCRYPTED SETTLEMENT",
+        "accepted_methods_label": "VISA  ·  MASTERCARD  ·  AMEX  ·  SHOP PAY  ·  APPLE PAY",
+        "checkout_heading": "ENCRYPTED CHECKOUT REDIRECT",
+        "checkout_copy": "For client security and PCI-DSS Level 1 compliance, QIRÉLIA never collects raw card credentials on storefront theme pages. Selecting Proceed to Checkout transfers your shopping bag directly into Shopify’s encrypted payment environment.",
+        "terms_eyebrow": "SECURITY & BILLING TERMS",
+        "account_back_label": "RETURN TO ACCOUNT OVERVIEW →"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

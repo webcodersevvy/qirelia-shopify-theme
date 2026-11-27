@@ -1,0 +1,363 @@
+/* ==========================================================================
+   QIRÉLIA — Design Tokens, Fluid Typography & Architectural Primitives
+   Strict 0px geometry · 1px hairlines · Pure White (#FFFFFF) canvas
+   ========================================================================== */
+
+:root {
+  /* Light Luminance Scale */
+  --q-light-01: #FFFFFF;
+  --q-light-02: #F7F6F4;
+  --q-light-03: #EFECE8;
+  --q-light-04: #E5E2DC;
+  --q-light-05: #D4CFC7;
+
+  /* Dark Ink Scale */
+  --q-dark-01: #141414;
+  --q-dark-02: #292826;
+  --q-dark-03: #4A4845;
+  --q-dark-04: #6E6B66;
+  --q-dark-05: #8F8B85;
+
+  /* Mineral Neutrals & Functional Accents (< 1%) */
+  --q-neutral-01: #BDB5AA;
+  --q-neutral-03: #6A6156;
+  --q-bright-01: #C9A96E;
+  --q-bright-02: #3E5C49;
+  --q-bright-03: #9E362F;
+
+  /* Radii & Borders */
+  --q-radius: 0px;
+  --q-hairline: 1px solid var(--q-border, var(--q-light-04));
+  --q-hairline-strong: 1px solid var(--q-light-05);
+  --q-hairline-ink: 1px solid var(--q-dark-01);
+  --q-hairline-amber: 1px solid var(--q-bright-01);
+
+  /* Fluid Container & Gutters */
+  --q-container-max: 1344px;
+  --q-container-rail: 1328px;
+  --q-gutter: clamp(20px, 3.33vw, 48px);
+  --q-gutter-rail: clamp(16px, 3.88vw, 56px);
+
+  /* Fluid Typography Scale (390px -> 810px -> 1440px) */
+  --q-text-display-xl: clamp(2.625rem, 1.509rem + 4.000vw, 5.25rem);
+  --q-text-h1: clamp(2.125rem, 1.404rem + 2.667vw, 3.875rem);
+  --q-text-h2: clamp(1.75rem, 1.269rem + 1.714vw, 2.875rem);
+  --q-text-h3: clamp(1.375rem, 1.108rem + 0.952vw, 2rem);
+  --q-text-h4: 1.125rem;
+  --q-text-body-lg: 1rem;
+  --q-text-body: 0.875rem;
+  --q-text-body-sm: 0.75rem;
+  --q-text-ui: 0.6875rem;
+  --q-text-mono: 0.625rem;
+
+  /* Transitions */
+  --q-ease: cubic-bezier(0.2, 0, 0, 1);
+  --q-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Color scheme surface utility */
+.q-color-scheme {
+  background-color: var(--q-bg, var(--q-light-01));
+  color: var(--q-ink, var(--q-dark-01));
+}
+
+/* Typography Role Classes */
+.q-display-xl,
+.q-h1,
+.q-h2,
+.q-h3 {
+  font-family: var(--q-font-display, "Bodoni Moda", Georgia, serif);
+  font-weight: 400;
+  font-style: normal;
+  margin: 0;
+  color: var(--q-ink, var(--q-dark-01));
+  font-feature-settings: "blwf" on, "cv03" on, "cv04" on, "cv09" on, "cv11" on;
+}
+
+.q-display-xl {
+  font-size: var(--q-text-display-xl);
+  line-height: 0.96;
+  letter-spacing: -0.025em;
+}
+
+.q-h1 {
+  font-size: var(--q-text-h1);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+}
+
+.q-h2 {
+  font-size: var(--q-text-h2);
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+}
+
+.q-h3 {
+  font-size: var(--q-text-h3);
+  line-height: 1.14;
+  letter-spacing: -0.01em;
+}
+
+.q-h4 {
+  font-family: var(--q-font-body, "Satoshi", -apple-system, BlinkMacSystemFont, sans-serif);
+  font-size: var(--q-text-h4);
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  margin: 0;
+  color: var(--q-ink, var(--q-dark-01));
+}
+
+.q-body-lg {
+  font-family: var(--q-font-body, "Satoshi", -apple-system, BlinkMacSystemFont, sans-serif);
+  font-size: var(--q-text-body-lg);
+  font-weight: 400;
+  line-height: 1.62;
+  color: var(--q-dark-03);
+}
+
+.q-body {
+  font-family: var(--q-font-body, "Satoshi", -apple-system, BlinkMacSystemFont, sans-serif);
+  font-size: var(--q-text-body);
+  font-weight: 400;
+  line-height: 1.62;
+  color: var(--q-dark-03);
+}
+
+.q-body-sm {
+  font-family: var(--q-font-body, "Satoshi", -apple-system, BlinkMacSystemFont, sans-serif);
+  font-size: var(--q-text-body-sm);
+  font-weight: 400;
+  line-height: 1.52;
+  letter-spacing: 0.01em;
+  color: var(--q-dark-04);
+}
+
+.q-ui-label {
+  font-family: var(--q-font-body, "Satoshi", -apple-system, BlinkMacSystemFont, sans-serif);
+  font-size: var(--q-text-ui);
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--q-dark-01);
+}
+
+.q-mono-spec {
+  font-family: var(--q-font-mono, "Azeret Mono", ui-monospace, monospace);
+  font-size: var(--q-text-mono);
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--q-dark-04);
+}
+
+.q-tnum {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" on;
+}
+
+/* Link Presets */
+.q-link-nav {
+  font-family: var(--q-font-body, "Satoshi", sans-serif);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  color: var(--q-dark-03);
+  text-decoration: none;
+  transition: color 0.25s var(--q-ease), text-decoration-color 0.25s var(--q-ease);
+}
+
+.q-link-nav:hover {
+  color: var(--q-dark-01);
+  text-decoration: underline;
+  text-decoration-color: var(--q-bright-01);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 7px;
+}
+
+.q-link-nav[aria-current="page"],
+.q-link-nav.is-active {
+  color: var(--q-dark-01);
+  text-decoration: underline;
+  text-decoration-color: var(--q-dark-01);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 7px;
+}
+
+.q-link-footer {
+  color: var(--q-dark-04);
+  text-decoration: none;
+  transition: color 0.2s var(--q-ease);
+}
+
+.q-link-footer:hover,
+.q-link-footer[aria-current="page"] {
+  color: var(--q-dark-01);
+}
+
+.q-link-editorial {
+  color: var(--q-dark-01);
+  text-decoration: underline;
+  text-decoration-color: var(--q-light-05);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 6px;
+  transition: color 0.2s var(--q-ease), text-decoration-color 0.2s var(--q-ease);
+}
+
+.q-link-editorial:hover {
+  color: var(--q-dark-01);
+  text-decoration-color: var(--q-dark-01);
+}
+
+/* Architectural Buttons (0px corners, 52px height) */
+.q-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 0 28px;
+  border-radius: 0;
+  font-family: var(--q-font-body, "Satoshi", sans-serif);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid var(--q-btn-bg, var(--q-dark-01));
+  transition: background-color 0.22s var(--q-ease), border-color 0.22s var(--q-ease), color 0.22s var(--q-ease), opacity 0.2s var(--q-ease);
+  white-space: nowrap;
+}
+
+.q-btn--primary {
+  background-color: var(--q-btn-bg, var(--q-dark-01));
+  border-color: var(--q-btn-bg, var(--q-dark-01));
+  color: var(--q-btn-ink, var(--q-light-01));
+}
+
+.q-btn--primary:hover:not(:disabled) {
+  background-color: var(--q-dark-02);
+  border-color: var(--q-dark-02);
+  color: var(--q-light-01);
+}
+
+.q-btn--secondary {
+  background-color: var(--q-bg, var(--q-light-01));
+  border-color: var(--q-dark-01);
+  color: var(--q-dark-01);
+}
+
+.q-btn--secondary:hover:not(:disabled) {
+  background-color: var(--q-light-02);
+  border-color: var(--q-dark-01);
+  color: var(--q-dark-01);
+}
+
+.q-btn--full {
+  width: 100%;
+}
+
+.q-btn:disabled,
+.q-btn[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* Badges & Hairlines */
+.q-badge-reserve {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  background-color: var(--q-light-03);
+  border: 1px solid var(--q-bright-01);
+  font-family: var(--q-font-mono, "Azeret Mono", monospace);
+  font-size: 10px;
+  line-height: 1.35;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--q-dark-01);
+  max-width: 100%;
+}
+
+.q-hairline {
+  display: block;
+  width: 100%;
+  height: 1px;
+  background-color: var(--q-border, var(--q-light-04));
+  border: 0;
+  margin: 0;
+}
+
+.q-amber-crest {
+  display: block;
+  width: 36px;
+  height: 2px;
+  background-color: var(--q-bright-01);
+}
+
+/* Form Controls */
+.q-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.q-input,
+.q-textarea,
+.q-select {
+  width: 100%;
+  min-height: 50px;
+  padding: 13px 16px;
+  background-color: var(--q-light-01);
+  border: 1px solid var(--q-light-05);
+  border-radius: 0;
+  font-family: var(--q-font-body, "Satoshi", sans-serif);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--q-dark-01);
+  appearance: none;
+  transition: border-color 0.2s var(--q-ease);
+}
+
+.q-textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+.q-input::placeholder,
+.q-textarea::placeholder {
+  color: var(--q-dark-05);
+}
+
+.q-input:focus,
+.q-textarea:focus,
+.q-select:focus {
+  outline: none;
+  border-color: var(--q-dark-01);
+}
+
+/* Feedback Banners */
+.q-status-banner {
+  padding: 14px 18px;
+  border: 1px solid var(--q-light-05);
+  background-color: var(--q-light-01);
+  font-family: var(--q-font-body, "Satoshi", sans-serif);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.q-status-banner--success {
+  border-color: var(--q-bright-02);
+  color: var(--q-bright-02);
+}
+
+.q-status-banner--error {
+  border-color: var(--q-bright-03);
+  color: var(--q-bright-03);
+}

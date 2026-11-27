@@ -1,0 +1,20 @@
+{% doc %}
+  Renders the architectural mono breadcrumb trail.
+
+  @param {string} [parent_label] - Optional middle breadcrumb label
+  @param {string} [parent_url] - Optional middle breadcrumb URL
+  @param {string} current_label - Current page label
+{% enddoc %}
+<nav class="q-breadcrumb" aria-label="{{ 'general.accessibility.breadcrumb' | t }}">
+  <a href="{{ routes.root_url }}" class="q-mono-spec q-link-footer">{{ 'general.breadcrumbs.home' | t }}</a>
+  <span class="q-mono-spec" aria-hidden="true">/</span>
+  {%- if parent_label != blank -%}
+    {%- if parent_url != blank -%}
+      <a href="{{ parent_url }}" class="q-mono-spec q-link-footer">{{ parent_label }}</a>
+    {%- else -%}
+      <span class="q-mono-spec">{{ parent_label }}</span>
+    {%- endif -%}
+    <span class="q-mono-spec" aria-hidden="true">/</span>
+  {%- endif -%}
+  <span class="q-mono-spec" style="color: var(--q-dark-01);" aria-current="page">{{ current_label }}</span>
+</nav>

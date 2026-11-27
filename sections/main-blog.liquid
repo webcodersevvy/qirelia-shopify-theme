@@ -1,0 +1,90 @@
+<section class="color-{{ section.settings.color_scheme }} q-color-scheme q-section" style="padding-top: clamp(36px, 4.4vw, 64px); padding-bottom: clamp(72px, 7.8vw, 112px);">
+  <div class="q-container" style="display: flex; flex-direction: column; gap: 40px;">
+    {% render 'breadcrumbs', current_label: blog.title %}
+
+    <div style="max-width: 720px; display: flex; flex-direction: column; gap: 12px;">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="q-mono-spec" style="margin: 0;">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      <h1 class="q-display-xl">{{ blog.title }}</h1>
+      {%- if section.settings.subtext != blank -%}
+        <p class="q-body-lg" style="margin: 0;">{{ section.settings.subtext }}</p>
+      {%- endif -%}
+    </div>
+
+    <hr class="q-hairline">
+
+    {% paginate blog.articles by 9 %}
+      <div class="q-grid-3">
+        {%- for article in blog.articles -%}
+          <article class="q-card q-card--shop">
+            {%- if article.image != blank -%}
+              <a href="{{ article.url }}" class="q-card__media">
+                {%- assign art_alt = article.image.alt | default: article.title -%}
+                {% render 'media-image',
+                  image: article.image,
+                  alt: art_alt,
+                  sizes: '(max-width: 809px) 100vw, (max-width: 1023px) 50vw, 33vw'
+                %}
+              </a>
+            {%- endif -%}
+
+            <div class="q-card__meta" style="gap: 8px;">
+              <p class="q-mono-spec" style="margin: 0;">
+                {{ article.published_at | time_tag: format: 'abbreviated_date' }}
+              </p>
+              <h2 class="q-card__title">
+                <a href="{{ article.url }}" style="color: inherit; text-decoration: none;">{{ article.title }}</a>
+              </h2>
+              <p class="q-body-sm" style="margin: 0;">
+                {{ article.excerpt_or_content | strip_html | truncatewords: 24 }}
+              </p>
+            </div>
+          </article>
+        {%- endfor -%}
+      </div>
+
+      {%- if paginate.pages > 1 -%}
+        <nav style="display: flex; align-items: center; justify-content: space-between; padding-top: 32px; border-top: var(--q-hairline);" aria-label="{{ 'general.pagination.label' | t }}">
+          <div>
+            {%- if paginate.previous -%}
+              <a href="{{ paginate.previous.url }}" class="q-mono-spec q-link-editorial">{{ 'general.pagination.previous' | t }}</a>
+            {%- endif -%}
+          </div>
+          <span class="q-mono-spec">{{ 'general.pagination.page' | t: number: paginate.current_page }}</span>
+          <div>
+            {%- if paginate.next -%}
+              <a href="{{ paginate.next.url }}" class="q-mono-spec q-link-editorial">{{ 'general.pagination.next' | t }}</a>
+            {%- endif -%}
+          </div>
+        </nav>
+      {%- endif -%}
+    {% endpaginate %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Archive Journal Blog",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "ARCHIVE NOTES  ·  MATERIAL STUDIES"
+    },
+    {
+      "type": "textarea",
+      "id": "subtext",
+      "label": "Lead summary",
+      "default": "Dispatches on raw botanicals, flacon glass architecture, and quiet maceration batches."
+    }
+  ]
+}
+{% endschema %}

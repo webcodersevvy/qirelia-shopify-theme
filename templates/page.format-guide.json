@@ -1,0 +1,120 @@
+{
+  "sections": {
+    "header": {
+      "type": "page-header",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "show_hero_image": false,
+        "eyebrow": "FORMAT, PRESERVATION & COMPLIANCE",
+        "heading": "FORMATS, PROPORTIONS & CARE.",
+        "subtext": "Understanding bottle scale, oil concentration, preservation, and Class 3 fine-fragrance delivery ensures every QIRÉLIA flacon performs with clarity from first mist to last.",
+        "show_bottom_divider": false
+      }
+    },
+    "table": {
+      "type": "format-comparison-table",
+      "blocks": {
+        "dimensions": {
+          "type": "spec_row",
+          "settings": {
+            "spec_label": "Proposed Dimensions",
+            "val_50": "98 mm H × 46 mm Ø",
+            "val_100": "124 mm H × 56 mm Ø"
+          }
+        },
+        "sprays": {
+          "type": "spec_row",
+          "settings": {
+            "spec_label": "Estimated Spray Count",
+            "val_50": "Approx. 500–600 sprays",
+            "val_100": "Approx. 1,000–1,200 sprays"
+          }
+        },
+        "cabin": {
+          "type": "spec_row",
+          "settings": {
+            "spec_label": "Cabin Baggage (100 ml Limit)",
+            "val_50": "Compliant",
+            "val_100": "Compliant (at maximum limit)"
+          }
+        },
+        "collections": {
+          "type": "spec_row",
+          "settings": {
+            "spec_label": "Available Collections",
+            "val_50": "Permanent Archive & Reserve Editions",
+            "val_100": "The Permanent Archive (20% EdP)"
+          }
+        },
+        "pricing": {
+          "type": "spec_row",
+          "settings": {
+            "spec_label": "Retail Pricing",
+            "val_50": "$195–$205 (EdP) · $310–$325 (Extrait)",
+            "val_100": "$285–$295 (EdP)"
+          }
+        }
+      },
+      "block_order": [
+        "dimensions",
+        "sprays",
+        "cabin",
+        "collections",
+        "pricing"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "col_1": "SPECIFICATION",
+        "col_2": "50 ML / 1.7 FL. OZ.",
+        "col_3": "100 ML / 3.4 FL. OZ."
+      }
+    },
+    "guidance": {
+      "type": "principles-grid",
+      "blocks": {
+        "application": {
+          "type": "principle-card",
+          "settings": {
+            "title": "01 / APPLICATION & STORAGE",
+            "body": "Mist once or twice onto pulse points from 15 cm and let top notes settle undisturbed without rubbing wrists. Store flacons upright in a cool, dry place away from direct window sunlight and bathroom steam. Subtle natural deepening of liquid hue is normal due to zero synthetic dyes.",
+            "color_scheme": "scheme-2"
+          }
+        },
+        "shipping": {
+          "type": "principle-card",
+          "settings": {
+            "title": "02 / CLASS 3 FRAGRANCE SHIPPING",
+            "body": "Because fine Eau de Parfum and Extrait de Parfum contain perfumery-grade alcohol, orders ship via approved Ground / Limited Quantity (Class 3 UN1266) courier services. Due to carrier safety rules, we cannot deliver to PO Boxes or APO/FPO military addresses. Shipping rates calculate by packed weight at checkout.",
+            "color_scheme": "scheme-2"
+          }
+        },
+        "returns": {
+          "type": "principle-card",
+          "settings": {
+            "title": "03 / SEALED RETURNS & DAMAGED GLASS",
+            "body": "For hygiene and safety integrity, returns are accepted only on completely unopened flacons with their original factory cellophane tamper seal intact. If glass arrives damaged in transit, contact care@qirelia.com within 48 hours with photographs for immediate replacement—no return of leaking glass required.",
+            "color_scheme": "scheme-2"
+          }
+        }
+      },
+      "block_order": [
+        "application",
+        "shipping",
+        "returns"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "show_top_divider": false,
+        "columns": "3",
+        "card_gap": "compact",
+        "padding_top": 0,
+        "padding_bottom": 96
+      }
+    }
+  },
+  "order": [
+    "header",
+    "table",
+    "guidance"
+  ]
+}

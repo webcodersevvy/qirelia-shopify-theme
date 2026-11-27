@@ -1,0 +1,44 @@
+<div class="{{ block.settings.style }}" style="max-width: {{ block.settings.max_width }}px;" {{ block.shopify_attributes }}>
+  {{ block.settings.content }}
+</div>
+
+{% schema %}
+{
+  "name": "Editorial Copy",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Content",
+      "default": "<p>We approach perfumery through structure, negative space, and material restraint.</p>"
+    },
+    {
+      "type": "select",
+      "id": "style",
+      "label": "Text scale",
+      "options": [
+        { "value": "q-body-lg", "label": "Body Large (16px)" },
+        { "value": "q-body", "label": "Body Default (14px)" },
+        { "value": "q-body-sm", "label": "Body Small (12px)" }
+      ],
+      "default": "q-body-lg"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Max width",
+      "min": 320,
+      "max": 900,
+      "step": 20,
+      "unit": "px",
+      "default": 620
+    }
+  ],
+  "presets": [
+    {
+      "name": "Editorial Copy",
+      "category": "Typography"
+    }
+  ]
+}
+{% endschema %}

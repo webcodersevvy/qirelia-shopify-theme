@@ -1,0 +1,51 @@
+{%- liquid
+  assign tag = block.settings.tag | default: 'h2'
+  assign style_class = block.settings.style | default: 'q-h2'
+-%}
+<{{ tag }} class="{{ style_class }}" {{ block.shopify_attributes }}>
+  {{ block.settings.heading }}
+</{{ tag }}>
+
+{% schema %}
+{
+  "name": "Editorial Heading",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "PRESENCE, WITHOUT NOISE."
+    },
+    {
+      "type": "select",
+      "id": "style",
+      "label": "Typography scale",
+      "options": [
+        { "value": "q-display-xl", "label": "Display XL" },
+        { "value": "q-h1", "label": "H1 Editorial" },
+        { "value": "q-h2", "label": "H2 Section" },
+        { "value": "q-h3", "label": "H3 Subhead" }
+      ],
+      "default": "q-h1"
+    },
+    {
+      "type": "select",
+      "id": "tag",
+      "label": "HTML tag",
+      "options": [
+        { "value": "h1", "label": "h1" },
+        { "value": "h2", "label": "h2" },
+        { "value": "h3", "label": "h3" },
+        { "value": "p", "label": "p" }
+      ],
+      "default": "h2"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Editorial Heading",
+      "category": "Typography"
+    }
+  ]
+}
+{% endschema %}

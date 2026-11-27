@@ -1,0 +1,56 @@
+{
+  "sections": {
+    "header": {
+      "type": "page-header",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "show_hero_image": false,
+        "eyebrow": "CLIENT CARE & ENQUIRIES",
+        "heading": "WE ARE HERE TO ASSIST.",
+        "subtext": "For personal guidance on olfactory notes, bottle format selection, order support, or press and stockist introductions, write to our team below.",
+        "show_bottom_divider": false
+      }
+    },
+    "main": {
+      "type": "contact-directory-form",
+      "blocks": {
+        "care": {
+          "type": "directory_item",
+          "settings": {
+            "eyebrow": "CLIENT & ORDER CARE",
+            "title": "care@qirelia.com",
+            "description": "Olfactory note guidance, bottle selection, and assistance with active orders (please include your order reference)."
+          }
+        },
+        "damaged": {
+          "type": "directory_item",
+          "settings": {
+            "eyebrow": "DAMAGED GLASS ASSISTANCE",
+            "title": "Within 48 hours of delivery",
+            "description": "Glass is fragile. If a flacon arrives broken or leaking, email photographs of both the outer carton and bottle for immediate resolution."
+          }
+        },
+        "press": {
+          "type": "directory_item",
+          "settings": {
+            "eyebrow": "PRESS & STOCKISTS",
+            "title": "press@qirelia.com",
+            "description": "Editorial loans, high-resolution imagery requests, and selected architectural retail partnerships."
+          }
+        }
+      },
+      "block_order": [
+        "care",
+        "damaged",
+        "press"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1"
+      }
+    }
+  },
+  "order": [
+    "header",
+    "main"
+  ]
+}

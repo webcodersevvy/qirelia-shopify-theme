@@ -1,0 +1,120 @@
+{% layout none %}
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="canonical" href="{{ canonical_url }}">
+
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    {%- endif -%}
+
+    {%- assign formatted_initial_value = gift_card.initial_value | money_without_trailing_zeros -%}
+    <title>{{ 'gift_cards.issued.title' | t }} · {{ formatted_initial_value }} – {{ shop.name }}</title>
+
+    {% render 'theme-tokens' %}
+    {{ 'tokens.css' | asset_url | stylesheet_tag }}
+    {{ 'base.css' | asset_url | stylesheet_tag }}
+    {{ content_for_header }}
+  </head>
+
+  <body class="color-scheme-1 q-color-scheme">
+    <main class="q-section" style="min-height: 100vh; display: flex; align-items: center; padding-block: clamp(40px, 6vw, 80px);">
+      <div class="q-container" style="display: flex; flex-direction: column; align-items: center; gap: 36px; text-align: center;">
+        <a href="{{ shop.url }}" class="q-header__wordmark" style="text-decoration: none;">
+          {{ shop.name }}
+        </a>
+
+        <div class="q-auth-box" style="align-items: center;">
+          <p class="q-mono-spec" style="margin: 0;">{{ 'gift_cards.issued.eyebrow' | t }}</p>
+          <h1 class="q-h1">{{ 'gift_cards.issued.title' | t }}</h1>
+          <p class="q-body-sm" style="margin: 0; max-width: 420px;">
+            {{ 'gift_cards.issued.subtext' | t }}
+          </p>
+
+          <p class="q-display-xl q-tnum" style="margin: 8px 0;">
+            {{ gift_card.initial_value | money_with_currency }}
+          </p>
+
+          {%- if gift_card.balance != gift_card.initial_value -%}
+            {%- assign formatted_balance = gift_card.balance | money_with_currency -%}
+            <p class="q-mono-spec" style="margin: 0; color: var(--q-dark-01);">
+              {{ 'gift_cards.issued.remaining_balance' | t: balance: formatted_balance }}
+            </p>
+          {%- endif -%}
+
+          {%- if gift_card.expired or gift_card.enabled != true -%}
+            <p class="q-status-banner q-status-banner--error" style="margin: 0;">
+              {{ 'gift_cards.issued.expired' | t }}
+            </p>
+          {%- endif -%}
+
+          <div style="width: 100%; border: var(--q-hairline-strong); background-color: var(--q-light-01); padding: 20px; display: flex; flex-direction: column; gap: 8px;">
+            <span class="q-mono-spec">{{ 'gift_cards.issued.gift_card_code' | t }}</span>
+            <p id="QireliaGiftCardCode" class="q-h3 q-tnum" style="margin: 0; letter-spacing: 0.08em;">
+              {{ gift_card.code | format_code }}
+            </p>
+          </div>
+
+          <div
+            data-qr-container
+            data-identifier="{{ gift_card.qr_identifier }}"
+            style="padding: 16px; background-color: var(--q-light-01); border: var(--q-hairline);"
+          ></div>
+
+          {%- if gift_card.pass_url -%}
+            <a href="{{ gift_card.pass_url }}" class="q-mono-spec q-link-editorial">
+              {{ 'gift_cards.issued.add_to_apple_wallet' | t }}
+            </a>
+          {%- endif -%}
+
+          <div style="width: 100%; display: flex; flex-direction: column; gap: 12px;">
+            <button
+              type="button"
+              id="QireliaCopyGiftCode"
+              class="q-btn q-btn--primary q-btn--full"
+            >
+              {{ 'gift_cards.issued.copy_code' | t }}
+            </button>
+            <a href="{{ routes.collections_url }}" class="q-btn q-btn--secondary q-btn--full">
+              {{ 'gift_cards.issued.shop_link' | t }}
+            </a>
+            <button
+              type="button"
+              onclick="window.print()"
+              class="q-mono-spec q-link-footer"
+              style="background: none; border: 0; padding: 8px 0; cursor: pointer;"
+            >
+              {{ 'gift_cards.issued.print' | t }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="{{ 'vendor/qrcode.js' | shopify_asset_url }}" defer></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        var qrEl = document.querySelector('[data-qr-container]');
+        if (qrEl && typeof QRCode !== 'undefined') {
+          new QRCode(qrEl, {
+            text: qrEl.dataset.identifier,
+            width: 120,
+            height: 120
+          });
+        }
+        var copyBtn = document.getElementById('QireliaCopyGiftCode');
+        var codeEl = document.getElementById('QireliaGiftCardCode');
+        if (copyBtn && codeEl && navigator.clipboard) {
+          copyBtn.addEventListener('click', function () {
+            navigator.clipboard.writeText(codeEl.innerText.trim()).then(function () {
+              copyBtn.textContent = {{ 'gift_cards.issued.copy_code_success' | t | json }};
+            });
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

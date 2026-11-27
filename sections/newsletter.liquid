@@ -1,0 +1,102 @@
+{%- liquid
+  assign band_class = 'q-newsletter-band color-' | append: section.settings.color_scheme | append: ' q-color-scheme'
+  if section.settings.show_top_divider
+    assign band_class = band_class | append: ' q-section--divided'
+  endif
+-%}
+
+<section class="{{ band_class }}" style="background-color: var(--q-bg, var(--q-light-02));">
+  <div class="q-container">
+    <div class="q-newsletter__wrap">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="q-mono-spec" style="margin: 0;">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2 class="q-h2">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.subtext != blank -%}
+        <p class="q-body" style="margin: 0;">{{ section.settings.subtext }}</p>
+      {%- endif -%}
+
+      {%- assign newsletter_form_id = 'QireliaNewsletter-' | append: section.id -%}
+      {%- form 'customer', id: newsletter_form_id, class: 'q-newsletter__form' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <div class="q-newsletter__row">
+          <label for="NewsletterEmail-{{ section.id }}" class="visually-hidden">
+            {{ 'newsletter.label' | t }}
+          </label>
+          <input
+            id="NewsletterEmail-{{ section.id }}"
+            type="email"
+            name="contact[email]"
+            class="q-input"
+            value="{{ form.email }}"
+            aria-required="true"
+            autocorrect="off"
+            autocapitalize="off"
+            autocomplete="email"
+            placeholder="{{ 'newsletter.label' | t }}"
+            required
+          >
+          <button type="submit" class="q-btn q-btn--primary" name="commit">
+            {{ 'newsletter.submit' | t }}
+          </button>
+        </div>
+
+        {%- if form.errors -%}
+          <div class="q-status-banner q-status-banner--error" role="alert">
+            {{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}
+          </div>
+        {%- elsif form.posted_successfully? -%}
+          <div class="q-status-banner q-status-banner--success" role="status">
+            {{ 'newsletter.success' | t }}
+          </div>
+        {%- endif -%}
+      {%- endform -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Archive Notes Newsletter",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "ARCHIVE NOTES"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "QUIET DISPATCHES."
+    },
+    {
+      "type": "textarea",
+      "id": "subtext",
+      "label": "Description",
+      "default": "Receive notices of new 50-flacon Reserve batches, raw material studies, and house updates from QIRÉLIA."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_top_divider",
+      "label": "Show 1px top hairline divider",
+      "default": true
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-2"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Archive Notes Newsletter",
+      "category": "Marketing"
+    }
+  ]
+}
+{% endschema %}

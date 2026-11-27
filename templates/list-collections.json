@@ -1,0 +1,29 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-list-collections",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "eyebrow": "THE QIRÉLIA ARCHIVE",
+        "heading": "TWO EXPRESSIONS OF PRESENCE.",
+        "subtext": "Four foundational 20% Eau de Parfum signatures for daily proximity, paired with two limited-batch 30% Extrait Reserve releases devoted to resin, root, and stillness.",
+        "archive_collection": "the-permanent-archive",
+        "archive_eyebrow": "01 / CORE COLLECTION  ·  20% EAU DE PARFUM",
+        "archive_title": "THE PERMANENT ARCHIVE",
+        "archive_copy": "Four foundational compositions shaped by daylight clarity, mineral iris, crushed fig leaf, dry hinoki, and green cardamom. Available in 50 ml and 100 ml.",
+        "archive_meta": "04 COMPOSITIONS  ·  $195 – $295 USD",
+        "archive_cta": "EXPLORE THE PERMANENT ARCHIVE",
+        "reserve_collection": "the-reserve-editions",
+        "reserve_eyebrow": "02 / LIMITED RELEASE  ·  30% EXTRAIT DE PARFUM",
+        "reserve_title": "THE RESERVE EDITIONS",
+        "reserve_copy": "High-concentration Extrait de Parfum releases devoted to Omani frankincense, smoked birch, and aged Florentine orris. Smoked 50 ml glass — 50 numbered flacons each.",
+        "reserve_meta": "02 COMPOSITIONS  ·  $310 – $325 USD",
+        "reserve_cta": "EXPLORE THE RESERVE EDITIONS",
+        "show_additional_collections": true
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

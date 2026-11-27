@@ -1,0 +1,430 @@
+{%- liquid
+  assign archive_col = section.settings.archive_collection | default: collections['the-permanent-archive']
+  assign reserve_col = section.settings.reserve_collection | default: collections['the-reserve-editions']
+  assign about_page = section.settings.about_page | default: pages['about'] | default: pages['the-house']
+  assign contact_page = section.settings.contact_page | default: pages['contact']
+  assign guide_page = section.settings.guide_page | default: pages['format-guide'] | default: pages['format-care-guide']
+
+  assign archive_url = archive_col.url | default: routes.collections_url
+  assign reserve_url = reserve_col.url | default: routes.collections_url
+  assign about_url = about_page.url | default: routes.collections_url
+  assign contact_url = contact_page.url | default: routes.root_url
+  assign guide_url = guide_page.url | default: routes.all_products_collection_url
+
+  assign is_collections = false
+  if request.page_type == 'list-collections' or request.page_type == 'collection' and collection.handle != 'all'
+    assign is_collections = true
+  endif
+  assign is_shop = false
+  if request.page_type == 'collection' and collection.handle == 'all'
+    assign is_shop = true
+  endif
+  assign is_about = false
+  if request.page_type == 'page' and page.handle == about_page.handle
+    assign is_about = true
+  endif
+  assign is_contact = false
+  if request.page_type == 'page' and page.handle == contact_page.handle
+    assign is_contact = true
+  endif
+  assign is_account = false
+  if request.page_type contains 'customers/'
+    assign is_account = true
+  endif
+
+  assign archive_img = section.settings.archive_image | default: archive_col.featured_image
+  assign reserve_img = section.settings.reserve_image | default: reserve_col.featured_image
+  assign all_img = section.settings.all_image
+-%}
+
+<qirelia-header
+  class="q-header"
+  data-cart-type="{{ settings.cart_type }}"
+>
+  <div class="q-drawer-backdrop" data-backdrop aria-hidden="true"></div>
+
+  <header class="q-header__rail">
+    <nav class="q-header__inner" aria-label="Primary navigation">
+      <div class="q-header__left">
+        <button
+          type="button"
+          class="q-header__menu-trigger"
+          data-menu-trigger
+          aria-expanded="false"
+          aria-controls="QireliaMobileDrawer"
+          aria-label="{{ 'general.accessibility.open_menu' | t }}"
+        >
+          <span class="q-header__hamburger" aria-hidden="true">
+            <span class="q-header__hamburger-line q-header__hamburger-line--top"></span>
+            <span class="q-header__hamburger-line q-header__hamburger-line--bottom"></span>
+          </span>
+          <span class="q-header__menu-label">{{ 'header.menu_label' | t }}</span>
+        </button>
+
+        <ul class="q-header__nav-list">
+          <li data-mega-hover-scope>
+            <a
+              href="{{ routes.collections_url }}"
+              class="q-link-nav{% if is_collections %} is-active{% endif %}"
+              data-mega-trigger
+              aria-expanded="false"
+              aria-controls="QireliaMegaDrawer"
+              {% if is_collections %}aria-current="page"{% endif %}
+            >
+              {{ section.settings.nav_fragrances_label | default: 'Fragrances' }}
+            </a>
+          </li>
+          <li>
+            <a
+              href="{{ routes.all_products_collection_url }}"
+              class="q-link-nav{% if is_shop %} is-active{% endif %}"
+              {% if is_shop %}aria-current="page"{% endif %}
+            >
+              {{ section.settings.nav_shop_label | default: 'Shop' }}
+            </a>
+          </li>
+          <li>
+            <a
+              href="{{ about_url }}"
+              class="q-link-nav{% if is_about %} is-active{% endif %}"
+              {% if is_about %}aria-current="page"{% endif %}
+            >
+              {{ section.settings.nav_house_label | default: 'The House' }}
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <a href="{{ routes.root_url }}" class="q-header__logo-link" aria-label="{{ shop.name }}">
+        {%- if section.settings.logo != blank -%}
+          {% render 'media-image',
+            image: section.settings.logo,
+            alt: shop.name,
+            sizes: '180px',
+            eager: true
+          %}
+        {%- else -%}
+          <span class="q-header__wordmark">{{ section.settings.wordmark_text | default: shop.name }}</span>
+        {%- endif -%}
+      </a>
+
+      <div class="q-header__right">
+        <ul class="q-header__utility-list">
+          {%- if shop.customer_accounts_enabled -%}
+            <li>
+              <a
+                href="{{ routes.account_url }}"
+                class="q-link-nav{% if is_account %} is-active{% endif %}"
+                {% if is_account %}aria-current="page"{% endif %}
+              >
+                {{ section.settings.nav_account_label | default: 'Account' }}
+              </a>
+            </li>
+          {%- endif -%}
+          <li>
+            <a
+              href="{{ contact_url }}"
+              class="q-link-nav{% if is_contact %} is-active{% endif %}"
+              {% if is_contact %}aria-current="page"{% endif %}
+            >
+              {{ section.settings.nav_contact_label | default: 'Contact' }}
+            </a>
+          </li>
+        </ul>
+
+        <a
+          href="{{ routes.cart_url }}"
+          class="q-header__bag-trigger q-link-nav"
+          data-bag-trigger
+          aria-expanded="false"
+          aria-controls="QireliaBagDrawer"
+          aria-label="{{ 'general.accessibility.open_bag' | t }}"
+        >
+          <span>{{ 'header.bag_label' | t }}</span>
+          <span data-bag-count>({{ cart.item_count }})</span>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Fragrances Mega Drawer -->
+  <div
+    id="QireliaMegaDrawer"
+    class="q-drawer q-section--rail"
+    data-drawer="mega"
+    role="region"
+    aria-label="{{ 'header.mega.eyebrow' | t }}"
+  >
+    <div class="q-container--rail">
+      <div class="q-mega__back-bar">
+        <button type="button" class="q-mega__back-btn" data-back-to-menu>
+          {{ 'header.back_to_menu' | t }}
+        </button>
+        <span class="q-mono-spec">{{ 'header.tap_hint' | t }}</span>
+      </div>
+
+      <div class="q-mega__inner">
+        <div>
+          <div class="q-mega__eyebrow">
+            <span class="q-mono-spec">{{ 'header.mega.eyebrow' | t }}</span>
+            <a href="{{ routes.collections_url }}" class="q-mono-spec q-link-editorial">
+              {{ 'header.mega.view_all' | t }}
+            </a>
+          </div>
+
+          <a href="{{ archive_url }}" class="q-mega__row is-active" data-mega-row="archive">
+            <div class="q-mega__row-left">
+              <span class="q-mega__index-group">
+                <span class="q-mega__amber-bar" aria-hidden="true"></span>
+                <span class="q-mega__index">01</span>
+              </span>
+              <div>
+                <div class="q-mega__title">The Permanent Archive</div>
+                <div class="q-mono-spec q-mega__specs">20% EAU DE PARFUM  ·  04 COMPOSITIONS  ·  50 ML &amp; 100 ML</div>
+              </div>
+            </div>
+            <span class="q-mega__arrow" aria-hidden="true">→</span>
+          </a>
+
+          <a href="{{ reserve_url }}" class="q-mega__row" data-mega-row="reserve">
+            <div class="q-mega__row-left">
+              <span class="q-mega__index-group">
+                <span class="q-mega__amber-bar" aria-hidden="true"></span>
+                <span class="q-mega__index">02</span>
+              </span>
+              <div>
+                <div class="q-mega__title">The Reserve Editions</div>
+                <div class="q-mono-spec q-mega__specs">30% EXTRAIT DE PARFUM  ·  02 LIMITED BATCHES  ·  50 FLACONS</div>
+              </div>
+            </div>
+            <span class="q-mega__arrow" aria-hidden="true">→</span>
+          </a>
+
+          <a href="{{ routes.all_products_collection_url }}" class="q-mega__row" data-mega-row="all">
+            <div class="q-mega__row-left">
+              <span class="q-mega__index-group">
+                <span class="q-mega__amber-bar" aria-hidden="true"></span>
+                <span class="q-mega__index">03</span>
+              </span>
+              <div>
+                <div class="q-mega__title">All Fragrances</div>
+                <div class="q-mono-spec q-mega__specs">COMPLETE OLFACTORY LIBRARY  ·  06 COMPOSITIONS</div>
+              </div>
+            </div>
+            <span class="q-mega__arrow" aria-hidden="true">→</span>
+          </a>
+
+          <div class="q-mega__footnote">
+            <span class="q-mono-spec">{{ 'header.mega.footnote' | t }}</span>
+            <a href="{{ guide_url }}" class="q-mono-spec q-link-editorial">
+              {{ 'header.mega.format_guide' | t }}
+            </a>
+          </div>
+        </div>
+
+        <div class="q-mega__preview">
+          <div class="q-mega__stage">
+            <a href="{{ archive_url }}" class="q-mega__cover is-active" data-mega-cover="archive">
+              {% render 'media-image',
+                image: archive_img,
+                fallback_asset: 'qirelia-archive-cover.jpg',
+                alt: 'The Permanent Archive',
+                width: 1200,
+                height: 901,
+                sizes: '540px'
+              %}
+            </a>
+            <a href="{{ reserve_url }}" class="q-mega__cover" data-mega-cover="reserve">
+              {% render 'media-image',
+                image: reserve_img,
+                fallback_asset: 'qirelia-reserve-cover.jpg',
+                alt: 'The Reserve Editions',
+                width: 1200,
+                height: 800,
+                sizes: '540px'
+              %}
+            </a>
+            <a href="{{ routes.all_products_collection_url }}" class="q-mega__cover" data-mega-cover="all">
+              {% render 'media-image',
+                image: all_img,
+                fallback_asset: 'qirelia-silice-thumb.jpg',
+                alt: 'All Fragrances',
+                width: 1200,
+                height: 1600,
+                sizes: '540px'
+              %}
+            </a>
+          </div>
+
+          <div class="q-mega__caption-row is-active" data-mega-caption="archive">
+            <span class="q-mono-spec" style="color: var(--q-dark-03);">SILICE · VÉRIDE · LIGNÉ · VÉLA</span>
+            <a href="{{ archive_url }}" class="q-ui-label q-link-editorial">{{ 'header.mega.explore_archive' | t }}</a>
+          </div>
+          <div class="q-mega__caption-row" data-mega-caption="reserve">
+            <span class="q-mono-spec" style="color: var(--q-dark-03);">NO. 01 OLIBAN · NO. 02 ORRIS</span>
+            <a href="{{ reserve_url }}" class="q-ui-label q-link-editorial">{{ 'header.mega.explore_reserve' | t }}</a>
+          </div>
+          <div class="q-mega__caption-row" data-mega-caption="all">
+            <span class="q-mono-spec" style="color: var(--q-dark-03);">ALL 06 COMPOSITIONS · 50 ML &amp; 100 ML</span>
+            <a href="{{ routes.all_products_collection_url }}" class="q-ui-label q-link-editorial">{{ 'header.mega.shop_all' | t }}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Minimalist Bag Drawer -->
+  <div
+    id="QireliaBagDrawer"
+    class="q-drawer q-section--rail"
+    data-drawer="bag"
+    role="dialog"
+    aria-modal="true"
+    aria-label="{{ 'cart.page.title' | t }}"
+  >
+    <div data-cart-drawer-mount>
+      {% render 'cart-drawer-body',
+        curated_collection_primary: archive_col,
+        curated_collection_secondary: reserve_col,
+        guide_page: guide_page
+      %}
+    </div>
+  </div>
+
+  <!-- Editorial Mobile / Tablet Drawer -->
+  <div
+    id="QireliaMobileDrawer"
+    class="q-drawer q-section--rail"
+    data-drawer="mobile"
+    role="region"
+    aria-label="{{ 'general.accessibility.open_menu' | t }}"
+  >
+    <div class="q-container--rail q-mobile-drawer__inner">
+      <div class="q-mobile-drawer__links">
+        <button type="button" class="q-mobile-drawer__row" data-open-mobile-mega>
+          <span class="q-mobile-drawer__title">{{ section.settings.nav_fragrances_label | default: 'Fragrances' }}</span>
+          <span class="q-mono-spec">COLLECTIONS →</span>
+        </button>
+        <a href="{{ routes.all_products_collection_url }}" class="q-mobile-drawer__row">
+          <span class="q-mobile-drawer__title">{{ section.settings.nav_shop_label | default: 'Shop' }}</span>
+          <span class="q-mono-spec">ALL 06 COMPOSITIONS</span>
+        </a>
+        <a href="{{ reserve_url }}" class="q-mobile-drawer__row">
+          <span class="q-mobile-drawer__title">Editions</span>
+          <span class="q-mono-spec">30% EXTRAIT RESERVE</span>
+        </a>
+        <a href="{{ about_url }}" class="q-mobile-drawer__row">
+          <span class="q-mobile-drawer__title">{{ section.settings.nav_house_label | default: 'The House' }}</span>
+          <span class="q-mono-spec">PHILOSOPHY &amp; CRAFT</span>
+        </a>
+      </div>
+
+      <div class="q-mobile-drawer__utility">
+        {%- if shop.customer_accounts_enabled -%}
+          <a href="{{ routes.account_url }}" class="q-ui-label q-link-nav">ACCOUNT</a>
+        {%- endif -%}
+        <a href="{{ guide_url }}" class="q-ui-label q-link-nav">FORMAT &amp; CARE</a>
+        <a href="{{ routes.search_url }}" class="q-ui-label q-link-nav">SEARCH</a>
+        <a href="{{ contact_url }}" class="q-ui-label q-link-nav">CONTACT</a>
+      </div>
+    </div>
+  </div>
+</qirelia-header>
+
+{% schema %}
+{
+  "name": "QIRÉLIA Header",
+  "class": "q-header-section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Custom wordmark image (optional)"
+    },
+    {
+      "type": "text",
+      "id": "wordmark_text",
+      "label": "Wordmark text",
+      "default": "QIRÉLIA"
+    },
+    {
+      "type": "header",
+      "content": "Navigation labels"
+    },
+    {
+      "type": "text",
+      "id": "nav_fragrances_label",
+      "label": "Fragrances link label",
+      "default": "Fragrances"
+    },
+    {
+      "type": "text",
+      "id": "nav_shop_label",
+      "label": "Shop link label",
+      "default": "Shop"
+    },
+    {
+      "type": "text",
+      "id": "nav_house_label",
+      "label": "The House link label",
+      "default": "The House"
+    },
+    {
+      "type": "text",
+      "id": "nav_account_label",
+      "label": "Account link label",
+      "default": "Account"
+    },
+    {
+      "type": "text",
+      "id": "nav_contact_label",
+      "label": "Contact link label",
+      "default": "Contact"
+    },
+    {
+      "type": "header",
+      "content": "Collections & linked pages"
+    },
+    {
+      "type": "collection",
+      "id": "archive_collection",
+      "label": "Permanent Archive collection"
+    },
+    {
+      "type": "image_picker",
+      "id": "archive_image",
+      "label": "Permanent Archive mega preview"
+    },
+    {
+      "type": "collection",
+      "id": "reserve_collection",
+      "label": "Reserve Editions collection"
+    },
+    {
+      "type": "image_picker",
+      "id": "reserve_image",
+      "label": "Reserve Editions mega preview"
+    },
+    {
+      "type": "image_picker",
+      "id": "all_image",
+      "label": "All Fragrances mega preview"
+    },
+    {
+      "type": "page",
+      "id": "about_page",
+      "label": "The House page"
+    },
+    {
+      "type": "page",
+      "id": "contact_page",
+      "label": "Contact page"
+    },
+    {
+      "type": "page",
+      "id": "guide_page",
+      "label": "Format & Care Guide page"
+    }
+  ]
+}
+{% endschema %}

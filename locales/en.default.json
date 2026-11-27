@@ -1,0 +1,323 @@
+{
+  "general": {
+    "accessibility": {
+      "skip_to_content": "Skip to content",
+      "close": "Close",
+      "open_menu": "Open navigation menu",
+      "close_menu": "Close navigation menu",
+      "open_bag": "Open shopping bag",
+      "breadcrumb": "Breadcrumb",
+      "refresh_page": "Choosing a selection results in a full page refresh."
+    },
+    "breadcrumbs": {
+      "home": "HOME",
+      "fragrances": "FRAGRANCES",
+      "archive": "ARCHIVE"
+    },
+    "pagination": {
+      "label": "Pagination",
+      "previous": "← PREVIOUS",
+      "next": "NEXT →",
+      "page": "Page {{ number }}"
+    },
+    "password_page": {
+      "login_form_heading": "ENTER PRIVATE ARCHIVE",
+      "login_form_password_label": "PASSWORD *",
+      "login_form_password_placeholder": "Enter store password",
+      "login_form_submit": "ENTER FLAGSHIP",
+      "admin_link_html": "Store owner? <a href=\"/admin\">Sign in here</a>",
+      "powered_by_shopify_html": "This storefront will be powered by {{ shopify }}"
+    },
+    "search": {
+      "title": "SEARCH ARCHIVE",
+      "eyebrow": "QIRÉLIA INDEX · COMPOSITIONS & JOURNAL",
+      "placeholder": "Search by fragrance, note, or collection...",
+      "submit": "SEARCH",
+      "no_results": "No compositions or archive entries matched “{{ terms }}”.",
+      "results_with_count": {
+        "one": "{{ count }} RESULT FOR “{{ terms }}”",
+        "other": "{{ count }} RESULTS FOR “{{ terms }}”"
+      },
+      "products": "COMPOSITIONS",
+      "pages": "HOUSE PAGES",
+      "articles": "JOURNAL",
+      "view_all": "VIEW ALL RESULTS →"
+    },
+    "404": {
+      "eyebrow": "ERROR 404 · PAGE NOT FOUND",
+      "title": "UNMAPPED COORDINATES.",
+      "subtext": "The page or fragrance study you requested is no longer at this address.",
+      "cta": "RETURN TO ARCHIVE"
+    }
+  },
+  "header": {
+    "menu_label": "MENU",
+    "close_label": "CLOSE",
+    "bag_label": "BAG",
+    "back_to_menu": "← BACK TO MENU",
+    "tap_hint": "TAP COLLECTION TO PREVIEW",
+    "mega": {
+      "eyebrow": "OLFACTORY COLLECTIONS",
+      "view_all": "VIEW ALL COLLECTIONS →",
+      "footnote": "ZERO SYNTHETIC COLOURANTS  ·  CLASS 3 GROUND DISPATCH",
+      "format_guide": "FORMAT & CARE GUIDE →",
+      "explore_archive": "EXPLORE ARCHIVE →",
+      "explore_reserve": "EXPLORE RESERVE →",
+      "shop_all": "SHOP ALL →"
+    }
+  },
+  "cart": {
+    "stepper": {
+      "bag": "01 / BAG",
+      "checkout": "02 / CHECKOUT",
+      "payment": "03 / PAYMENT"
+    },
+    "drawer": {
+      "count_label": "YOUR SHOPPING BAG  ·  ({{ count }}) ITEMS",
+      "empty_heading": "Your bag is currently empty.",
+      "empty_copy": "Explore six architectural compositions across The Permanent Archive (20% EdP) and The Reserve Editions (30% Extrait). Dispatched via Class 3 Limited Quantity ground courier.",
+      "empty_cta": "SHOP ALL FRAGRANCES",
+      "open_full_bag": "OPEN FULL SHOPPING BAG →",
+      "curated_heading": "CURATED SIGNATURES",
+      "close": "CLOSE ✕",
+      "view_link": "VIEW →",
+      "subtotal_label": "SUBTOTAL",
+      "checkout_cta": "PROCEED TO CHECKOUT"
+    },
+    "page": {
+      "selection_label": {
+        "one": "YOUR SELECTION  ·  01 COMPOSITION",
+        "other": "YOUR SELECTION  ·  {{ count }} COMPOSITIONS"
+      },
+      "title": "SHOPPING BAG",
+      "continue_exploring": "CONTINUE EXPLORING →",
+      "remove": "REMOVE",
+      "quantity_label": "Quantity for {{ title }}",
+      "decrease_quantity": "Decrease quantity for {{ title }}",
+      "increase_quantity": "Increase quantity for {{ title }}",
+      "ritual_title": "COMPLIMENTARY PRESENTATION & CLASS 3 HANDLING",
+      "ritual_body": "Every order arrives in an archival cotton-board rigid box with debossed scent blotter strips and an A6 olfactory index card. Alcohol-based fragrances ship via Class 3 Limited Quantity ground courier.",
+      "summary_heading": "ORDER SUMMARY",
+      "subtotal": "Subtotal ({{ count }} flacons)",
+      "shipping_label": "Class 3 Ground Shipping",
+      "shipping_value": "Calculated at checkout",
+      "taxes_label": "Estimated Taxes",
+      "taxes_value": "Calculated at checkout",
+      "estimated_total": "ESTIMATED TOTAL",
+      "checkout": "PROCEED TO CHECKOUT",
+      "payment_options": "VIEW PAYMENT OPTIONS",
+      "update": "UPDATE BAG",
+      "note_label": "ORDER NOTE / GIFT CARD MESSAGE (OPTIONAL)",
+      "note_placeholder": "Add an editorial note or delivery instruction...",
+      "policy_note": "By proceeding, you acknowledge our factory-sealed fragrance return policy and Class 3 ground shipping terms.",
+      "error_generic": "Unable to update your shopping bag. Please adjust quantity and try again."
+    }
+  },
+  "products": {
+    "product": {
+      "select_format": "SELECT FORMAT",
+      "format_care_guide": "FORMAT & CARE GUIDE",
+      "add_to_bag": "ADD TO BAG",
+      "sold_out": "TEMPORARILY UNAVAILABLE",
+      "unavailable": "EDITION ARCHIVED",
+      "added_to_bag": "ADDED TO BAG",
+      "olfactory_top": "01 / TOP",
+      "olfactory_heart": "02 / HEART",
+      "olfactory_base": "03 / BASE",
+      "accordion_story": "OLFACTORY STORY & WEAR",
+      "accordion_inci": "INGREDIENTS (INCI) & CARE",
+      "accordion_shipping": "FRAGRANCE SHIPPING & RETURNS",
+      "shipping_default": "Ships via approved Class 3 Limited Quantity ground courier (UN1266). No PO Boxes or APO/FPO delivery. Returns accepted on completely unopened, factory cellophane-sealed flacons only; damaged glass replaced within 48 hours of delivery.",
+      "prev_composition": "← PREVIOUS: {{ title }}",
+      "view_all_compositions": "VIEW ALL COMPOSITIONS",
+      "next_composition": "NEXT: {{ title }} →",
+      "error_add": "Unable to add this format to your bag."
+    }
+  },
+  "collections": {
+    "general": {
+      "empty": "NO COMPOSITIONS AVAILABLE.",
+      "compositions_count": {
+        "one": "01 COMPOSITION",
+        "other": "{{ count }} COMPOSITIONS"
+      },
+      "sort_by": "SORT BY",
+      "filter_all": "ALL COMPOSITIONS"
+    }
+  },
+  "newsletter": {
+    "label": "YOUR EMAIL ADDRESS",
+    "submit": "SUBSCRIBE",
+    "success": "Subscribed to Archive Notes. You will receive advance dispatches for upcoming Reserve releases.",
+    "error": "Please enter a valid email address."
+  },
+  "contact": {
+    "form": {
+      "eyebrow": "DIRECT ENQUIRY",
+      "name": "FULL NAME *",
+      "name_placeholder": "Your name",
+      "email": "EMAIL ADDRESS *",
+      "email_placeholder": "you@domain.com",
+      "subject": "SUBJECT *",
+      "subject_placeholder": "Olfactory Guidance / Order Assistance / Damaged Glass / Press",
+      "order_ref": "ORDER REFERENCE (OPTIONAL)",
+      "order_ref_placeholder": "e.g. #QRL-1042",
+      "message": "MESSAGE *",
+      "message_placeholder": "Tell us how we can assist…",
+      "submit": "SEND MESSAGE",
+      "success": "Thank you. Your enquiry has been received by QIRÉLIA Client Care.",
+      "error": "Please review the highlighted fields and try again."
+    }
+  },
+  "customer": {
+    "account": {
+      "eyebrow": "PRIVATE CLIENT REGISTRY",
+      "title": "MY ACCOUNT",
+      "orders_nav": "ORDERS",
+      "addresses_nav": "ADDRESSES",
+      "sign_out": "SIGN OUT",
+      "active_dispatch_label": "01 / ACTIVE DISPATCH",
+      "order_title": "Order {{ name }}",
+      "no_orders": "No dispatches recorded yet.",
+      "view_all_orders": "VIEW ORDER DETAILS →",
+      "archive_label": "02 / OLFACTORY ARCHIVE",
+      "saved_signatures": "Saved Signatures",
+      "explore_all": "EXPLORE ALL FRAGRANCES →",
+      "address_label": "03 / ADDRESS & DISPATCH",
+      "saved_preferences": "Saved Preferences",
+      "no_address": "No default street delivery address saved yet. Class 3 ground shipping requires a physical street address.",
+      "manage_addresses": "MANAGE ADDRESSES →",
+      "auth_strip_title": "MANAGE DELIVERY ADDRESSES OR CLIENT SESSION",
+      "auth_strip_copy": "Update compliant street addresses for Class 3 ground courier delivery or sign out of your client registry.",
+      "orders_count": {
+        "zero": "00 ORDERS RECORDED",
+        "one": "01 ORDER RECORDED",
+        "other": "{{ count }} ORDERS RECORDED"
+      }
+    },
+    "login_page": {
+      "eyebrow": "PRIVATE CLIENT REGISTRY",
+      "title": "SIGN IN",
+      "subtitle": "Access your saved olfactory wardrobe, Class 3 dispatch tracking, and Reserve allocations.",
+      "email": "EMAIL ADDRESS *",
+      "email_placeholder": "client@domain.com",
+      "password": "PASSWORD *",
+      "password_placeholder": "••••••••••••",
+      "forgot_password": "FORGOT PASSWORD? RESET ACCESS",
+      "sign_in": "SIGN IN TO ARCHIVE",
+      "new_to_house": "NEW TO QIRÉLIA?",
+      "create_account": "CREATE AN ACCOUNT →",
+      "recover_title": "RESET ACCESS",
+      "recover_subtitle": "Enter your registered email address and we will send instructions to reset your password.",
+      "recover_submit": "SEND RESET LINK",
+      "recover_cancel": "← RETURN TO SIGN IN",
+      "recover_success": "If an account matches this email, password reset instructions have been sent."
+    },
+    "register": {
+      "eyebrow": "NEW CLIENT ENROLLMENT",
+      "title": "CREATE ACCOUNT",
+      "first_name": "FIRST NAME *",
+      "first_name_placeholder": "Elena",
+      "last_name": "LAST NAME *",
+      "last_name_placeholder": "Vance",
+      "email": "EMAIL ADDRESS *",
+      "email_placeholder": "client@domain.com",
+      "password": "CREATE PASSWORD *",
+      "password_placeholder": "Minimum 10 characters",
+      "marketing_opt_in": "Register me for Archive Notes — priority notices for numbered 50-flacon Reserve Extrait batches.",
+      "submit": "CREATE CLIENT ACCOUNT",
+      "terms_prefix": "By registering you accept our",
+      "terms_link": "Terms & Conditions",
+      "terms_and": "and",
+      "disclaimer_link": "Disclaimer",
+      "already_registered": "ALREADY REGISTERED? SIGN IN →"
+    },
+    "order": {
+      "eyebrow": "CLIENT ARCHIVE  ·  ORDER RECORD",
+      "title": "ORDER {{ name }}",
+      "back": "← BACK TO ACCOUNT",
+      "placed_on": "Placed on {{ date }}",
+      "cancelled": "Cancelled on {{ date }} — {{ reason }}",
+      "payment_status": "PAYMENT",
+      "fulfillment_status": "DISPATCH",
+      "product": "COMPOSITION",
+      "sku": "REF",
+      "price": "PRICE",
+      "quantity": "QTY",
+      "total": "TOTAL",
+      "subtotal": "Subtotal",
+      "shipping": "Class 3 Ground Shipping",
+      "tax": "Tax",
+      "billing_address": "BILLING ADDRESS",
+      "shipping_address": "DELIVERY ADDRESS",
+      "view_composition": "VIEW COMPOSITION",
+      "assistance_copy": "Need assistance with a delivery or arrived damaged glass? Contact Client Care within 48 hours of delivery with your order number.",
+      "assistance_cta": "CONTACT CLIENT CARE"
+    },
+    "orders": {
+      "status_label": "STATUS",
+      "order_number": "ORDER",
+      "date": "DATE",
+      "payment_status": "PAYMENT",
+      "fulfillment_status": "FULFILLMENT",
+      "total": "TOTAL"
+    },
+    "addresses": {
+      "eyebrow": "CLIENT ARCHIVE  ·  DELIVERY LEDGER",
+      "title": "DELIVERY ADDRESSES",
+      "back": "← BACK TO ACCOUNT",
+      "add_new": "ADD NEW STREET ADDRESS",
+      "default": "DEFAULT STREET ADDRESS",
+      "edit": "EDIT",
+      "delete": "DELETE",
+      "delete_confirm": "Remove this delivery address?",
+      "first_name": "FIRST NAME *",
+      "last_name": "LAST NAME *",
+      "company": "COMPANY / STUDIO (OPTIONAL)",
+      "address1": "STREET ADDRESS (NO PO BOXES) *",
+      "address2": "APARTMENT / SUITE (OPTIONAL)",
+      "city": "CITY *",
+      "country": "COUNTRY / REGION *",
+      "province": "STATE / PROVINCE",
+      "zip": "POSTAL CODE *",
+      "phone": "PHONE (OPTIONAL)",
+      "set_default": "Set as default street delivery address",
+      "add_submit": "SAVE ADDRESS",
+      "update_submit": "UPDATE ADDRESS",
+      "cancel": "CANCEL"
+    },
+    "activate_account": {
+      "eyebrow": "PRIVATE CLIENT REGISTRY",
+      "title": "ACTIVATE ACCOUNT",
+      "subtext": "Create your password to activate your QIRÉLIA client account.",
+      "password": "PASSWORD *",
+      "password_confirm": "CONFIRM PASSWORD *",
+      "submit": "ACTIVATE ACCOUNT",
+      "cancel": "DECLINE INVITATION"
+    },
+    "reset_password": {
+      "eyebrow": "PRIVATE CLIENT REGISTRY",
+      "title": "RESET PASSWORD",
+      "subtext": "Enter a new password for your QIRÉLIA client account.",
+      "password": "NEW PASSWORD *",
+      "password_confirm": "CONFIRM NEW PASSWORD *",
+      "submit": "RESET PASSWORD"
+    }
+  },
+  "gift_cards": {
+    "issued": {
+      "eyebrow": "QIRÉLIA GIFT ARCHIVE",
+      "title": "DIGITAL GIFT CARD",
+      "subtext": "Use this gift code at checkout across The Permanent Archive and The Reserve Editions.",
+      "gift_card_code": "GIFT CARD CODE",
+      "expired": "Expired",
+      "remaining_balance": "Remaining balance: {{ balance }}",
+      "add_to_apple_wallet": "Add to Apple Wallet",
+      "qr_image_alt": "QR code — scan to redeem gift card",
+      "copy_code": "COPY CODE",
+      "copy_code_success": "COPIED",
+      "shop_link": "EXPLORE THE ARCHIVE",
+      "print": "PRINT GIFT CARD"
+    }
+  }
+}

@@ -1,0 +1,153 @@
+{%- liquid
+  assign target_col = section.settings.collection
+  assign heading_url = target_col.url | default: routes.collections_url
+  assign band_class = 'q-collection-band'
+  if section.settings.is_reserve_band
+    assign band_class = band_class | append: ' q-collection-band--reserve'
+  endif
+  if section.settings.show_top_divider
+    assign band_class = band_class | append: ' q-section--divided'
+  endif
+-%}
+
+<section class="color-{{ section.settings.color_scheme }} q-color-scheme {{ band_class }}">
+  <div class="q-container">
+    <div class="q-band-head">
+      <a href="{{ heading_url }}" class="q-mono-spec q-link-editorial" style="color: var(--q-dark-01);">
+        {{ section.settings.title }}
+      </a>
+      <span
+        class="q-mono-spec"
+        style="{% if section.settings.is_reserve_band %}color: var(--q-neutral-03);{% endif %}"
+      >
+        {{ section.settings.meta }}
+      </span>
+    </div>
+
+    {%- if target_col != blank and target_col.products_count > 0 -%}
+      <div class="q-grid-2">
+        {%- for prod in target_col.products limit: section.settings.products_to_show -%}
+          {% render 'fragrance-card',
+            product: prod,
+            card_style: 'home',
+            show_reserve_badge: section.settings.show_reserve_badge
+          %}
+        {%- endfor -%}
+      </div>
+    {%- elsif section.settings.show_empty_state -%}
+      <div
+        style="height: 120px; border: var(--q-hairline); display: flex; align-items: center; justify-content: center;"
+      >
+        <p class="q-mono-spec" style="margin: 0;">{{ 'collections.general.empty' | t }}</p>
+      </div>
+    {%- else -%}
+      <div class="q-grid-2">
+        {%- if section.settings.is_reserve_band -%}
+          {% render 'fragrance-card',
+            card_style: 'home',
+            show_reserve_badge: true,
+            placeholder_title: 'NO. 01 OLIBAN',
+            placeholder_price: '$310',
+            placeholder_meta: 'WOODY & RESINOUS  ·  50 ML ONLY',
+            placeholder_badge: 'RESERVE EDITION 01 / 2026  ·  50 NUMBERED FLACONS',
+            placeholder_asset: 'qirelia-reserve-cover.jpg'
+          %}
+          {% render 'fragrance-card',
+            card_style: 'home',
+            show_reserve_badge: true,
+            placeholder_title: 'NO. 02 ORRIS',
+            placeholder_price: '$325',
+            placeholder_meta: 'SPICED AMBER & ROOT  ·  50 ML ONLY',
+            placeholder_badge: 'RESERVE EDITION 02 / 2026  ·  50 NUMBERED FLACONS',
+            placeholder_asset: 'qirelia-flacon-craft.jpg'
+          %}
+        {%- else -%}
+          {% render 'fragrance-card',
+            card_style: 'home',
+            placeholder_title: 'SILICE',
+            placeholder_price: '$195',
+            placeholder_meta: 'MINERAL & FLORAL  ·  50 / 100 ML',
+            placeholder_asset: 'qirelia-silice-thumb.jpg'
+          %}
+          {% render 'fragrance-card',
+            card_style: 'home',
+            placeholder_title: 'VÉRIDE',
+            placeholder_price: '$195',
+            placeholder_meta: 'GREEN & BOTANICAL  ·  50 / 100 ML',
+            placeholder_asset: 'qirelia-still-life.jpg'
+          %}
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Fragrance Grid Band",
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Left heading",
+      "default": "01 / THE PERMANENT ARCHIVE"
+    },
+    {
+      "type": "text",
+      "id": "meta",
+      "label": "Right spec label",
+      "default": "04 COMPOSITIONS  ·  20% EDP"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "Maximum compositions",
+      "min": 2,
+      "max": 8,
+      "step": 2,
+      "default": 4
+    },
+    {
+      "type": "checkbox",
+      "id": "show_reserve_badge",
+      "label": "Show Reserve Edition stamp badge",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "is_reserve_band",
+      "label": "Use Reserve band spacing & smoked umber spec color",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_top_divider",
+      "label": "Show 1px top hairline divider",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_empty_state",
+      "label": "Show empty notice instead of preview cards when unset",
+      "default": false
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Fragrance Grid Band",
+      "category": "Collection"
+    }
+  ]
+}
+{% endschema %}

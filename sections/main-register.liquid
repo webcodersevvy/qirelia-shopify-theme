@@ -1,0 +1,173 @@
+{%- liquid
+  assign terms_page = pages['terms'] | default: pages['terms-conditions']
+  assign disclaimer_page = pages['disclaimer']
+-%}
+
+<section class="color-{{ section.settings.color_scheme }} q-color-scheme q-section" style="padding-top: clamp(40px, 5vw, 72px); padding-bottom: clamp(72px, 8vw, 120px);">
+  <div class="q-container">
+    <div class="q-contact-split">
+      <div class="q-form-panel">
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <p class="q-mono-spec" style="margin: 0; color: var(--q-neutral-03);">{{ 'customer.register.eyebrow' | t }}</p>
+          <h1 class="q-h1">{{ 'customer.register.title' | t }}</h1>
+        </div>
+
+        {%- form 'create_customer', style: 'display: flex; flex-direction: column; gap: 18px;' -%}
+          {%- if form.errors -%}
+            <div class="q-status-banner q-status-banner--error" role="alert">
+              {{ form.errors | default_errors }}
+            </div>
+          {%- endif -%}
+
+          <div class="q-form-row-2">
+            <div class="q-field">
+              <label for="RegisterFirstName" class="q-mono-spec">{{ 'customer.register.first_name' | t }}</label>
+              <input
+                id="RegisterFirstName"
+                type="text"
+                name="customer[first_name]"
+                class="q-input"
+                autocomplete="given-name"
+                value="{% if form.first_name %}{{ form.first_name }}{% endif %}"
+                placeholder="{{ 'customer.register.first_name_placeholder' | t }}"
+                required
+              >
+            </div>
+
+            <div class="q-field">
+              <label for="RegisterLastName" class="q-mono-spec">{{ 'customer.register.last_name' | t }}</label>
+              <input
+                id="RegisterLastName"
+                type="text"
+                name="customer[last_name]"
+                class="q-input"
+                autocomplete="family-name"
+                value="{% if form.last_name %}{{ form.last_name }}{% endif %}"
+                placeholder="{{ 'customer.register.last_name_placeholder' | t }}"
+                required
+              >
+            </div>
+          </div>
+
+          <div class="q-field">
+            <label for="RegisterEmail" class="q-mono-spec">{{ 'customer.register.email' | t }}</label>
+            <input
+              id="RegisterEmail"
+              type="email"
+              name="customer[email]"
+              class="q-input"
+              autocomplete="email"
+              autocorrect="off"
+              autocapitalize="off"
+              value="{% if form.email %}{{ form.email }}{% endif %}"
+              placeholder="{{ 'customer.register.email_placeholder' | t }}"
+              required
+            >
+          </div>
+
+          <div class="q-field">
+            <label for="RegisterPassword" class="q-mono-spec">{{ 'customer.register.password' | t }}</label>
+            <input
+              id="RegisterPassword"
+              type="password"
+              name="customer[password]"
+              class="q-input"
+              autocomplete="new-password"
+              placeholder="{{ 'customer.register.password_placeholder' | t }}"
+              minlength="5"
+              required
+            >
+          </div>
+
+          <input type="hidden" name="customer[accepts_marketing]" value="">
+          <label style="display: inline-flex; align-items: flex-start; gap: 10px; cursor: pointer;">
+            <input type="checkbox" name="customer[accepts_marketing]" value="true" checked style="margin-top: 3px;">
+            <span class="q-body-sm" style="margin: 0;">{{ 'customer.register.marketing_opt_in' | t }}</span>
+          </label>
+
+          <button type="submit" class="q-btn q-btn--primary q-btn--full">
+            {{ 'customer.register.submit' | t }}
+          </button>
+
+          <p class="q-body-sm" style="margin: 0;">
+            {{ 'customer.register.terms_prefix' | t }}
+            <a href="{{ terms_page.url | default: routes.root_url }}" class="q-link-editorial">{{ 'customer.register.terms_link' | t }}</a>
+            {{ 'customer.register.terms_and' | t }}
+            <a href="{{ disclaimer_page.url | default: routes.root_url }}" class="q-link-editorial">{{ 'customer.register.disclaimer_link' | t }}</a>.
+          </p>
+        {%- endform -%}
+
+        <hr class="q-hairline">
+
+        <a href="{{ routes.account_login_url }}" class="q-mono-spec q-link-editorial" style="align-self: flex-start;">
+          {{ 'customer.register.already_registered' | t }}
+        </a>
+      </div>
+
+      <aside class="q-contact-directory" aria-label="{{ section.settings.privileges_heading }}">
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <p class="q-mono-spec" style="margin: 0; color: var(--q-neutral-03);">{{ section.settings.privileges_eyebrow }}</p>
+          <h2 class="q-h2">{{ section.settings.privileges_heading }}</h2>
+        </div>
+
+        <hr class="q-hairline">
+
+        {%- for block in section.blocks -%}
+          <div style="display: flex; flex-direction: column; gap: 6px;" {{ block.shopify_attributes }}>
+            <p class="q-mono-spec" style="margin: 0; color: var(--q-dark-01);">{{ block.settings.title }}</p>
+            <p class="q-body-sm" style="margin: 0;">{{ block.settings.body }}</p>
+          </div>
+          {%- unless forloop.last -%}
+            <hr class="q-hairline">
+          {%- endunless -%}
+        {%- endfor -%}
+      </aside>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Client Registration",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "privileges_eyebrow",
+      "label": "Registry eyebrow",
+      "default": "THE QIRÉLIA REGISTRY"
+    },
+    {
+      "type": "text",
+      "id": "privileges_heading",
+      "label": "Registry heading",
+      "default": "Quiet Privileges."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "privilege",
+      "name": "Registry Privilege",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Privilege title",
+          "default": "01 / RESERVE BATCH PRIORITY"
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Privilege description",
+          "default": "Receive 24-hour advance notice when numbered 50-flacon 30% Extrait releases complete maceration."
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,44 @@
+<div
+  class="q-principle-card color-{{ block.settings.color_scheme }}"
+  style="background-color: var(--q-bg, var(--q-light-01));"
+  {{ block.shopify_attributes }}
+>
+  <p class="q-mono-spec" style="margin: 0; color: var(--q-dark-01);">
+    {{ block.settings.title }}
+  </p>
+  <p class="q-body" style="margin: 0;">
+    {{ block.settings.body }}
+  </p>
+</div>
+
+{% schema %}
+{
+  "name": "Numbered Principle Card",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Index & title",
+      "default": "01 / STRUCTURE OVER VOLUME"
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Description",
+      "default": "We edit formulas down to essential raw materials."
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Numbered Principle Card",
+      "category": "Editorial"
+    }
+  ]
+}
+{% endschema %}

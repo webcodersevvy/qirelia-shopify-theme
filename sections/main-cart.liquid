@@ -1,0 +1,247 @@
+{%- liquid
+  assign payments_page = pages['payments'] | default: pages['payment-billing']
+-%}
+
+<section class="color-{{ section.settings.color_scheme }} q-color-scheme q-section" style="padding-top: clamp(36px, 4.4vw, 64px); padding-bottom: clamp(72px, 7.8vw, 112px);">
+  <div class="q-container" style="display: flex; flex-direction: column; gap: 36px;">
+    <nav class="q-stepper" aria-label="{{ 'cart.page.title' | t }}">
+      <span class="q-mono-spec" style="color: var(--q-dark-01);" aria-current="step">{{ 'cart.stepper.bag' | t }}</span>
+      <span class="q-mono-spec" aria-hidden="true">—</span>
+      <span class="q-mono-spec" style="color: var(--q-dark-05);">{{ 'cart.stepper.checkout' | t }}</span>
+      <span class="q-mono-spec" aria-hidden="true">—</span>
+      <span class="q-mono-spec" style="color: var(--q-dark-05);">{{ 'cart.stepper.payment' | t }}</span>
+    </nav>
+
+    <div class="q-band-head" style="margin-bottom: 0;">
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <p class="q-mono-spec" style="margin: 0;">
+          {{ 'cart.page.selection_label' | t: count: cart.item_count }}
+        </p>
+        <h1 class="q-display-xl">{{ 'cart.page.title' | t }}</h1>
+      </div>
+
+      <a href="{{ routes.all_products_collection_url }}" class="q-mono-spec q-link-editorial">
+        {{ 'cart.page.continue_exploring' | t }}
+      </a>
+    </div>
+
+    <hr class="q-hairline">
+
+    <qirelia-cart data-cart-page data-section-id="{{ section.id }}">
+      <div data-cart-error class="q-status-banner q-status-banner--error" role="alert" hidden></div>
+
+      {%- if cart.item_count == 0 -%}
+        <div style="max-width: 560px; padding: 48px 0; display: flex; flex-direction: column; align-items: flex-start; gap: 20px;">
+          <p class="q-bag-drawer__italic-heading">{{ 'cart.drawer.empty_heading' | t }}</p>
+          <p class="q-body" style="margin: 0;">{{ 'cart.drawer.empty_copy' | t }}</p>
+          <a href="{{ routes.all_products_collection_url }}" class="q-btn q-btn--primary">
+            {{ 'cart.drawer.empty_cta' | t }}
+          </a>
+        </div>
+      {%- else -%}
+        <form action="{{ routes.cart_url }}" method="post" id="QireliaCartForm">
+          <div class="q-split-main">
+            <div class="q-split-main__left">
+              {%- for item in cart.items -%}
+                <div class="q-cart-item">
+                  <a href="{{ item.url }}" class="q-cart-item__thumb">
+                    {%- assign item_alt = item.image.alt | default: item.title -%}
+                    {% render 'media-image', image: item.image, alt: item_alt, sizes: '112px' %}
+                  </a>
+
+                  <div class="q-cart-item__info">
+                    <div class="q-cart-item__top">
+                      <div style="display: flex; flex-direction: column; gap: 4px;">
+                        {%- if item.product.metafields.qirelia.collection_label.value != blank -%}
+                          <p class="q-mono-spec" style="margin: 0; color: var(--q-neutral-03);">
+                            {{ item.product.metafields.qirelia.collection_label.value }}
+                          </p>
+                        {%- endif -%}
+                        <a href="{{ item.url }}" class="q-h3" style="text-decoration: none;">
+                          {{ item.product.title }}
+                        </a>
+                        {%- unless item.product.has_only_default_variant -%}
+                          <p class="q-mono-spec" style="margin: 0; color: var(--q-dark-03);">
+                            {{ item.variant.title }}
+                          </p>
+                        {%- endunless -%}
+                      </div>
+
+                      <div style="text-align: right;">
+                        <p class="q-h4 q-tnum" style="margin: 0;">
+                          {{ item.final_line_price | money_without_trailing_zeros }}
+                        </p>
+                        {%- if item.original_line_price > item.final_line_price -%}
+                          <p class="q-mono-spec q-tnum" style="margin: 4px 0 0; text-decoration: line-through;">
+                            {{ item.original_line_price | money_without_trailing_zeros }}
+                          </p>
+                        {%- endif -%}
+                      </div>
+                    </div>
+
+                    {%- if item.line_level_discount_allocations.size > 0 -%}
+                      <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px;">
+                        {%- for discount_allocation in item.line_level_discount_allocations -%}
+                          <li class="q-mono-spec" style="color: var(--q-bright-02);">
+                            {{ discount_allocation.discount_application.title }} (−{{ discount_allocation.amount | money_without_trailing_zeros }})
+                          </li>
+                        {%- endfor -%}
+                      </ul>
+                    {%- endif -%}
+
+                    <div class="q-cart-item__controls">
+                      <div class="q-qty">
+                        <button
+                          type="button"
+                          class="q-qty__btn"
+                          data-qty-dec
+                          data-line-key="{{ item.key }}"
+                          data-qty="{{ item.quantity }}"
+                          aria-label="{{ 'cart.page.decrease_quantity' | t: title: item.product.title }}"
+                        >−</button>
+                        <input
+                          type="number"
+                          class="q-qty__input"
+                          name="updates[]"
+                          value="{{ item.quantity }}"
+                          min="0"
+                          aria-label="{{ 'cart.page.quantity_label' | t: title: item.product.title }}"
+                        >
+                        <button
+                          type="button"
+                          class="q-qty__btn"
+                          data-qty-inc
+                          data-line-key="{{ item.key }}"
+                          data-qty="{{ item.quantity }}"
+                          aria-label="{{ 'cart.page.increase_quantity' | t: title: item.product.title }}"
+                        >+</button>
+                      </div>
+
+                      <button
+                        type="button"
+                        class="q-mono-spec q-bag-drawer__close"
+                        data-qty-remove
+                        data-line-key="{{ item.key }}"
+                      >
+                        {{ 'cart.page.remove' | t }}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              {%- endfor -%}
+
+              <div class="q-ritual-note">
+                <p class="q-mono-spec" style="margin: 0; color: var(--q-dark-01);">
+                  {{ 'cart.page.ritual_title' | t }}
+                </p>
+                <p class="q-body-sm" style="margin: 0;">
+                  {{ 'cart.page.ritual_body' | t }}
+                </p>
+              </div>
+
+              {%- if section.settings.show_order_note -%}
+                <div class="q-field" style="margin-top: 24px;">
+                  <label for="QireliaCartNote" class="q-mono-spec">{{ 'cart.page.note_label' | t }}</label>
+                  <textarea
+                    id="QireliaCartNote"
+                    name="note"
+                    class="q-textarea"
+                    style="min-height: 92px;"
+                    placeholder="{{ 'cart.page.note_placeholder' | t }}"
+                  >{{ cart.note }}</textarea>
+                </div>
+              {%- endif -%}
+            </div>
+
+            <aside class="q-split-main__right" aria-label="{{ 'cart.page.summary_heading' | t }}">
+              <p class="q-mono-spec" style="margin: 0; color: var(--q-dark-01);">
+                {{ 'cart.page.summary_heading' | t }}
+              </p>
+              <hr class="q-hairline">
+
+              <div style="display: flex; flex-direction: column; gap: 12px;">
+                <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px;">
+                  <span class="q-body-sm">{{ 'cart.page.subtotal' | t: count: cart.item_count }}</span>
+                  <span class="q-body-sm q-tnum" style="color: var(--q-dark-01); font-weight: 500;">
+                    {{ cart.original_total_price | money_without_trailing_zeros }}
+                  </span>
+                </div>
+
+                {%- if cart.cart_level_discount_applications.size > 0 -%}
+                  {%- for discount_application in cart.cart_level_discount_applications -%}
+                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px;">
+                      <span class="q-mono-spec" style="color: var(--q-bright-02);">{{ discount_application.title }}</span>
+                      <span class="q-body-sm q-tnum" style="color: var(--q-bright-02);">
+                        −{{ discount_application.total_allocated_amount | money_without_trailing_zeros }}
+                      </span>
+                    </div>
+                  {%- endfor -%}
+                {%- endif -%}
+
+                <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px;">
+                  <span class="q-body-sm">{{ 'cart.page.shipping_label' | t }}</span>
+                  <span class="q-mono-spec">{{ 'cart.page.shipping_value' | t }}</span>
+                </div>
+
+                <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px;">
+                  <span class="q-body-sm">{{ 'cart.page.taxes_label' | t }}</span>
+                  <span class="q-mono-spec">{{ 'cart.page.taxes_value' | t }}</span>
+                </div>
+              </div>
+
+              <hr class="q-hairline">
+
+              <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px;">
+                <span class="q-mono-spec" style="color: var(--q-dark-01);">{{ 'cart.page.estimated_total' | t }}</span>
+                <span class="q-h2 q-tnum">
+                  {{ cart.total_price | money_without_trailing_zeros }}
+                  {% if settings.show_currency_code %}{{ cart.currency.iso_code }}{% endif %}
+                </span>
+              </div>
+
+              <div style="display: flex; flex-direction: column; gap: 12px;">
+                <button type="submit" name="checkout" class="q-btn q-btn--primary q-btn--full">
+                  {{ 'cart.page.checkout' | t }}
+                </button>
+
+                {%- if payments_page != blank -%}
+                  <a href="{{ payments_page.url }}" class="q-btn q-btn--secondary q-btn--full">
+                    {{ 'cart.page.payment_options' | t }}
+                  </a>
+                {%- endif -%}
+
+                <button type="submit" name="update" class="q-mono-spec q-link-footer" style="background: none; border: 0; padding: 8px 0; cursor: pointer; align-self: center;">
+                  {{ 'cart.page.update' | t }}
+                </button>
+              </div>
+
+              <p class="q-body-sm" style="margin: 0; font-size: 12px;">
+                {{ 'cart.page.policy_note' | t }}
+              </p>
+            </aside>
+          </div>
+        </form>
+      {%- endif -%}
+    </qirelia-cart>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Shopping Bag",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_order_note",
+      "label": "Enable order / gift card note",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,5 @@
+.git/
+.gitignore
+.theme-check.yml
+node_modules/
+*.md

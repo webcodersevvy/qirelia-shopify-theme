@@ -1,0 +1,126 @@
+{%- liquid
+  assign order_date = order.created_at | time_tag: format: 'date_at_time'
+  assign contact_page = pages['contact']
+-%}
+
+<section class="color-{{ section.settings.color_scheme }} q-color-scheme q-section" style="padding-top: clamp(36px, 4.4vw, 64px); padding-bottom: clamp(72px, 7.8vw, 112px);">
+  <div class="q-container" style="display: flex; flex-direction: column; gap: 36px;">
+    <a href="{{ routes.account_url }}" class="q-mono-spec q-link-footer" style="align-self: flex-start;">
+      {{ 'customer.order.back' | t }}
+    </a>
+
+    <div class="q-band-head" style="margin-bottom: 0;">
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <p class="q-mono-spec" style="margin: 0; color: var(--q-neutral-03);">{{ 'customer.order.eyebrow' | t }}</p>
+        <h1 class="q-display-xl">{{ 'customer.order.title' | t: name: order.name }}</h1>
+        <p class="q-body-sm" style="margin: 0;">{{ 'customer.order.placed_on' | t: date: order_date }}</p>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+        <span class="q-status-pill">{{ 'customer.order.payment_status' | t }}: {{ order.financial_status_label }}</span>
+        <span class="q-status-pill {% if order.fulfillment_status == 'fulfilled' %}q-status-pill--delivered{% endif %}">
+          {{ 'customer.order.fulfillment_status' | t }}: {{ order.fulfillment_status_label }}
+        </span>
+      </div>
+    </div>
+
+    {%- if order.cancelled -%}
+      {%- assign cancelled_at = order.cancelled_at | time_tag: format: 'date_at_time' -%}
+      <div class="q-status-banner q-status-banner--error" role="status">
+        {{ 'customer.order.cancelled' | t: date: cancelled_at, reason: order.cancel_reason_label }}
+      </div>
+    {%- endif -%}
+
+    <div class="q-table-wrap">
+      <table class="q-table">
+        <thead>
+          <tr>
+            <th scope="col" class="q-mono-spec" style="width: 40%; color: var(--q-dark-01);">{{ 'customer.order.product' | t }}</th>
+            <th scope="col" class="q-mono-spec" style="width: 15%;">{{ 'customer.order.sku' | t }}</th>
+            <th scope="col" class="q-mono-spec" style="width: 15%;">{{ 'customer.order.price' | t }}</th>
+            <th scope="col" class="q-mono-spec" style="width: 12%;">{{ 'customer.order.quantity' | t }}</th>
+            <th scope="col" class="q-mono-spec" style="width: 18%; text-align: right; color: var(--q-dark-01);">{{ 'customer.order.total' | t }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {%- for line_item in order.line_items -%}
+            <tr>
+              <td class="q-body-sm" style="width: 40%; color: var(--q-dark-01);">
+                {%- if line_item.url != blank -%}
+                  <a href="{{ line_item.url }}" style="color: inherit; text-decoration: none; font-weight: 500;">{{ line_item.title }}</a>
+                {%- else -%}
+                  {{ line_item.title }}
+                {%- endif -%}
+              </td>
+              <td class="q-mono-spec" style="width: 15%;">{{ line_item.sku | default: '—' }}</td>
+              <td class="q-body-sm q-tnum" style="width: 15%;">{{ line_item.final_price | money }}</td>
+              <td class="q-mono-spec q-tnum" style="width: 12%;">{{ line_item.quantity }}</td>
+              <td class="q-body-sm q-tnum" style="width: 18%; text-align: right; color: var(--q-dark-01); font-weight: 500;">
+                {{ line_item.final_line_price | money }}
+              </td>
+            </tr>
+          {%- endfor -%}
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="4" class="q-mono-spec">{{ 'customer.order.subtotal' | t }}</td>
+            <td class="q-body-sm q-tnum" style="text-align: right;">{{ order.line_items_subtotal_price | money }}</td>
+          </tr>
+          {%- for shipping_method in order.shipping_methods -%}
+            <tr>
+              <td colspan="4" class="q-mono-spec">{{ 'customer.order.shipping' | t }} ({{ shipping_method.title }})</td>
+              <td class="q-body-sm q-tnum" style="text-align: right;">{{ shipping_method.price | money }}</td>
+            </tr>
+          {%- endfor -%}
+          {%- for tax_line in order.tax_lines -%}
+            <tr>
+              <td colspan="4" class="q-mono-spec">{{ 'customer.order.tax' | t }} ({{ tax_line.title }})</td>
+              <td class="q-body-sm q-tnum" style="text-align: right;">{{ tax_line.price | money }}</td>
+            </tr>
+          {%- endfor -%}
+          <tr>
+            <td colspan="4" class="q-mono-spec" style="color: var(--q-dark-01);">{{ 'customer.order.total' | t }}</td>
+            <td class="q-h3 q-tnum" style="text-align: right;">{{ order.total_net_amount | money_with_currency }}</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <div class="q-grid-2">
+      <div class="q-principle-card" style="background-color: var(--q-light-02);">
+        <p class="q-mono-spec" style="margin: 0; color: var(--q-dark-01);">{{ 'customer.order.billing_address' | t }}</p>
+        <div class="q-body-sm">{{ order.billing_address | format_address }}</div>
+      </div>
+
+      <div class="q-principle-card" style="background-color: var(--q-light-02);">
+        <p class="q-mono-spec" style="margin: 0; color: var(--q-dark-01);">{{ 'customer.order.shipping_address' | t }}</p>
+        {%- if order.shipping_address != blank -%}
+          <div class="q-body-sm">{{ order.shipping_address | format_address }}</div>
+        {%- else -%}
+          <p class="q-body-sm" style="margin: 0;">—</p>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <div class="q-account-strip">
+      <p class="q-body-sm" style="margin: 0; max-width: 680px;">{{ 'customer.order.assistance_copy' | t }}</p>
+      <a href="{{ contact_page.url | default: routes.root_url }}" class="q-btn q-btn--secondary">
+        {{ 'customer.order.assistance_cta' | t }}
+      </a>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Order Detail Record",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-blog",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "eyebrow": "ARCHIVE NOTES  ·  MATERIAL STUDIES",
+        "subtext": "Dispatches on raw botanicals, flacon glass architecture, and quiet maceration batches."
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

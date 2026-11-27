@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-collection",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "layout_mode": "auto",
+        "products_per_page": 12
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

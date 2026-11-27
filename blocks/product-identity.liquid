@@ -1,0 +1,72 @@
+{%- liquid
+  assign target_product = block.settings.product | default: product
+  assign current_variant = target_product.selected_or_first_available_variant
+  assign col_label = target_product.metafields.qirelia.collection_label.value | default: target_product.collections.first.title
+  assign ref_code = target_product.metafields.qirelia.reference.value | default: current_variant.sku
+  assign concentration = target_product.metafields.qirelia.concentration.value
+  assign family = target_product.metafields.qirelia.olfactory_family.value | default: target_product.type
+  assign sensory_lead = target_product.metafields.qirelia.sensory_lead.value
+-%}
+
+<div class="q-pdp__identity" {{ block.shopify_attributes }}>
+  {%- if col_label != blank or ref_code != blank -%}
+    <div class="q-pdp__meta-row">
+      {%- if col_label != blank -%}
+        <span class="q-mono-spec">{{ col_label }}</span>
+      {%- endif -%}
+      {%- if col_label != blank and ref_code != blank -%}
+        <span class="q-mono-spec" aria-hidden="true">·</span>
+      {%- endif -%}
+      {%- if ref_code != blank -%}
+        <span class="q-mono-spec">{{ ref_code }}</span>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  <h1 class="q-h1">{{ target_product.title }}</h1>
+
+  {%- if concentration != blank or family != blank -%}
+    <div class="q-pdp__meta-row">
+      {%- if concentration != blank -%}
+        <span class="q-mono-spec" style="color: var(--q-dark-03);">{{ concentration }}</span>
+      {%- endif -%}
+      {%- if concentration != blank and family != blank -%}
+        <span class="q-mono-spec" aria-hidden="true">·</span>
+      {%- endif -%}
+      {%- if family != blank -%}
+        <span class="q-mono-spec" style="color: var(--q-dark-03);">{{ family }}</span>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  <p class="q-pdp__price q-tnum" data-pdp-price>
+    {{ current_variant.price | money_without_trailing_zeros }}
+    {% if settings.show_currency_code %}{{ cart.currency.iso_code }}{% endif %}
+  </p>
+
+  {%- if sensory_lead != blank -%}
+    <p class="q-body" style="margin: 0; color: var(--q-dark-03);">{{ sensory_lead }}</p>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Product Identity & Price",
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Identity & Price",
+      "category": "Product",
+      "settings": {
+        "product": "{{ closest.product }}"
+      }
+    }
+  ]
+}
+{% endschema %}

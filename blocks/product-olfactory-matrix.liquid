@@ -1,0 +1,69 @@
+{%- liquid
+  assign target_product = block.settings.product | default: product
+  assign top_notes = target_product.metafields.qirelia.top_notes.value | default: block.settings.top_fallback
+  assign heart_notes = target_product.metafields.qirelia.heart_notes.value | default: block.settings.heart_fallback
+  assign base_notes = target_product.metafields.qirelia.base_notes.value | default: block.settings.base_fallback
+-%}
+
+{%- if top_notes != blank or heart_notes != blank or base_notes != blank -%}
+  <div class="q-olfactory-matrix" {{ block.shopify_attributes }}>
+    {%- if top_notes != blank -%}
+      <div class="q-olfactory-row">
+        <span class="q-mono-spec q-olfactory-row__label">{{ 'products.product.olfactory_top' | t }}</span>
+        <span class="q-body" style="color: var(--q-dark-01);">{{ top_notes }}</span>
+      </div>
+    {%- endif -%}
+    {%- if heart_notes != blank -%}
+      <div class="q-olfactory-row">
+        <span class="q-mono-spec q-olfactory-row__label">{{ 'products.product.olfactory_heart' | t }}</span>
+        <span class="q-body" style="color: var(--q-dark-01);">{{ heart_notes }}</span>
+      </div>
+    {%- endif -%}
+    {%- if base_notes != blank -%}
+      <div class="q-olfactory-row">
+        <span class="q-mono-spec q-olfactory-row__label">{{ 'products.product.olfactory_base' | t }}</span>
+        <span class="q-body" style="color: var(--q-dark-01);">{{ base_notes }}</span>
+      </div>
+    {%- endif -%}
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Olfactory Matrix",
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product"
+    },
+    {
+      "type": "text",
+      "id": "top_fallback",
+      "label": "Default top notes (if metafield empty)",
+      "default": "Calabrian Bergamot · Cold Limestone Accord · Pink Pepper"
+    },
+    {
+      "type": "text",
+      "id": "heart_fallback",
+      "label": "Default heart notes (if metafield empty)",
+      "default": "White Iris Butter · White Magnolia · Crisp Linen Accord"
+    },
+    {
+      "type": "text",
+      "id": "base_fallback",
+      "label": "Default base notes (if metafield empty)",
+      "default": "Botanical Ambrette Seed · Ambroxan · Clean Skin Musk"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Olfactory Matrix",
+      "category": "Product",
+      "settings": {
+        "product": "{{ closest.product }}"
+      }
+    }
+  ]
+}
+{% endschema %}

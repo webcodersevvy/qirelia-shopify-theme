@@ -1,0 +1,187 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "QIRÉLIA",
+    "theme_version": "1.0.0",
+    "theme_author": "QIRÉLIA Parfums",
+    "theme_documentation_url": "https://shopify.dev/docs/storefronts/themes",
+    "theme_support_url": "https://shopify.dev/docs/storefronts/themes"
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "color_scheme_group",
+        "id": "color_schemes",
+        "definition": [
+          {
+            "type": "color",
+            "id": "background",
+            "label": "Background",
+            "default": "#FFFFFF"
+          },
+          {
+            "type": "color",
+            "id": "surface",
+            "label": "Surface",
+            "default": "#F7F6F4"
+          },
+          {
+            "type": "color",
+            "id": "text",
+            "label": "Text",
+            "default": "#141414"
+          },
+          {
+            "type": "color",
+            "id": "text_muted",
+            "label": "Muted text",
+            "default": "#6E6B66"
+          },
+          {
+            "type": "color",
+            "id": "border",
+            "label": "Hairline border",
+            "default": "#E5E2DC"
+          },
+          {
+            "type": "color",
+            "id": "button_bg",
+            "label": "Primary button background",
+            "default": "#141414"
+          },
+          {
+            "type": "color",
+            "id": "button_text",
+            "label": "Primary button text",
+            "default": "#FFFFFF"
+          },
+          {
+            "type": "color",
+            "id": "accent",
+            "label": "Amber accent",
+            "default": "#C9A96E"
+          }
+        ],
+        "role": {
+          "background": "background",
+          "primary_button": "button_bg",
+          "on_primary_button": "button_text",
+          "primary_button_border": "button_bg",
+          "secondary_button": "background",
+          "on_secondary_button": "text",
+          "secondary_button_border": "text",
+          "text": "text",
+          "links": "text",
+          "icons": "text"
+        }
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "font_picker",
+        "id": "font_display",
+        "label": "Display & editorial serif",
+        "default": "bodoni_moda_n4"
+      },
+      {
+        "type": "font_picker",
+        "id": "font_body",
+        "label": "Fallback sans-serif",
+        "default": "inter_n4",
+        "info": "Used when self-hosted Satoshi is disabled."
+      },
+      {
+        "type": "font_picker",
+        "id": "font_mono",
+        "label": "Monospace specification font",
+        "default": "azeret_mono_n4"
+      },
+      {
+        "type": "checkbox",
+        "id": "use_satoshi_body",
+        "label": "Use bundled Satoshi UI & body typeface",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Layout & Architecture",
+    "settings": [
+      {
+        "type": "range",
+        "id": "container_max_width",
+        "label": "Container maximum width",
+        "min": 1200,
+        "max": 1440,
+        "step": 8,
+        "unit": "px",
+        "default": 1344
+      },
+      {
+        "type": "select",
+        "id": "cart_type",
+        "label": "Shopping bag behavior",
+        "options": [
+          {
+            "value": "drawer",
+            "label": "Minimalist bag drawer"
+          },
+          {
+            "value": "page",
+            "label": "Dedicated bag page"
+          }
+        ],
+        "default": "drawer"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_currency_code",
+        "label": "Show currency code beside prices (e.g. USD)",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_predictive_search",
+        "label": "Enable predictive search suggestions",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "House & Client Care",
+    "settings": [
+      {
+        "type": "text",
+        "id": "tagline",
+        "label": "House tagline",
+        "default": "PRESENCE, WITHOUT NOISE."
+      },
+      {
+        "type": "text",
+        "id": "care_email",
+        "label": "Client care email",
+        "default": "care@qirelia.com"
+      },
+      {
+        "type": "text",
+        "id": "press_email",
+        "label": "Press & stockists email",
+        "default": "press@qirelia.com"
+      },
+      {
+        "type": "url",
+        "id": "social_instagram_url",
+        "label": "Instagram URL"
+      },
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon"
+      }
+    ]
+  }
+]

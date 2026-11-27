@@ -1,0 +1,102 @@
+{
+  "sections": {
+    "header": {
+      "type": "page-header",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "show_hero_image": true,
+        "eyebrow": "THE HOUSE OF QIRÉLIA",
+        "heading": "AN ARCHITECTURE OF AIR AND SKIN.",
+        "subtext": "A contemporary perspective on women’s fine fragrance, shaped by olfactory clarity, intimate sillage, and physical permanence.",
+        "show_bottom_divider": false
+      }
+    },
+    "statement": {
+      "type": "editorial-statement",
+      "settings": {
+        "layout_variant": "split",
+        "eyebrow": "01 / THE HOUSE",
+        "heading": "PRESENCE, WITHOUT NOISE.",
+        "body": "QIRÉLIA approaches perfume as spatial design. Every formula begins with structure—balancing crisp top lift against quiet, tenacious base materials so each composition unfolds slowly across the day rather than announcing itself all at once.",
+        "extra_body": "Instead of constant seasonal variations, QIRÉLIA maintains a tightly edited archive: four core 20% Eau de Parfum compositions for daily clarity alongside two numbered 30% Extrait de Parfum Reserve releases devoted to raw resin, aged iris root, and slow maceration.",
+        "link_label": "",
+        "show_top_divider": true,
+        "color_scheme": "scheme-1"
+      }
+    },
+    "principles": {
+      "type": "principles-grid",
+      "blocks": {
+        "p1": {
+          "type": "principle-card",
+          "settings": {
+            "title": "01 / STRUCTURE OVER VOLUME",
+            "body": "We edit formulas down to essential raw materials. Leaving negative space between notes allows bergamot, iris butter, hinoki, and resin to remain legible from opening to dry-down.",
+            "color_scheme": "scheme-1"
+          }
+        },
+        "p2": {
+          "type": "principle-card",
+          "settings": {
+            "title": "02 / PROXIMITY OVER PROJECTION",
+            "body": "QIRÉLIA compositions are calibrated for close presence. They create a calm personal aura discovered within arm’s reach rather than competing with the room.",
+            "color_scheme": "scheme-1"
+          }
+        },
+        "p3": {
+          "type": "principle-card",
+          "settings": {
+            "title": "03 / MATERIAL HONESTY",
+            "body": "Zero artificial colourants enter our flacons. Subtle shifts from pale silver-straw to warm honeyed amber come solely from botanical extracts and natural maceration.",
+            "color_scheme": "scheme-1"
+          }
+        },
+        "p4": {
+          "type": "principle-card",
+          "settings": {
+            "title": "04 / OBJECT PERMANENCE",
+            "body": "Every flacon is engineered with an 18 mm solid glass plinth, a flush weighted obsidian cap, and uncoated cotton paper—designed to sit quietly in personal space.",
+            "color_scheme": "scheme-1"
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3",
+        "p4"
+      ],
+      "settings": {
+        "color_scheme": "scheme-2",
+        "show_top_divider": true,
+        "eyebrow": "02 / FOUR HOUSE PRINCIPLES",
+        "columns": "2",
+        "card_gap": "editorial",
+        "padding_top": 96,
+        "padding_bottom": 96
+      }
+    },
+    "craft": {
+      "type": "editorial-split",
+      "settings": {
+        "fallback_asset": "qirelia-flacon-craft.jpg",
+        "media_scale": "craft",
+        "compact": false,
+        "eyebrow": "03 / LUMINOUS STILLNESS",
+        "heading": "LIGHT THROUGH GLASS.\nWARMTH ON SKIN.",
+        "body": "Our flacons pair extra-flint clear glass with a heavy 18 mm plinth that projects luminous daylight caustics onto stone surfaces. Each bottle is finished with a flush matte obsidian magnetic cap debossed with the Q monogram.",
+        "button_label": "EXPLORE THE COLLECTIONS",
+        "button_link": "shopify://collections",
+        "button_style": "primary",
+        "show_top_divider": true,
+        "color_scheme": "scheme-1"
+      }
+    }
+  },
+  "order": [
+    "header",
+    "statement",
+    "principles",
+    "craft"
+  ]
+}

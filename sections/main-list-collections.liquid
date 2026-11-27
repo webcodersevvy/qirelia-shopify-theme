@@ -1,0 +1,243 @@
+{%- liquid
+  assign archive_col = section.settings.archive_collection | default: collections['the-permanent-archive']
+  assign reserve_col = section.settings.reserve_collection | default: collections['the-reserve-editions']
+  assign archive_url = archive_col.url | default: routes.all_products_collection_url
+  assign reserve_url = reserve_col.url | default: routes.all_products_collection_url
+-%}
+
+<section class="color-{{ section.settings.color_scheme }} q-color-scheme">
+  <div class="q-page-intro">
+    <div class="q-container" style="display: flex; flex-direction: column; gap: 16px;">
+      <p class="q-mono-spec" style="margin: 0;">{{ section.settings.eyebrow }}</p>
+      <h1 class="q-display-xl">{{ section.settings.heading }}</h1>
+      <p class="q-body-lg" style="margin: 0; max-width: 620px;">{{ section.settings.subtext }}</p>
+    </div>
+  </div>
+
+  <!-- 01 · The Permanent Archive -->
+  <div class="q-campaign-band">
+    <div class="q-container">
+      <a href="{{ archive_url }}" class="q-campaign__image">
+        {%- assign archive_img = section.settings.archive_image | default: archive_col.featured_image -%}
+        {% render 'media-image',
+          image: archive_img,
+          fallback_asset: 'qirelia-archive-cover.jpg',
+          alt: 'The Permanent Archive',
+          width: 1200,
+          height: 901,
+          sizes: '100vw',
+          eager: true
+        %}
+      </a>
+
+      <div class="q-campaign__details">
+        <div class="q-campaign__copy">
+          <p class="q-mono-spec" style="margin: 0;">{{ section.settings.archive_eyebrow }}</p>
+          <h2 class="q-h1">{{ section.settings.archive_title }}</h2>
+          <p class="q-body" style="margin: 0;">{{ section.settings.archive_copy }}</p>
+        </div>
+
+        <div class="q-campaign__action">
+          <span class="q-mono-spec" style="color: var(--q-dark-01);">{{ section.settings.archive_meta }}</span>
+          <a href="{{ archive_url }}" class="q-btn q-btn--primary">
+            {{ section.settings.archive_cta }}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 02 · The Reserve Editions -->
+  <div class="q-campaign-band">
+    <div class="q-container">
+      <a href="{{ reserve_url }}" class="q-campaign__image">
+        {%- assign reserve_img = section.settings.reserve_image | default: reserve_col.featured_image -%}
+        {% render 'media-image',
+          image: reserve_img,
+          fallback_asset: 'qirelia-reserve-cover.jpg',
+          alt: 'The Reserve Editions',
+          width: 1200,
+          height: 800,
+          sizes: '100vw'
+        %}
+      </a>
+
+      <div class="q-campaign__details">
+        <div class="q-campaign__copy">
+          <p class="q-mono-spec" style="margin: 0; color: var(--q-neutral-03);">{{ section.settings.reserve_eyebrow }}</p>
+          <h2 class="q-h1">{{ section.settings.reserve_title }}</h2>
+          <p class="q-body" style="margin: 0;">{{ section.settings.reserve_copy }}</p>
+        </div>
+
+        <div class="q-campaign__action">
+          <span class="q-mono-spec" style="color: var(--q-dark-01);">{{ section.settings.reserve_meta }}</span>
+          <a href="{{ reserve_url }}" class="q-btn q-btn--primary">
+            {{ section.settings.reserve_cta }}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {%- if section.settings.show_additional_collections -%}
+    {%- for col in collections -%}
+      {%- unless col.handle == 'all' or col.handle == archive_col.handle or col.handle == reserve_col.handle -%}
+        <div class="q-campaign-band">
+          <div class="q-container">
+            <a href="{{ col.url }}" class="q-campaign__image">
+              {%- assign col_alt = col.title -%}
+              {% render 'media-image',
+                image: col.featured_image,
+                fallback_asset: 'qirelia-silice-thumb.jpg',
+                alt: col_alt,
+                width: 1200,
+                height: 900,
+                sizes: '100vw'
+              %}
+            </a>
+            <div class="q-campaign__details">
+              <div class="q-campaign__copy">
+                <h2 class="q-h1">{{ col.title }}</h2>
+                {%- if col.description != blank -%}
+                  <div class="q-body">{{ col.description }}</div>
+                {%- endif -%}
+              </div>
+              <div class="q-campaign__action">
+                <span class="q-mono-spec" style="color: var(--q-dark-01);">
+                  {{ 'collections.general.compositions_count' | t: count: col.products_count }}
+                </span>
+                <a href="{{ col.url }}" class="q-btn q-btn--primary">EXPLORE {{ col.title | upcase }}</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      {%- endunless -%}
+    {%- endfor -%}
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Collections Overview",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Intro eyebrow",
+      "default": "THE QIRÉLIA ARCHIVE"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Intro heading",
+      "default": "TWO EXPRESSIONS OF PRESENCE."
+    },
+    {
+      "type": "textarea",
+      "id": "subtext",
+      "label": "Intro description",
+      "default": "Four foundational 20% Eau de Parfum signatures for daily proximity, paired with two limited-batch 30% Extrait Reserve releases devoted to resin, root, and stillness."
+    },
+    {
+      "type": "header",
+      "content": "01 / Permanent Archive"
+    },
+    {
+      "type": "collection",
+      "id": "archive_collection",
+      "label": "Permanent Archive collection"
+    },
+    {
+      "type": "image_picker",
+      "id": "archive_image",
+      "label": "Campaign image"
+    },
+    {
+      "type": "text",
+      "id": "archive_eyebrow",
+      "label": "Eyebrow",
+      "default": "01 / CORE COLLECTION  ·  20% EAU DE PARFUM"
+    },
+    {
+      "type": "text",
+      "id": "archive_title",
+      "label": "Title",
+      "default": "THE PERMANENT ARCHIVE"
+    },
+    {
+      "type": "textarea",
+      "id": "archive_copy",
+      "label": "Description",
+      "default": "Four foundational compositions shaped by daylight clarity, mineral iris, crushed fig leaf, dry hinoki, and green cardamom. Available in 50 ml and 100 ml."
+    },
+    {
+      "type": "text",
+      "id": "archive_meta",
+      "label": "Right spec label",
+      "default": "04 COMPOSITIONS  ·  $195 – $295 USD"
+    },
+    {
+      "type": "text",
+      "id": "archive_cta",
+      "label": "Button label",
+      "default": "EXPLORE THE PERMANENT ARCHIVE"
+    },
+    {
+      "type": "header",
+      "content": "02 / Reserve Editions"
+    },
+    {
+      "type": "collection",
+      "id": "reserve_collection",
+      "label": "Reserve Editions collection"
+    },
+    {
+      "type": "image_picker",
+      "id": "reserve_image",
+      "label": "Campaign image"
+    },
+    {
+      "type": "text",
+      "id": "reserve_eyebrow",
+      "label": "Eyebrow",
+      "default": "02 / LIMITED RELEASE  ·  30% EXTRAIT DE PARFUM"
+    },
+    {
+      "type": "text",
+      "id": "reserve_title",
+      "label": "Title",
+      "default": "THE RESERVE EDITIONS"
+    },
+    {
+      "type": "textarea",
+      "id": "reserve_copy",
+      "label": "Description",
+      "default": "High-concentration Extrait de Parfum releases devoted to Omani frankincense, smoked birch, and aged Florentine orris. Smoked 50 ml glass — 50 numbered flacons each."
+    },
+    {
+      "type": "text",
+      "id": "reserve_meta",
+      "label": "Right spec label",
+      "default": "02 COMPOSITIONS  ·  $310 – $325 USD"
+    },
+    {
+      "type": "text",
+      "id": "reserve_cta",
+      "label": "Button label",
+      "default": "EXPLORE THE RESERVE EDITIONS"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_additional_collections",
+      "label": "Show other store collections below",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

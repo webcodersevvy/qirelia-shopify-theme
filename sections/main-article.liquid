@@ -1,0 +1,57 @@
+<article class="color-{{ section.settings.color_scheme }} q-color-scheme q-section" style="padding-top: clamp(36px, 4.4vw, 64px); padding-bottom: clamp(72px, 7.8vw, 112px);">
+  <div class="q-container" style="max-width: 860px; margin-inline: auto; display: flex; flex-direction: column; gap: 32px;">
+    {% render 'breadcrumbs',
+      parent_label: blog.title,
+      parent_url: blog.url,
+      current_label: article.title
+    %}
+
+    <header style="display: flex; flex-direction: column; gap: 14px;">
+      <p class="q-mono-spec" style="margin: 0;">
+        {{ article.published_at | time_tag: format: 'abbreviated_date' }}
+        {%- if article.author != blank %} · {{ article.author }}{% endif -%}
+      </p>
+      <h1 class="q-display-xl">{{ article.title }}</h1>
+    </header>
+
+    {%- if article.image != blank -%}
+      <div class="q-collection-hero__media" style="height: clamp(320px, 38vw, 520px);">
+        {%- assign hero_alt = article.image.alt | default: article.title -%}
+        {% render 'media-image',
+          image: article.image,
+          alt: hero_alt,
+          sizes: '(max-width: 900px) 100vw, 860px',
+          eager: true
+        %}
+      </div>
+    {%- endif -%}
+
+    <hr class="q-hairline">
+
+    <div class="q-body-lg rte">
+      {{ article.content }}
+    </div>
+
+    <hr class="q-hairline">
+
+    <div>
+      <a href="{{ blog.url }}" class="q-mono-spec q-link-editorial">
+        ← {{ blog.title | upcase }}
+      </a>
+    </div>
+  </div>
+</article>
+
+{% schema %}
+{
+  "name": "Journal Article",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    }
+  ]
+}
+{% endschema %}

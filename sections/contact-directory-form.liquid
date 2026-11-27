@@ -1,0 +1,143 @@
+<section class="color-{{ section.settings.color_scheme }} q-color-scheme q-section" style="padding-bottom: clamp(72px, 7.8vw, 112px);">
+  <div class="q-container">
+    <div class="q-contact-split">
+      <div class="q-contact-directory">
+        {%- for block in section.blocks -%}
+          <div style="display: flex; flex-direction: column; gap: 6px;" {{ block.shopify_attributes }}>
+            <p class="q-mono-spec" style="margin: 0; color: var(--q-dark-01);">{{ block.settings.eyebrow }}</p>
+            <p class="q-h4">{{ block.settings.title }}</p>
+            <p class="q-body-sm" style="margin: 0;">{{ block.settings.description }}</p>
+          </div>
+          <hr class="q-hairline">
+        {%- endfor -%}
+      </div>
+
+      <div class="q-form-panel">
+        <p class="q-mono-spec" style="margin: 0; color: var(--q-dark-01);">{{ 'contact.form.eyebrow' | t }}</p>
+
+        {%- form 'contact', id: 'QireliaContactForm', style: 'display: flex; flex-direction: column; gap: 20px;' -%}
+          {%- if form.posted_successfully? -%}
+            <div class="q-status-banner q-status-banner--success" role="status">
+              {{ 'contact.form.success' | t }}
+            </div>
+          {%- elsif form.errors -%}
+            <div class="q-status-banner q-status-banner--error" role="alert">
+              {{ form.errors | default_errors }}
+            </div>
+          {%- endif -%}
+
+          <div class="q-field">
+            <label for="ContactName" class="q-mono-spec">{{ 'contact.form.name' | t }}</label>
+            <input
+              id="ContactName"
+              type="text"
+              name="contact[name]"
+              class="q-input"
+              value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+              placeholder="{{ 'contact.form.name_placeholder' | t }}"
+              required
+            >
+          </div>
+
+          <div class="q-field">
+            <label for="ContactEmail" class="q-mono-spec">{{ 'contact.form.email' | t }}</label>
+            <input
+              id="ContactEmail"
+              type="email"
+              name="contact[email]"
+              class="q-input"
+              value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+              placeholder="{{ 'contact.form.email_placeholder' | t }}"
+              autocomplete="email"
+              required
+            >
+          </div>
+
+          <div class="q-field">
+            <label for="ContactSubject" class="q-mono-spec">{{ 'contact.form.subject' | t }}</label>
+            <input
+              id="ContactSubject"
+              type="text"
+              name="contact[subject]"
+              class="q-input"
+              placeholder="{{ 'contact.form.subject_placeholder' | t }}"
+              required
+            >
+          </div>
+
+          <div class="q-field">
+            <label for="ContactOrderRef" class="q-mono-spec">{{ 'contact.form.order_ref' | t }}</label>
+            <input
+              id="ContactOrderRef"
+              type="text"
+              name="contact[order_reference]"
+              class="q-input"
+              placeholder="{{ 'contact.form.order_ref_placeholder' | t }}"
+            >
+          </div>
+
+          <div class="q-field">
+            <label for="ContactMessage" class="q-mono-spec">{{ 'contact.form.message' | t }}</label>
+            <textarea
+              id="ContactMessage"
+              name="contact[body]"
+              class="q-textarea"
+              placeholder="{{ 'contact.form.message_placeholder' | t }}"
+              required
+            >{% if form.body %}{{ form.body }}{% endif %}</textarea>
+          </div>
+
+          <button type="submit" class="q-btn q-btn--primary q-btn--full">
+            {{ 'contact.form.submit' | t }}
+          </button>
+        {%- endform -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Contact & Client Care",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "directory_item",
+      "name": "Directory Entry",
+      "settings": [
+        {
+          "type": "text",
+          "id": "eyebrow",
+          "label": "Eyebrow",
+          "default": "CLIENT & ORDER CARE"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Contact / Detail",
+          "default": "care@qirelia.com"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Olfactory note guidance, bottle selection, and assistance with active orders (please include your order reference)."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contact & Client Care",
+      "category": "Forms"
+    }
+  ]
+}
+{% endschema %}

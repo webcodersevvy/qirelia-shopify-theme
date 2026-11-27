@@ -1,0 +1,94 @@
+{
+  "sections": {
+    "header": {
+      "type": "page-header",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "show_hero_image": false,
+        "eyebrow": "COSMETIC, SAFETY & CONCEPT DISCLOSURE  ·  QIRÉLIA",
+        "heading": "DISCLAIMER",
+        "subtext": "Important disclosures regarding QIRÉLIA’s concept-house specifications, cosmetic allergen guidance, flammable liquid handling, and natural botanical variation.",
+        "show_bottom_divider": false
+      }
+    },
+    "main": {
+      "type": "principles-grid",
+      "blocks": {
+        "d1": {
+          "type": "principle-card",
+          "settings": {
+            "title": "01 / ALLERGENS & PATCH TESTING",
+            "body": "Fine fragrances combine natural botanical extracts and aroma-molecules that may contain declarable fragrance allergens (such as Limonene, Linalool, Coumarin, or Citral). Always review the complete printed INCI ingredient list on the rigid outer box and perform a small skin patch test prior to regular wear. Discontinue use immediately if irritation occurs.",
+            "color_scheme": "scheme-2"
+          }
+        },
+        "d2": {
+          "type": "principle-card",
+          "settings": {
+            "title": "02 / FLAMMABLE LIQUID SAFETY",
+            "body": "Eau de Parfum and Extrait de Parfum formulations are alcohol-based and flammable until completely dry on skin. Keep flacons away from open flames, lit candles, sparks, and high heat sources. For external cosmetic use only; avoid spraying near eyes, broken skin, or delicate untreated textiles.",
+            "color_scheme": "scheme-2"
+          }
+        },
+        "d3": {
+          "type": "principle-card",
+          "settings": {
+            "title": "03 / NATURAL BOTANICAL COLOUR VARIATION",
+            "body": "QIRÉLIA prohibits synthetic liquid dyes. Natural raw materials such as aged Florentine orris butter, Omani frankincense, cistus labdanum, and vanilla bean extract impart subtle tints ranging from pale silver-straw to deep warm amber, which may deepen slightly over time—this is natural and does not indicate spoilage.",
+            "color_scheme": "scheme-2"
+          }
+        },
+        "d4": {
+          "type": "principle-card",
+          "settings": {
+            "title": "04 / WEAR DURATION & SKIN CHEMISTRY",
+            "body": "Published wear windows (6–8 hours for 20% Eau de Parfum; 10–12+ hours for 30% Extrait de Parfum) and sillage descriptors are indicative sensory profiles only. Actual longevity and projection vary significantly based on individual skin pH, hydration, ambient climate, and application method.",
+            "color_scheme": "scheme-2"
+          }
+        },
+        "d5": {
+          "type": "principle-card",
+          "settings": {
+            "title": "05 / IMAGERY & PACKAGING REPRESENTATION",
+            "body": "Editorial still lifes, glass caustics, and bottle proportions displayed across the storefront represent artistic direction. Minor tolerances in flint glass weight, uncoated cotton stock grain, and liquid refraction may occur between batches.",
+            "color_scheme": "scheme-2"
+          }
+        },
+        "d6": {
+          "type": "principle-card",
+          "settings": {
+            "title": "06 / REGULATORY & CLIENT INQUIRIES",
+            "body": "Nothing on this website constitutes medical, dermatological, or legal advice. For ingredient clarifications, safety inquiries, or formal legal correspondence, please reach our Client Care desk directly via Contact & Guidance or review our Terms & Conditions.",
+            "color_scheme": "scheme-2"
+          }
+        }
+      },
+      "block_order": [
+        "d1",
+        "d2",
+        "d3",
+        "d4",
+        "d5",
+        "d6"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "show_top_divider": false,
+        "columns": "2",
+        "card_gap": "compact",
+        "padding_top": 16,
+        "padding_bottom": 96,
+        "notice_heading": "IMPORTANT NOTICE  ·  CONCEPT BRAND ARCHITECTURE & REGULATORY PREREQUISITES",
+        "notice_body": "QIRÉLIA is presented as a luxury concept fragrance house. All proposed concentrations (20% Eau de Parfum / 30% Extrait de Parfum), olfactory pyramids, pricing, and batch sizes represent concept specifications. Commercial physical release requires certified perfumer formulation, IFRA 51st Amendment certification, EU/UK Cosmetic Product Safety Reports (CPSR), US MoCRA listing, full verified INCI allergen labeling, and Nice Class 3 trademark clearance.",
+        "secondary_cta_label": "READ TERMS & CONDITIONS",
+        "secondary_cta_url": "shopify://pages/terms",
+        "primary_cta_label": "CONTACT CLIENT CARE",
+        "primary_cta_url": "shopify://pages/contact"
+      }
+    }
+  },
+  "order": [
+    "header",
+    "main"
+  ]
+}

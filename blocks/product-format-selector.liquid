@@ -1,0 +1,145 @@
+{%- liquid
+  assign target_product = block.settings.product | default: product
+  assign current_variant = target_product.selected_or_first_available_variant
+  assign guide_page = block.settings.guide_page | default: pages['format-guide'] | default: pages['format-care-guide']
+  assign guide_url = guide_page.url | default: routes.collections_url
+  assign add_label = 'products.product.add_to_bag' | t
+  assign sold_out_label = 'products.product.sold_out' | t
+  assign added_label = 'products.product.added_to_bag' | t
+  assign error_label = 'products.product.error_add' | t
+  assign form_id = 'QireliaProductForm-' | append: section.id | append: '-' | append: block.id
+  assign single_batch_stamp = target_product.metafields.qirelia.single_format_stamp.value
+-%}
+
+<qirelia-product-form
+  class="q-format-selector"
+  data-add-label="{{ add_label | escape }}"
+  data-sold-out-label="{{ sold_out_label | escape }}"
+  data-added-label="{{ added_label | escape }}"
+  data-error-label="{{ error_label | escape }}"
+  {{ block.shopify_attributes }}
+>
+  <script type="application/json" data-variants-json>
+    {{ target_product.variants | json }}
+  </script>
+
+  <div class="q-format-selector__header">
+    <span class="q-mono-spec">{{ 'products.product.select_format' | t }}</span>
+    <a href="{{ guide_url }}" class="q-mono-spec q-link-editorial">
+      {{ 'products.product.format_care_guide' | t }}
+    </a>
+  </div>
+
+  <div class="q-format-selector__grid" role="radiogroup" aria-label="{{ 'products.product.select_format' | t }}">
+    {%- if target_product.variants.size > 1 -%}
+      {%- for variant in target_product.variants -%}
+        {%- liquid
+          assign short_price = variant.price | money_without_trailing_zeros
+          assign full_price = short_price
+          if settings.show_currency_code
+            assign full_price = short_price | append: ' ' | append: cart.currency.iso_code
+          endif
+          assign variant_label = variant.title | upcase
+          assign cta_text = add_label | append: ' — ' | append: short_price
+        -%}
+        <button
+          type="button"
+          role="radio"
+          class="q-format-option q-tnum{% if variant.id == current_variant.id %} is-selected{% endif %}"
+          aria-checked="{% if variant.id == current_variant.id %}true{% else %}false{% endif %}"
+          data-variant-option
+          data-variant-id="{{ variant.id }}"
+          data-variant-price="{{ full_price | escape }}"
+          data-variant-short-price="{{ short_price | escape }}"
+          data-cta-label="{{ cta_text | escape }}"
+          {% unless variant.available %}disabled{% endunless %}
+        >
+          {{ variant_label }} · {{ short_price }}
+        </button>
+      {%- endfor -%}
+    {%- else -%}
+      {%- liquid
+        assign short_price = current_variant.price | money_without_trailing_zeros
+        assign only_label = '50 ML'
+        unless target_product.has_only_default_variant
+          assign only_label = current_variant.title | upcase
+        endunless
+      -%}
+      <button
+        type="button"
+        role="radio"
+        class="q-format-option q-tnum is-selected"
+        aria-checked="true"
+        data-variant-option
+        data-variant-id="{{ current_variant.id }}"
+      >
+        {{ only_label }} · {{ short_price }}
+      </button>
+      {%- if single_batch_stamp != blank -%}
+        <div class="q-format-option" style="cursor: default; color: var(--q-dark-03);">
+          {{ single_batch_stamp }}
+        </div>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+
+  {%- form 'product', target_product, id: form_id, novalidate: 'novalidate' -%}
+    <input type="hidden" name="id" value="{{ current_variant.id }}">
+    <button
+      type="submit"
+      name="add"
+      class="q-btn q-btn--primary q-btn--full q-tnum"
+      data-add-to-bag
+      {% unless current_variant.available %}disabled{% endunless %}
+    >
+      <span data-add-to-bag-label>
+        {%- if current_variant.available -%}
+          {{ add_label }} — {{ current_variant.price | money_without_trailing_zeros }}
+        {%- else -%}
+          {{ sold_out_label }}
+        {%- endif -%}
+      </span>
+    </button>
+
+    {%- if block.settings.show_dynamic_checkout -%}
+      <div style="margin-top: 10px;">
+        {{ form | payment_button }}
+      </div>
+    {%- endif -%}
+  {%- endform -%}
+
+  <p class="q-status-banner q-status-banner--error" data-form-error role="alert" hidden></p>
+</qirelia-product-form>
+
+{% schema %}
+{
+  "name": "Format Selector & Add",
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product"
+    },
+    {
+      "type": "page",
+      "id": "guide_page",
+      "label": "Format & Care Guide page"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dynamic_checkout",
+      "label": "Show dynamic checkout buttons",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "Format Selector & Add",
+      "category": "Product",
+      "settings": {
+        "product": "{{ closest.product }}"
+      }
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,90 @@
+{%- liquid
+  assign col_link = section.settings.button_link | default: collections['the-permanent-archive'].url | default: routes.collections_url
+  assign hero_alt = section.settings.image.alt | default: section.settings.heading
+-%}
+
+<section class="q-hero">
+  <div class="q-hero__media">
+    {% render 'media-image',
+      image: section.settings.image,
+      fallback_asset: 'qirelia-hero.jpg',
+      alt: hero_alt,
+      width: 1200,
+      height: 1799,
+      sizes: '100vw',
+      eager: true
+    %}
+  </div>
+
+  <div class="q-hero__bounds">
+    <div class="q-hero__card color-{{ section.settings.card_color_scheme }} q-color-scheme">
+      {%- if section.blocks.size > 0 -%}
+        {% content_for 'blocks' %}
+      {%- else -%}
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="q-mono-spec" style="margin: 0;">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h1 class="q-h1" style="white-space: pre-line;">{{ section.settings.heading }}</h1>
+        {%- endif -%}
+        {%- if section.settings.button_label != blank -%}
+          <a href="{{ col_link }}" class="q-btn q-btn--primary">
+            {{ section.settings.button_label }}
+          </a>
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Architectural Hero",
+  "blocks": [
+    { "type": "@theme" },
+    { "type": "@app" }
+  ],
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Hero background image"
+    },
+    {
+      "type": "color_scheme",
+      "id": "card_color_scheme",
+      "label": "Floating card color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "CONTEMPORARY FINE FRAGRANCE"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "PRESENCE, WITHOUT\nNOISE."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "EXPLORE THE ARCHIVE"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Architectural Hero",
+      "category": "Hero"
+    }
+  ]
+}
+{% endschema %}

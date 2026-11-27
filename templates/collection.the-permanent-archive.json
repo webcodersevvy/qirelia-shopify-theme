@@ -1,0 +1,46 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-collection",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "layout_mode": "editorial_2col",
+        "products_per_page": 12,
+        "eyebrow": "01 / CORE COLLECTION  ·  20% EAU DE PARFUM",
+        "fallback_description": "Four foundational compositions shaped by daylight clarity, restrained raw materials, and skin-close longevity. Designed as an enduring daily olfactory wardrobe.",
+        "spec_summary": "04 COMPOSITIONS  ·  50 ML & 100 ML",
+        "show_reserve_badge": false
+      }
+    },
+    "statement": {
+      "type": "editorial-statement",
+      "settings": {
+        "layout_variant": "centered",
+        "heading": "COMPOSED FOR DAILY PROXIMITY.",
+        "body": "An unhurried wardrobe edited down to four signatures—clear extra-flint glass, zero synthetic colourants, and calm evolution across the day.",
+        "show_top_divider": true,
+        "color_scheme": "scheme-1"
+      }
+    },
+    "related": {
+      "type": "editorial-split",
+      "settings": {
+        "fallback_asset": "qirelia-reserve-cover.jpg",
+        "media_scale": "sister",
+        "compact": true,
+        "eyebrow": "EXPLORE THE ARCHIVE",
+        "heading": "DISCOVER THE RESERVE EDITIONS",
+        "body": "Explore two high-concentration 30% Extrait de Parfum compositions devoted to raw Omani frankincense, smoked birch, and aged Florentine orris.",
+        "button_label": "EXPLORE COLLECTION",
+        "button_style": "secondary",
+        "show_top_divider": true,
+        "color_scheme": "scheme-2"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "statement",
+    "related"
+  ]
+}

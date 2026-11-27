@@ -1,0 +1,273 @@
+{%- liquid
+  assign is_shop_all = false
+  if section.settings.layout_mode == 'shop_3col' or collection.handle == 'all' and section.settings.layout_mode == 'auto'
+    assign is_shop_all = true
+  endif
+
+  assign is_reserve = false
+  if collection.handle contains 'reserve' or section.settings.show_reserve_badge
+    assign is_reserve = true
+  endif
+
+  assign archive_col = collections['the-permanent-archive']
+  assign reserve_col = collections['the-reserve-editions']
+  assign fragrances_label = 'general.breadcrumbs.fragrances' | t
+-%}
+
+<section class="color-{{ section.settings.color_scheme }} q-color-scheme">
+  {%- if is_shop_all -%}
+    <div class="q-shop-header-band">
+      <div class="q-container--rail q-shop-header__inner">
+        <div style="max-width: 720px; display: flex; flex-direction: column; gap: 12px;">
+          <p class="q-mono-spec" style="margin: 0;">
+            {{ section.settings.shop_eyebrow | default: 'COMPLETE OLFACTORY ARCHIVE  ·  06 COMPOSITIONS' }}
+          </p>
+          <h1 class="q-display-xl">
+            {%- if collection.handle == 'all' and section.settings.shop_title_override != blank -%}
+              {{ section.settings.shop_title_override }}
+            {%- else -%}
+              {{ collection.title | upcase }}
+            {%- endif -%}
+          </h1>
+          <p class="q-body-lg" style="margin: 0;">
+            {%- if collection.description != blank -%}
+              {{ collection.description | strip_html }}
+            {%- else -%}
+              {{ section.settings.shop_subtext }}
+            {%- endif -%}
+          </p>
+        </div>
+
+        <div class="q-shop-jump-links">
+          {%- if archive_col != blank -%}
+            <a href="{{ archive_col.url }}" class="q-mono-spec q-link-editorial">
+              PERMANENT ARCHIVE ({{ archive_col.products_count | prepend: '0' | slice: -2, 2 }})
+            </a>
+          {%- endif -%}
+          {%- if reserve_col != blank -%}
+            <a href="{{ reserve_col.url }}" class="q-mono-spec q-link-editorial">
+              RESERVE EDITIONS ({{ reserve_col.products_count | prepend: '0' | slice: -2, 2 }})
+            </a>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+
+    <div class="q-collection-catalogue-band">
+      <div class="q-container--rail">
+        {%- paginate collection.products by section.settings.products_per_page -%}
+          {%- if collection.products_count > 0 -%}
+            <div class="q-grid-3">
+              {%- for prod in collection.products -%}
+                {% render 'fragrance-card', product: prod, card_style: 'shop' %}
+              {%- endfor -%}
+            </div>
+          {%- else -%}
+            <div style="height: 120px; border: var(--q-hairline); display: flex; align-items: center; justify-content: center;">
+              <p class="q-mono-spec" style="margin: 0;">{{ 'collections.general.empty' | t }}</p>
+            </div>
+          {%- endif -%}
+
+          {%- if paginate.pages > 1 -%}
+            <nav class="q-adjacent__nav" style="margin-top: 56px; padding-top: 28px; border-top: var(--q-hairline);" aria-label="{{ 'general.pagination.label' | t }}">
+              <div>
+                {%- if paginate.previous -%}
+                  <a href="{{ paginate.previous.url }}" class="q-mono-spec q-link-editorial">{{ 'general.pagination.previous' | t }}</a>
+                {%- endif -%}
+              </div>
+              <span class="q-mono-spec">{{ paginate.current_page }} / {{ paginate.pages }}</span>
+              <div>
+                {%- if paginate.next -%}
+                  <a href="{{ paginate.next.url }}" class="q-mono-spec q-link-editorial">{{ 'general.pagination.next' | t }}</a>
+                {%- endif -%}
+              </div>
+            </nav>
+          {%- endif -%}
+        {%- endpaginate -%}
+      </div>
+    </div>
+  {%- else -%}
+    {%- liquid
+      assign col_hero = section.settings.campaign_image | default: collection.featured_image
+      assign fallback_hero = 'qirelia-archive-cover.jpg'
+      if is_reserve
+        assign fallback_hero = 'qirelia-reserve-cover.jpg'
+      endif
+    -%}
+    <div class="q-collection-hero-band">
+      <div class="q-container q-collection-hero-band__inner">
+        {% render 'breadcrumbs',
+          parent_label: fragrances_label,
+          parent_url: routes.collections_url,
+          current_label: collection.title
+        %}
+
+        <div class="q-collection-hero__media">
+          {% render 'media-image',
+            image: col_hero,
+            fallback_asset: fallback_hero,
+            alt: collection.title,
+            width: 1200,
+            height: 900,
+            sizes: '100vw',
+            eager: true
+          %}
+        </div>
+
+        <div class="q-campaign__details" style="margin-top: 0;">
+          <div class="q-campaign__copy">
+            {%- if section.settings.eyebrow != blank -%}
+              <p
+                class="q-mono-spec"
+                style="margin: 0;{% if is_reserve %} color: var(--q-neutral-03);{% endif %}"
+              >
+                {{ section.settings.eyebrow }}
+              </p>
+            {%- endif -%}
+            <h1 class="q-display-xl">{{ collection.title | upcase }}</h1>
+            {%- if collection.description != blank -%}
+              <div class="q-body-lg">{{ collection.description }}</div>
+            {%- elsif section.settings.fallback_description != blank -%}
+              <p class="q-body-lg" style="margin: 0;">{{ section.settings.fallback_description }}</p>
+            {%- endif -%}
+          </div>
+
+          <div class="q-campaign__action">
+            <span class="q-mono-spec" style="color: var(--q-dark-01);">
+              {%- if section.settings.spec_summary != blank -%}
+                {{ section.settings.spec_summary }}
+              {%- else -%}
+                {{ 'collections.general.compositions_count' | t: count: collection.products_count }}
+              {%- endif -%}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-collection-catalogue-band">
+      <div class="q-container">
+        {%- paginate collection.products by section.settings.products_per_page -%}
+          {%- if collection.products_count > 0 -%}
+            <div class="q-grid-2 q-grid-2--catalogue">
+              {%- for prod in collection.products -%}
+                {% render 'fragrance-card',
+                  product: prod,
+                  card_style: 'catalogue',
+                  show_reserve_badge: is_reserve,
+                  show_sensory_lead: true
+                %}
+              {%- endfor -%}
+            </div>
+          {%- else -%}
+            <div style="height: 120px; border: var(--q-hairline); display: flex; align-items: center; justify-content: center;">
+              <p class="q-mono-spec" style="margin: 0;">{{ 'collections.general.empty' | t }}</p>
+            </div>
+          {%- endif -%}
+
+          {%- if paginate.pages > 1 -%}
+            <nav class="q-adjacent__nav" style="margin-top: 56px; padding-top: 28px; border-top: var(--q-hairline);" aria-label="{{ 'general.pagination.label' | t }}">
+              <div>
+                {%- if paginate.previous -%}
+                  <a href="{{ paginate.previous.url }}" class="q-mono-spec q-link-editorial">{{ 'general.pagination.previous' | t }}</a>
+                {%- endif -%}
+              </div>
+              <span class="q-mono-spec">{{ paginate.current_page }} / {{ paginate.pages }}</span>
+              <div>
+                {%- if paginate.next -%}
+                  <a href="{{ paginate.next.url }}" class="q-mono-spec q-link-editorial">{{ 'general.pagination.next' | t }}</a>
+                {%- endif -%}
+              </div>
+            </nav>
+          {%- endif -%}
+        {%- endpaginate -%}
+      </div>
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Collection Catalogue",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "select",
+      "id": "layout_mode",
+      "label": "Layout mode",
+      "options": [
+        { "value": "auto", "label": "Automatic (3-col for All Products, 2-col Editorial for collections)" },
+        { "value": "editorial_2col", "label": "Editorial 2-column with hero" },
+        { "value": "shop_3col", "label": "Shop 3-column grid" }
+      ],
+      "default": "auto"
+    },
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "label": "Products per page",
+      "min": 6,
+      "max": 24,
+      "step": 6,
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Editorial collection hero (2-col mode)"
+    },
+    {
+      "type": "image_picker",
+      "id": "campaign_image",
+      "label": "Campaign hero override"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Collection eyebrow"
+    },
+    {
+      "type": "textarea",
+      "id": "fallback_description",
+      "label": "Fallback description (if collection description empty)"
+    },
+    {
+      "type": "text",
+      "id": "spec_summary",
+      "label": "Right spec label override"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_reserve_badge",
+      "label": "Always show Reserve Edition badges",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Shop All header (3-col mode)"
+    },
+    {
+      "type": "text",
+      "id": "shop_eyebrow",
+      "label": "Shop eyebrow",
+      "default": "COMPLETE OLFACTORY ARCHIVE  ·  06 COMPOSITIONS"
+    },
+    {
+      "type": "text",
+      "id": "shop_title_override",
+      "label": "Shop title override",
+      "default": "SHOP ALL FRAGRANCES"
+    },
+    {
+      "type": "textarea",
+      "id": "shop_subtext",
+      "label": "Shop subtitle",
+      "default": "Four permanent 20% Eau de Parfum signatures alongside two limited-batch 30% Extrait de Parfum Reserve releases."
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,104 @@
+{
+  "sections": {
+    "header": {
+      "type": "page-header",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "show_hero_image": false,
+        "eyebrow": "LEGAL & COMMERCIAL GOVERNANCE  ·  EFFECTIVE NOVEMBER 2026",
+        "heading": "TERMS & CONDITIONS",
+        "subtext": "These Terms & Conditions govern access to the QIRÉLIA digital flagship and all purchases of Eau de Parfum and Extrait de Parfum compositions.",
+        "show_bottom_divider": true
+      }
+    },
+    "main": {
+      "type": "legal-document",
+      "blocks": {
+        "c1": {
+          "type": "clause",
+          "settings": {
+            "index_label": "01 · House Identity & Scope",
+            "heading": "01 / HOUSE IDENTITY & SCOPE",
+            "body": "<p>By accessing or placing an order through the QIRÉLIA online flagship, you agree to be bound by these Terms & Conditions and all referenced policies. QIRÉLIA reserves the right to update these terms to reflect operational, legal, or carrier compliance changes.</p>"
+          }
+        },
+        "c2": {
+          "type": "clause",
+          "settings": {
+            "index_label": "02 · Archive & Reserve Limits",
+            "heading": "02 / CATALOGUE & RESERVE EDITION LIMITS",
+            "body": "<p>Core compositions in The Permanent Archive (20% Eau de Parfum) are offered in 50 ml and 100 ml formats subject to stock availability. Compositions in The Reserve Editions (30% Extrait de Parfum) are produced in strictly controlled batches (e.g., 50 numbered flacons) and may not be replenished once archived. Orders are confirmed only upon payment capture and stock verification; no overselling is permitted.</p>"
+          }
+        },
+        "c3": {
+          "type": "clause",
+          "settings": {
+            "index_label": "03 · Pricing & Settlement",
+            "heading": "03 / PRICING, CURRENCY & PAYMENTS",
+            "body": "<p>All prices are displayed in USD for Version 01 unless another Shopify Market currency is explicitly enabled. Payment processing is handled exclusively through Shopify’s PCI-DSS compliant Checkout. Applicable sales taxes, VAT/GST, or import duties are calculated at checkout or assessed by destination customs authorities.</p>"
+          }
+        },
+        "c4": {
+          "type": "clause",
+          "settings": {
+            "index_label": "04 · Class 3 Fragrance Shipping",
+            "heading": "04 / CLASS 3 FLAMMABLE LIQUID SHIPPING (UN1266)",
+            "body": "<p>Because fine perfumery contains denatured alcohol, shipments are regulated under Class 3 Limited Quantity dangerous-goods transport rules. Orders ship via approved ground or certified LQ couriers. Delivery to PO Boxes, APO/FPO military addresses, and restricted territories is not supported. Delivery estimates are carrier guidance rather than guarantees.</p>"
+          }
+        },
+        "c5": {
+          "type": "clause",
+          "settings": {
+            "index_label": "05 · Sealed Returns & Glass Care",
+            "heading": "05 / FACTORY-SEALED RETURNS & DAMAGED GLASS",
+            "body": "<p>For hygiene, safety, and quality integrity, change-of-mind returns are accepted exclusively on completely unopened flacons with their original factory cellophane tamper seal intact, subject to applicable statutory consumer withdrawal rights in your jurisdiction. If a flacon arrives broken or leaking, contact Client Care within 48 hours of delivery with photographs of both outer carton and bottle for immediate resolution—do not mail leaking glass.</p>"
+          }
+        },
+        "c6": {
+          "type": "clause",
+          "settings": {
+            "index_label": "06 · Intellectual Property",
+            "heading": "06 / INTELLECTUAL PROPERTY",
+            "body": "<p>All QIRÉLIA wordmarks, monograms, flacon industrial proportions, olfactory copy, still-life imagery, and design layouts remain the exclusive property of QIRÉLIA and may not be reproduced, scraped, or used commercially without prior written consent.</p>"
+          }
+        },
+        "c7": {
+          "type": "clause",
+          "settings": {
+            "index_label": "07 · Limitation of Liability",
+            "heading": "07 / LIMITATION OF LIABILITY",
+            "body": "<p>To the fullest extent permitted by applicable law, QIRÉLIA shall not be liable for indirect, incidental, or consequential damages arising from fragrance misuse, improper storage, carrier delays, or individual skin sensitivity. Nothing in these terms excludes statutory consumer rights that cannot lawfully be waived.</p>"
+          }
+        },
+        "c8": {
+          "type": "clause",
+          "settings": {
+            "index_label": "08 · Governing Law & Contact",
+            "heading": "08 / GOVERNING LAW & CLIENT CARE",
+            "body": "<p>Final commercial governing jurisdiction and registered corporate address will be published upon commercial entity activation. For questions regarding these terms, contact QIRÉLIA Client Care via /contact.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4",
+        "c5",
+        "c6",
+        "c7",
+        "c8"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "index_heading": "DOCUMENT INDEX",
+        "related_label": "READ FRAGRANCE DISCLAIMER →",
+        "related_page": "disclaimer"
+      }
+    }
+  },
+  "order": [
+    "header",
+    "main"
+  ]
+}

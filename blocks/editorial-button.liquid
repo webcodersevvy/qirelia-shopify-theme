@@ -1,0 +1,60 @@
+{%- liquid
+  assign btn_class = 'q-btn q-btn--primary'
+  if block.settings.variant == 'secondary'
+    assign btn_class = 'q-btn q-btn--secondary'
+  elsif block.settings.variant == 'editorial_link'
+    assign btn_class = 'q-ui-label q-link-editorial'
+  endif
+  if block.settings.full_width and block.settings.variant != 'editorial_link'
+    assign btn_class = btn_class | append: ' q-btn--full'
+  endif
+-%}
+<a
+  href="{{ block.settings.url | default: routes.collections_url }}"
+  class="{{ btn_class }}"
+  {{ block.shopify_attributes }}
+>
+  {{ block.settings.label }}
+</a>
+
+{% schema %}
+{
+  "name": "Editorial Button",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Label",
+      "default": "EXPLORE THE ARCHIVE"
+    },
+    {
+      "type": "url",
+      "id": "url",
+      "label": "Link"
+    },
+    {
+      "type": "select",
+      "id": "variant",
+      "label": "Style",
+      "options": [
+        { "value": "primary", "label": "Primary (Obsidian Ink)" },
+        { "value": "secondary", "label": "Secondary (Pure White Outline)" },
+        { "value": "editorial_link", "label": "Editorial Underline Link" }
+      ],
+      "default": "primary"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full width",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "Editorial Button",
+      "category": "Buttons"
+    }
+  ]
+}
+{% endschema %}

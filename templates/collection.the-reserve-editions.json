@@ -1,0 +1,46 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-collection",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "layout_mode": "editorial_2col",
+        "products_per_page": 12,
+        "eyebrow": "02 / LIMITED RELEASE  ·  30% EXTRAIT DE PARFUM",
+        "fallback_description": "High-concentration Extrait de Parfum releases exploring shadow, dense natural resins, and unhurried maceration. Bottled in subtly smoked 50 ml glass and issued in numbered batches of 50 flacons.",
+        "spec_summary": "02 COMPOSITIONS  ·  50 ML ONLY",
+        "show_reserve_badge": true
+      }
+    },
+    "statement": {
+      "type": "editorial-statement",
+      "settings": {
+        "layout_variant": "centered",
+        "heading": "SCARCITY THROUGH MACERATION.",
+        "body": "Reserve Editions are never rushed to meet seasonal calendars. Each 50-flacon release reflects extended oil maceration and individual batch numbering.",
+        "show_top_divider": true,
+        "color_scheme": "scheme-1"
+      }
+    },
+    "related": {
+      "type": "editorial-split",
+      "settings": {
+        "fallback_asset": "qirelia-silice-thumb.jpg",
+        "media_scale": "sister",
+        "compact": true,
+        "eyebrow": "EXPLORE THE ARCHIVE",
+        "heading": "DISCOVER THE PERMANENT ARCHIVE",
+        "body": "Return to our four foundational 20% Eau de Parfum compositions exploring cool limestone, crushed fig leaf, Japanese hinoki, and green cardamom.",
+        "button_label": "EXPLORE COLLECTION",
+        "button_style": "secondary",
+        "show_top_divider": true,
+        "color_scheme": "scheme-2"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "statement",
+    "related"
+  ]
+}

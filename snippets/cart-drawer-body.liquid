@@ -1,0 +1,153 @@
+{% doc %}
+  Renders the Minimalist Bag Drawer inner content (empty state with curated signatures, or live items).
+
+  @param {object} [curated_collection_primary] - Optional collection for curated link 1
+  @param {object} [curated_collection_secondary] - Optional collection for curated link 2
+  @param {object} [guide_page] - Optional format guide page
+{% enddoc %}
+{%- liquid
+  assign archive_url = curated_collection_primary.url | default: routes.collections_url
+  assign reserve_url = curated_collection_secondary.url | default: routes.collections_url
+  assign guide_url = guide_page.url | default: routes.all_products_collection_url
+-%}
+<div class="q-container--rail">
+  {%- if cart.item_count == 0 -%}
+    <div class="q-bag-drawer__inner">
+      <div class="q-bag-drawer__empty">
+        <p class="q-mono-spec" style="margin: 0;">
+          {{ 'cart.drawer.count_label' | t: count: cart.item_count }}
+        </p>
+        <p class="q-bag-drawer__italic-heading">{{ 'cart.drawer.empty_heading' | t }}</p>
+        <p class="q-body-sm" style="margin: 0; color: var(--q-dark-03);">
+          {{ 'cart.drawer.empty_copy' | t }}
+        </p>
+        <a href="{{ routes.all_products_collection_url }}" class="q-btn q-btn--primary">
+          {{ 'cart.drawer.empty_cta' | t }}
+        </a>
+        <a href="{{ routes.cart_url }}" class="q-mono-spec q-link-editorial">
+          {{ 'cart.drawer.open_full_bag' | t }}
+        </a>
+      </div>
+
+      <div class="q-bag-drawer__curated">
+        <div class="q-bag-drawer__curated-head">
+          <span class="q-mono-spec" style="color: var(--q-dark-01);">{{ 'cart.drawer.curated_heading' | t }}</span>
+          <button type="button" class="q-bag-drawer__close" data-close-drawers>
+            {{ 'cart.drawer.close' | t }}
+          </button>
+        </div>
+        <hr class="q-hairline">
+        <a href="{{ archive_url }}" class="q-bag-drawer__curated-row">
+          <span class="q-body-sm q-link-nav" style="text-transform: none; letter-spacing: 0.01em;">
+            SILICE · 20% Eau de Parfum
+          </span>
+          <span class="q-mono-spec" style="color: var(--q-dark-01);">$195</span>
+        </a>
+        <a href="{{ reserve_url }}" class="q-bag-drawer__curated-row">
+          <span class="q-body-sm q-link-nav" style="text-transform: none; letter-spacing: 0.01em;">
+            NO. 01 OLIBAN · 30% Extrait Reserve
+          </span>
+          <span class="q-mono-spec" style="color: var(--q-dark-01);">$310</span>
+        </a>
+        <a href="{{ guide_url }}" class="q-bag-drawer__curated-row">
+          <span class="q-body-sm q-link-nav" style="text-transform: none; letter-spacing: 0.01em;">
+            Format &amp; Class 3 Shipping Guide
+          </span>
+          <span class="q-mono-spec" style="color: var(--q-dark-01);">{{ 'cart.drawer.view_link' | t }}</span>
+        </a>
+      </div>
+    </div>
+  {%- else -%}
+    <qirelia-cart class="q-bag-drawer__inner" data-section-id="cart-drawer">
+      <div class="q-bag-drawer__items">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
+          <p class="q-mono-spec" style="margin: 0;">
+            {{ 'cart.drawer.count_label' | t: count: cart.item_count }}
+          </p>
+          <a href="{{ routes.cart_url }}" class="q-mono-spec q-link-editorial">
+            {{ 'cart.drawer.open_full_bag' | t }}
+          </a>
+        </div>
+        {%- for item in cart.items -%}
+          <div class="q-bag-drawer__item">
+            <a href="{{ item.url }}" class="q-bag-drawer__thumb">
+              {% render 'media-image', image: item.image, alt: item.title, sizes: '80px' %}
+            </a>
+            <div style="display: flex; flex-direction: column; gap: 6px; min-width: 0;">
+              <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;">
+                <a href="{{ item.url }}" class="q-card__title" style="font-size: 18px; text-decoration: none;">
+                  {{ item.product.title }}
+                </a>
+                <span class="q-body-sm q-tnum" style="color: var(--q-dark-01); font-weight: 500;">
+                  {{ item.final_line_price | money_without_trailing_zeros }}
+                </span>
+              </div>
+              {%- unless item.product.has_only_default_variant -%}
+                <p class="q-mono-spec" style="margin: 0; color: var(--q-dark-03);">
+                  {{ item.variant.title }}
+                </p>
+              {%- endunless -%}
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 6px;">
+                <div class="q-qty">
+                  <button
+                    type="button"
+                    class="q-qty__btn"
+                    data-qty-dec
+                    data-line-key="{{ item.key }}"
+                    data-qty="{{ item.quantity }}"
+                    aria-label="{{ 'cart.page.decrease_quantity' | t: title: item.product.title }}"
+                  >−</button>
+                  <span class="q-qty__input" style="display: inline-flex; align-items: center; justify-content: center;">
+                    {{ item.quantity }}
+                  </span>
+                  <button
+                    type="button"
+                    class="q-qty__btn"
+                    data-qty-inc
+                    data-line-key="{{ item.key }}"
+                    data-qty="{{ item.quantity }}"
+                    aria-label="{{ 'cart.page.increase_quantity' | t: title: item.product.title }}"
+                  >+</button>
+                </div>
+                <button
+                  type="button"
+                  class="q-mono-spec q-bag-drawer__close"
+                  data-qty-remove
+                  data-line-key="{{ item.key }}"
+                >
+                  {{ 'cart.page.remove' | t }}
+                </button>
+              </div>
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+
+      <div class="q-bag-drawer__curated">
+        <div class="q-bag-drawer__curated-head">
+          <span class="q-mono-spec" style="color: var(--q-dark-01);">{{ 'cart.page.summary_heading' | t }}</span>
+          <button type="button" class="q-bag-drawer__close" data-close-drawers>
+            {{ 'cart.drawer.close' | t }}
+          </button>
+        </div>
+        <hr class="q-hairline">
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+          <span class="q-mono-spec">{{ 'cart.drawer.subtotal_label' | t }}</span>
+          <span class="q-h3 q-tnum" style="font-size: 24px;">
+            {{ cart.total_price | money_without_trailing_zeros }}
+            {% if settings.show_currency_code %}{{ cart.currency.iso_code }}{% endif %}
+          </span>
+        </div>
+        <p class="q-body-sm" style="margin: 0;">{{ 'cart.page.policy_note' | t }}</p>
+        <form action="{{ routes.cart_url }}" method="post">
+          <button type="submit" name="checkout" class="q-btn q-btn--primary q-btn--full">
+            {{ 'cart.drawer.checkout_cta' | t }}
+          </button>
+        </form>
+        <a href="{{ routes.cart_url }}" class="q-btn q-btn--secondary q-btn--full">
+          {{ 'cart.drawer.open_full_bag' | t }}
+        </a>
+      </div>
+    </qirelia-cart>
+  {%- endif -%}
+</div>

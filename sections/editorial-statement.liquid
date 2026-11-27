@@ -1,0 +1,121 @@
+{%- liquid
+  assign band_class = 'q-statement-band color-' | append: section.settings.color_scheme | append: ' q-color-scheme'
+  if section.settings.show_top_divider
+    assign band_class = band_class | append: ' q-section--divided'
+  endif
+  assign link_target = section.settings.link_url | default: pages['about'].url | default: pages['the-house'].url | default: routes.collections_url
+-%}
+
+<section class="{{ band_class }}">
+  <div class="q-container">
+    {%- if section.settings.layout_variant == 'centered' -%}
+      <div class="q-statement-center">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="q-h2" style="max-width: 720px; white-space: pre-line;">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+        {%- if section.settings.body != blank -%}
+          <p class="q-body-lg" style="margin: 0; max-width: 600px;">{{ section.settings.body }}</p>
+        {%- endif -%}
+      </div>
+    {%- else -%}
+      <div class="q-statement-split">
+        <div class="q-statement-split__label">
+          <p class="q-mono-spec" style="margin: 0; color: var(--q-dark-01);">
+            {{ section.settings.eyebrow }}
+          </p>
+        </div>
+
+        <div class="q-statement-split__body">
+          {%- if section.settings.heading != blank -%}
+            <h2 class="q-h1" style="white-space: pre-line;">{{ section.settings.heading }}</h2>
+          {%- endif -%}
+          {%- if section.settings.body != blank -%}
+            <p class="q-body-lg" style="margin: 0; max-width: 620px;">{{ section.settings.body }}</p>
+          {%- endif -%}
+          {%- if section.settings.extra_body != blank -%}
+            <p class="q-body" style="margin: 0; max-width: 620px;">{{ section.settings.extra_body }}</p>
+          {%- endif -%}
+          {%- if section.settings.link_label != blank -%}
+            <a href="{{ link_target }}" class="q-ui-label q-link-editorial">
+              {{ section.settings.link_label }}
+            </a>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Editorial Statement",
+  "settings": [
+    {
+      "type": "select",
+      "id": "layout_variant",
+      "label": "Layout style",
+      "options": [
+        { "value": "split", "label": "Left label / right statement" },
+        { "value": "centered", "label": "Centered statement" }
+      ],
+      "default": "split"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Left label",
+      "default": "THE QIRÉLIA PERSPECTIVE",
+      "visible_if": "{{ section.settings.layout_variant == 'split' }}"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "SCENT, ARCHITECTED."
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Lead paragraph",
+      "default": "We approach perfumery through structure, negative space, and material restraint. Each composition edits raw botanicals, woods, and mineral musks down to their clearest form—designed to live close to the skin."
+    },
+    {
+      "type": "textarea",
+      "id": "extra_body",
+      "label": "Secondary paragraph (optional)",
+      "visible_if": "{{ section.settings.layout_variant == 'split' }}"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "Link label",
+      "default": "DISCOVER THE HOUSE →",
+      "visible_if": "{{ section.settings.layout_variant == 'split' }}"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Link destination",
+      "visible_if": "{{ section.settings.layout_variant == 'split' }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_top_divider",
+      "label": "Show 1px top hairline divider",
+      "default": true
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Editorial Statement",
+      "category": "Editorial"
+    }
+  ]
+}
+{% endschema %}

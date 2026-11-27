@@ -1,0 +1,62 @@
+{% doc %}
+  Renders font declarations, design token overrides, and color scheme CSS custom properties.
+{% enddoc %}
+{%- liquid
+  assign font_display = settings.font_display
+  assign font_display_italic = font_display | font_modify: 'style', 'italic'
+  assign font_body = settings.font_body
+  assign font_mono = settings.font_mono
+  assign font_mono_medium = font_mono | font_modify: 'weight', '500'
+-%}
+<style>
+  {% if settings.use_satoshi_body %}
+    @font-face {
+      font-family: 'Satoshi';
+      src: url('{{ 'satoshi-regular.woff2' | asset_url }}') format('woff2');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Satoshi';
+      src: url('{{ 'satoshi-medium.woff2' | asset_url }}') format('woff2');
+      font-weight: 500;
+      font-style: normal;
+      font-display: swap;
+    }
+  {% endif %}
+
+  {{ font_display | font_face: font_display: 'swap' }}
+  {% if font_display_italic %}
+    {{ font_display_italic | font_face: font_display: 'swap' }}
+  {% endif %}
+  {{ font_body | font_face: font_display: 'swap' }}
+  {{ font_mono | font_face: font_display: 'swap' }}
+  {% if font_mono_medium %}
+    {{ font_mono_medium | font_face: font_display: 'swap' }}
+  {% endif %}
+
+  :root {
+    --q-font-display: {{ font_display.family }}, {{ font_display.fallback_families }};
+    {% if settings.use_satoshi_body %}
+      --q-font-body: "Satoshi", {{ font_body.family }}, {{ font_body.fallback_families }};
+    {% else %}
+      --q-font-body: {{ font_body.family }}, {{ font_body.fallback_families }};
+    {% endif %}
+    --q-font-mono: {{ font_mono.family }}, {{ font_mono.fallback_families }};
+    --q-container-max: {{ settings.container_max_width | default: 1344 }}px;
+  }
+
+  {% for scheme in settings.color_schemes %}
+    .color-{{ scheme.id }} {
+      --q-bg: {{ scheme.settings.background }};
+      --q-surface: {{ scheme.settings.surface }};
+      --q-ink: {{ scheme.settings.text }};
+      --q-muted: {{ scheme.settings.text_muted }};
+      --q-border: {{ scheme.settings.border }};
+      --q-btn-bg: {{ scheme.settings.button_bg }};
+      --q-btn-ink: {{ scheme.settings.button_text }};
+      --q-accent: {{ scheme.settings.accent }};
+    }
+  {% endfor %}
+</style>

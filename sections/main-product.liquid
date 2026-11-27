@@ -1,0 +1,126 @@
+{%- liquid
+  assign parent_col = collection | default: product.collections.first
+  assign parent_label = 'general.breadcrumbs.archive' | t
+  assign parent_url = parent_col.url | default: routes.collections_url
+
+  assign primary_media = product.featured_media | default: product.media[0]
+  assign second_media = product.media[1]
+  assign third_media = product.media[2]
+
+  assign nav_collection = collection | default: collections['all']
+  assign prev_prod = nav_collection.previous_product
+  assign next_prod = nav_collection.next_product
+  if prev_prod == blank and next_prod == blank and nav_collection.products.size > 1
+    for p in nav_collection.products
+      if p.id == product.id
+        assign prev_idx = forloop.index0 | minus: 1
+        assign next_idx = forloop.index0 | plus: 1
+        if prev_idx >= 0
+          assign prev_prod = nav_collection.products[prev_idx]
+        endif
+        if next_idx < nav_collection.products.size
+          assign next_prod = nav_collection.products[next_idx]
+        endif
+      endif
+    endfor
+  endif
+-%}
+
+<section class="color-{{ section.settings.color_scheme }} q-color-scheme">
+  <div class="q-pdp-band">
+    <div class="q-container q-pdp__container">
+      {% render 'breadcrumbs',
+        parent_label: parent_label,
+        parent_url: parent_url,
+        current_label: product.title
+      %}
+
+      <div class="q-pdp__split">
+        <div class="q-pdp__gallery">
+          <div class="q-pdp__still">
+            {%- assign primary_alt = primary_media.alt | default: product.title -%}
+            {% render 'media-image',
+              image: primary_media,
+              alt: primary_alt,
+              sizes: '(max-width: 809px) 100vw, 55vw',
+              eager: true
+            %}
+          </div>
+
+          {%- if second_media != blank or third_media != blank -%}
+            <div class="q-pdp__pair">
+              {%- if second_media != blank -%}
+                <div class="q-pdp__pair-item">
+                  {%- assign second_alt = second_media.alt | default: product.title -%}
+                  {% render 'media-image',
+                    image: second_media,
+                    alt: second_alt,
+                    sizes: '(max-width: 809px) 50vw, 28vw'
+                  %}
+                </div>
+              {%- endif -%}
+              {%- if third_media != blank -%}
+                <div class="q-pdp__pair-item">
+                  {%- assign third_alt = third_media.alt | default: product.title -%}
+                  {% render 'media-image',
+                    image: third_media,
+                    alt: third_alt,
+                    sizes: '(max-width: 809px) 50vw, 28vw'
+                  %}
+                </div>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        </div>
+
+        <div class="q-pdp__panel">
+          {% content_for 'blocks' %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-adjacent-band">
+    <div class="q-container">
+      <nav class="q-adjacent__nav" aria-label="Adjacent compositions">
+        <div>
+          {%- if prev_prod != blank -%}
+            <a href="{{ prev_prod.url }}" class="q-mono-spec q-link-editorial">
+              {{ 'products.product.prev_composition' | t: title: prev_prod.title }}
+            </a>
+          {%- endif -%}
+        </div>
+
+        <a href="{{ routes.collections_url }}" class="q-mono-spec q-link-footer">
+          {{ 'products.product.view_all_compositions' | t }}
+        </a>
+
+        <div>
+          {%- if next_prod != blank -%}
+            <a href="{{ next_prod.url }}" class="q-mono-spec q-link-editorial">
+              {{ 'products.product.next_composition' | t: title: next_prod.title }}
+            </a>
+          {%- endif -%}
+        </div>
+      </nav>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Fragrance Detail",
+  "blocks": [
+    { "type": "@theme" },
+    { "type": "@app" }
+  ],
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    }
+  ]
+}
+{% endschema %}

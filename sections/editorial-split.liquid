@@ -1,0 +1,175 @@
+{%- liquid
+  assign band_class = 'q-editorial-split-band color-' | append: section.settings.color_scheme | append: ' q-color-scheme'
+  if section.settings.compact
+    assign band_class = band_class | append: ' q-editorial-split-band--compact'
+  endif
+  if section.settings.show_top_divider
+    assign band_class = band_class | append: ' q-section--divided'
+  endif
+
+  assign split_class = 'q-editorial-split'
+  if section.settings.media_scale == 'sister'
+    assign split_class = split_class | append: ' q-editorial-split--gap-48'
+  endif
+
+  assign media_class = 'q-editorial-split__media'
+  if section.settings.media_scale == 'craft'
+    assign media_class = media_class | append: ' q-editorial-split__media--48'
+  elsif section.settings.media_scale == 'sister'
+    assign media_class = media_class | append: ' q-editorial-split__media--sister'
+  endif
+
+  assign fallback_file = section.settings.fallback_asset | default: 'qirelia-still-life.jpg'
+  assign btn_class = 'q-btn q-btn--secondary'
+  if section.settings.button_style == 'primary'
+    assign btn_class = 'q-btn q-btn--primary'
+  endif
+  assign btn_target = section.settings.button_link | default: pages['about'].url | default: routes.collections_url
+-%}
+
+<section class="{{ band_class }}">
+  <div class="q-container">
+    <div class="{{ split_class }}">
+      <div class="{{ media_class }}">
+        {%- assign media_alt = section.settings.image.alt | default: section.settings.heading -%}
+        {% render 'media-image',
+          image: section.settings.image,
+          fallback_asset: fallback_file,
+          alt: media_alt,
+          width: 1200,
+          height: 900,
+          sizes: '(max-width: 1023px) 100vw, 54vw'
+        %}
+      </div>
+
+      <div class="q-editorial-split__copy">
+        {%- if section.blocks.size > 0 -%}
+          {% content_for 'blocks' %}
+        {%- else -%}
+          {%- if section.settings.eyebrow != blank -%}
+            <p class="q-mono-spec" style="margin: 0;">{{ section.settings.eyebrow }}</p>
+          {%- endif -%}
+          {%- if section.settings.heading != blank -%}
+            <h2 class="q-h2" style="white-space: pre-line;">{{ section.settings.heading }}</h2>
+          {%- endif -%}
+          {%- if section.settings.body != blank -%}
+            <p
+              class="{% if section.settings.media_scale == 'sister' %}q-body{% else %}q-body-lg{% endif %}"
+              style="margin: 0;{% if section.settings.media_scale == 'sister' %} max-width: 520px;{% endif %}"
+            >
+              {{ section.settings.body }}
+            </p>
+          {%- endif -%}
+          {%- if section.settings.button_label != blank -%}
+            <a href="{{ btn_target }}" class="{{ btn_class }}">
+              {{ section.settings.button_label }}
+            </a>
+          {%- endif -%}
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Editorial Media Split",
+  "blocks": [
+    { "type": "@theme" },
+    { "type": "@app" }
+  ],
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "select",
+      "id": "fallback_asset",
+      "label": "Default editorial asset (when image unset)",
+      "options": [
+        { "value": "qirelia-still-life.jpg", "label": "Limestone Flacon Still Life" },
+        { "value": "qirelia-flacon-craft.jpg", "label": "Luminous Stillness Study" },
+        { "value": "qirelia-reserve-cover.jpg", "label": "Reserve Editions Study" },
+        { "value": "qirelia-silice-thumb.jpg", "label": "Permanent Archive Study" }
+      ],
+      "default": "qirelia-still-life.jpg"
+    },
+    {
+      "type": "select",
+      "id": "media_scale",
+      "label": "Media proportion",
+      "options": [
+        { "value": "restraint", "label": "Wide 54% × 500px (Home Editorial)" },
+        { "value": "craft", "label": "Balanced 48% × 520px (House Craft)" },
+        { "value": "sister", "label": "Compact 360px × 320px (Cross-Collection)" }
+      ],
+      "default": "restraint"
+    },
+    {
+      "type": "checkbox",
+      "id": "compact",
+      "label": "Compact vertical padding",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "OLFACTORY RESTRAINT"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "FEWER NOTES.\nDEEPER CLARITY."
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Copy",
+      "default": "Complexity lives in the space between ingredients. Zero synthetic colourants, zero ornamental sweetness—only transparent structure and enduring wear."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "READ THE HOUSE MANIFESTO"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Button style",
+      "options": [
+        { "value": "secondary", "label": "Secondary (Outline)" },
+        { "value": "primary", "label": "Primary (Obsidian Ink)" }
+      ],
+      "default": "secondary"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_top_divider",
+      "label": "Show 1px top hairline divider",
+      "default": true
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Editorial Media Split",
+      "category": "Editorial"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,29 @@
+<section class="color-{{ section.settings.color_scheme }} q-color-scheme q-section" style="padding-top: clamp(72px, 8vw, 112px); padding-bottom: clamp(88px, 9vw, 128px);">
+  <div class="q-container" style="max-width: 680px; margin-inline: auto; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 20px;">
+    <p class="q-mono-spec" style="margin: 0; color: var(--q-neutral-03);">{{ 'general.404.eyebrow' | t }}</p>
+    <h1 class="q-display-xl">{{ 'general.404.title' | t }}</h1>
+    <p class="q-body-lg" style="margin: 0; max-width: 500px;">{{ 'general.404.subtext' | t }}</p>
+    <div style="margin-top: 12px; display: flex; flex-wrap: wrap; justify-content: center; gap: 14px;">
+      <a href="{{ routes.collections_url }}" class="q-btn q-btn--primary">
+        {{ 'general.404.cta' | t }}
+      </a>
+      <a href="{{ routes.root_url }}" class="q-btn q-btn--secondary">
+        {{ 'general.breadcrumbs.home' | t }}
+      </a>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "404 Not Found",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    }
+  ]
+}
+{% endschema %}

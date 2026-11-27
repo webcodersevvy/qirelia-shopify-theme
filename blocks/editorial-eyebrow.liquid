@@ -1,0 +1,34 @@
+<p class="q-mono-spec" style="margin: 0; color: {{ block.settings.color }};" {{ block.shopify_attributes }}>
+  {{ block.settings.text }}
+</p>
+
+{% schema %}
+{
+  "name": "Editorial Eyebrow",
+  "settings": [
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Eyebrow text",
+      "default": "CONTEMPORARY FINE FRAGRANCE"
+    },
+    {
+      "type": "select",
+      "id": "color",
+      "label": "Text color",
+      "options": [
+        { "value": "var(--q-dark-04)", "label": "Warm Slate" },
+        { "value": "var(--q-dark-01)", "label": "Obsidian Ink" },
+        { "value": "var(--q-neutral-03)", "label": "Smoked Umber" }
+      ],
+      "default": "var(--q-dark-04)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Editorial Eyebrow",
+      "category": "Typography"
+    }
+  ]
+}
+{% endschema %}

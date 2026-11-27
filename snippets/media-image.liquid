@@ -1,0 +1,49 @@
+{% doc %}
+  Renders a responsive Shopify image, bundled fallback asset image, or SVG placeholder.
+
+  @param {object} [image] - Shopify image or media object
+  @param {string} [fallback_asset] - Asset filename in assets/ used when image is blank
+  @param {string} [alt] - Alternative text for the image
+  @param {number} [width] - Intrinsic fallback width
+  @param {number} [height] - Intrinsic fallback height
+  @param {string} [sizes] - Responsive sizes attribute
+  @param {boolean} [eager] - Set true for above-the-fold LCP images
+  @param {string} [class_name] - Optional CSS class for the img element
+{% enddoc %}
+{%- liquid
+  assign img_alt = alt | default: image.alt | default: shop.name
+  assign loading_mode = 'lazy'
+  assign fetch_priority = 'auto'
+  if eager
+    assign loading_mode = 'eager'
+    assign fetch_priority = 'high'
+  endif
+  assign img_sizes = sizes | default: '100vw'
+  assign fallback_w = width | default: 1200
+  assign fallback_h = height | default: 1500
+-%}
+{%- if image != blank -%}
+  {{
+    image
+    | image_url: width: 1600
+    | image_tag:
+      widths: '400, 600, 800, 1200, 1600',
+      sizes: img_sizes,
+      alt: img_alt,
+      loading: loading_mode,
+      fetchpriority: fetch_priority,
+      class: class_name
+  }}
+{%- elsif fallback_asset != blank -%}
+  <img
+    src="{{ fallback_asset | asset_url }}"
+    alt="{{ img_alt | escape }}"
+    width="{{ fallback_w }}"
+    height="{{ fallback_h }}"
+    loading="{{ loading_mode }}"
+    {% if eager %}fetchpriority="high"{% endif %}
+    {% if class_name != blank %}class="{{ class_name }}"{% endif %}
+  >
+{%- else -%}
+  {{ 'image' | placeholder_svg_tag: class_name }}
+{%- endif -%}
