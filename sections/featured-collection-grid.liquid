@@ -1,6 +1,27 @@
 {%- liquid
   assign target_col = section.settings.collection
   assign heading_url = target_col.url | default: routes.collections_url
+  assign heading_text = section.settings.title
+  if heading_text == blank and target_col != blank
+    assign prefix_num = target_col.metafields.qirelia.index_number.value
+    if prefix_num != blank
+      assign heading_text = prefix_num | append: ' / ' | append: target_col.title | upcase
+    else
+      assign heading_text = target_col.title | upcase
+    endif
+  endif
+
+  assign dynamic_spec = section.settings.meta
+  if target_col != blank
+    assign count_padded = target_col.products_count | prepend: '0' | slice: -2, 2
+    assign col_spec_suffix = target_col.metafields.qirelia.short_spec.value
+    if col_spec_suffix != blank
+      assign dynamic_spec = count_padded | append: ' COMPOSITIONS  ·  ' | append: col_spec_suffix
+    elsif dynamic_spec == blank
+      assign dynamic_spec = 'collections.general.compositions_count' | t: count: count_padded
+    endif
+  endif
+
   assign band_class = 'q-collection-band'
   if section.settings.is_reserve_band
     assign band_class = band_class | append: ' q-collection-band--reserve'
@@ -14,14 +35,16 @@
   <div class="q-container">
     <div class="q-band-head">
       <a href="{{ heading_url }}" class="q-mono-spec q-link-editorial" style="color: var(--q-dark-01);">
-        {{ section.settings.title }}
+        {{ heading_text }}
       </a>
-      <span
-        class="q-mono-spec"
-        style="{% if section.settings.is_reserve_band %}color: var(--q-neutral-03);{% endif %}"
-      >
-        {{ section.settings.meta }}
-      </span>
+      {%- if dynamic_spec != blank -%}
+        <span
+          class="q-mono-spec"
+          style="{% if section.settings.is_reserve_band %}color: var(--q-neutral-03);{% endif %}"
+        >
+          {{ dynamic_spec }}
+        </span>
+      {%- endif -%}
     </div>
 
     {%- if target_col != blank and target_col.products_count > 0 -%}
@@ -34,49 +57,9 @@
           %}
         {%- endfor -%}
       </div>
-    {%- elsif section.settings.show_empty_state -%}
-      <div
-        style="height: 120px; border: var(--q-hairline); display: flex; align-items: center; justify-content: center;"
-      >
-        <p class="q-mono-spec" style="margin: 0;">{{ 'collections.general.empty' | t }}</p>
-      </div>
     {%- else -%}
-      <div class="q-grid-2">
-        {%- if section.settings.is_reserve_band -%}
-          {% render 'fragrance-card',
-            card_style: 'home',
-            show_reserve_badge: true,
-            placeholder_title: 'NO. 01 OLIBAN',
-            placeholder_price: '$310',
-            placeholder_meta: 'WOODY & RESINOUS  ·  50 ML ONLY',
-            placeholder_badge: 'RESERVE EDITION 01 / 2026  ·  50 NUMBERED FLACONS',
-            placeholder_asset: 'qirelia-reserve-cover.jpg'
-          %}
-          {% render 'fragrance-card',
-            card_style: 'home',
-            show_reserve_badge: true,
-            placeholder_title: 'NO. 02 ORRIS',
-            placeholder_price: '$325',
-            placeholder_meta: 'SPICED AMBER & ROOT  ·  50 ML ONLY',
-            placeholder_badge: 'RESERVE EDITION 02 / 2026  ·  50 NUMBERED FLACONS',
-            placeholder_asset: 'qirelia-flacon-craft.jpg'
-          %}
-        {%- else -%}
-          {% render 'fragrance-card',
-            card_style: 'home',
-            placeholder_title: 'SILICE',
-            placeholder_price: '$195',
-            placeholder_meta: 'MINERAL & FLORAL  ·  50 / 100 ML',
-            placeholder_asset: 'qirelia-silice-thumb.jpg'
-          %}
-          {% render 'fragrance-card',
-            card_style: 'home',
-            placeholder_title: 'VÉRIDE',
-            placeholder_price: '$195',
-            placeholder_meta: 'GREEN & BOTANICAL  ·  50 / 100 ML',
-            placeholder_asset: 'qirelia-still-life.jpg'
-          %}
-        {%- endif -%}
+      <div style="height: 120px; border: var(--q-hairline); display: flex; align-items: center; justify-content: center;">
+        <p class="q-mono-spec" style="margin: 0;">{{ 'collections.general.empty' | t }}</p>
       </div>
     {%- endif -%}
   </div>
@@ -94,14 +77,12 @@
     {
       "type": "text",
       "id": "title",
-      "label": "Left heading",
-      "default": "01 / THE PERMANENT ARCHIVE"
+      "label": "Left heading override (uses collection title if blank)"
     },
     {
       "type": "text",
       "id": "meta",
-      "label": "Right spec label",
-      "default": "04 COMPOSITIONS  ·  20% EDP"
+      "label": "Right spec label fallback (uses live count & collection metafield)"
     },
     {
       "type": "range",
@@ -128,12 +109,6 @@
       "type": "checkbox",
       "id": "show_top_divider",
       "label": "Show 1px top hairline divider",
-      "default": false
-    },
-    {
-      "type": "checkbox",
-      "id": "show_empty_state",
-      "label": "Show empty notice instead of preview cards when unset",
       "default": false
     },
     {

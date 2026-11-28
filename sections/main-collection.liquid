@@ -12,6 +12,7 @@
   assign archive_col = collections['the-permanent-archive']
   assign reserve_col = collections['the-reserve-editions']
   assign fragrances_label = 'general.breadcrumbs.fragrances' | t
+  assign count_padded = collection.products_count | prepend: '0' | slice: -2, 2
 -%}
 
 <section class="color-{{ section.settings.color_scheme }} q-color-scheme">
@@ -20,7 +21,7 @@
       <div class="q-container--rail q-shop-header__inner">
         <div style="max-width: 720px; display: flex; flex-direction: column; gap: 12px;">
           <p class="q-mono-spec" style="margin: 0;">
-            {{ section.settings.shop_eyebrow | default: 'COMPLETE OLFACTORY ARCHIVE  ·  06 COMPOSITIONS' }}
+            {{ section.settings.shop_eyebrow | default: 'COMPLETE OLFACTORY ARCHIVE' }} · {{ 'collections.general.compositions_count' | t: count: count_padded }}
           </p>
           <h1 class="q-display-xl">
             {%- if collection.handle == 'all' and section.settings.shop_title_override != blank -%}
@@ -29,24 +30,22 @@
               {{ collection.title | upcase }}
             {%- endif -%}
           </h1>
-          <p class="q-body-lg" style="margin: 0;">
-            {%- if collection.description != blank -%}
-              {{ collection.description | strip_html }}
-            {%- else -%}
-              {{ section.settings.shop_subtext }}
-            {%- endif -%}
-          </p>
+          {%- if collection.description != blank -%}
+            <p class="q-body-lg" style="margin: 0;">{{ collection.description | strip_html }}</p>
+          {%- elsif section.settings.shop_subtext != blank -%}
+            <p class="q-body-lg" style="margin: 0;">{{ section.settings.shop_subtext }}</p>
+          {%- endif -%}
         </div>
 
         <div class="q-shop-jump-links">
           {%- if archive_col != blank -%}
             <a href="{{ archive_col.url }}" class="q-mono-spec q-link-editorial">
-              PERMANENT ARCHIVE ({{ archive_col.products_count | prepend: '0' | slice: -2, 2 }})
+              {{ archive_col.title | upcase }} ({{ archive_col.products_count | prepend: '0' | slice: -2, 2 }})
             </a>
           {%- endif -%}
           {%- if reserve_col != blank -%}
             <a href="{{ reserve_col.url }}" class="q-mono-spec q-link-editorial">
-              RESERVE EDITIONS ({{ reserve_col.products_count | prepend: '0' | slice: -2, 2 }})
+              {{ reserve_col.title | upcase }} ({{ reserve_col.products_count | prepend: '0' | slice: -2, 2 }})
             </a>
           {%- endif -%}
         </div>
@@ -88,11 +87,10 @@
     </div>
   {%- else -%}
     {%- liquid
-      assign col_hero = section.settings.campaign_image | default: collection.featured_image
-      assign fallback_hero = 'qirelia-archive-cover.jpg'
-      if is_reserve
-        assign fallback_hero = 'qirelia-reserve-cover.jpg'
-      endif
+      assign col_hero = section.settings.campaign_image | default: collection.featured_image | default: collection.products.first.featured_image
+      assign col_eyebrow = section.settings.eyebrow | default: collection.metafields.qirelia.eyebrow_label.value
+      assign col_spec = section.settings.spec_summary | default: collection.metafields.qirelia.spec_summary.value
+      assign hero_alt = collection.featured_image.alt | default: collection.title
     -%}
     <div class="q-collection-hero-band">
       <div class="q-container q-collection-hero-band__inner">
@@ -105,8 +103,7 @@
         <div class="q-collection-hero__media">
           {% render 'media-image',
             image: col_hero,
-            fallback_asset: fallback_hero,
-            alt: collection.title,
+            alt: hero_alt,
             width: 1200,
             height: 900,
             sizes: '100vw',
@@ -116,12 +113,12 @@
 
         <div class="q-campaign__details" style="margin-top: 0;">
           <div class="q-campaign__copy">
-            {%- if section.settings.eyebrow != blank -%}
+            {%- if col_eyebrow != blank -%}
               <p
                 class="q-mono-spec"
                 style="margin: 0;{% if is_reserve %} color: var(--q-neutral-03);{% endif %}"
               >
-                {{ section.settings.eyebrow }}
+                {{ col_eyebrow }}
               </p>
             {%- endif -%}
             <h1 class="q-display-xl">{{ collection.title | upcase }}</h1>
@@ -134,10 +131,10 @@
 
           <div class="q-campaign__action">
             <span class="q-mono-spec" style="color: var(--q-dark-01);">
-              {%- if section.settings.spec_summary != blank -%}
-                {{ section.settings.spec_summary }}
+              {%- if col_spec != blank -%}
+                {{ col_spec }}
               {%- else -%}
-                {{ 'collections.general.compositions_count' | t: count: collection.products_count }}
+                {{ 'collections.general.compositions_count' | t: count: count_padded }}
               {%- endif -%}
             </span>
           </div>
@@ -201,7 +198,7 @@
       "id": "layout_mode",
       "label": "Layout mode",
       "options": [
-        { "value": "auto", "label": "Automatic (3-col for All Products, 2-col Editorial for collections)" },
+        { "value": "auto", "label": "Automatic (3-col Shop / 2-col Editorial)" },
         { "value": "editorial_2col", "label": "Editorial 2-column with hero" },
         { "value": "shop_3col", "label": "Shop 3-column grid" }
       ],
@@ -228,7 +225,7 @@
     {
       "type": "text",
       "id": "eyebrow",
-      "label": "Collection eyebrow"
+      "label": "Collection eyebrow override"
     },
     {
       "type": "textarea",
@@ -253,8 +250,8 @@
     {
       "type": "text",
       "id": "shop_eyebrow",
-      "label": "Shop eyebrow",
-      "default": "COMPLETE OLFACTORY ARCHIVE  ·  06 COMPOSITIONS"
+      "label": "Shop eyebrow prefix",
+      "default": "COMPLETE OLFACTORY ARCHIVE"
     },
     {
       "type": "text",
@@ -265,8 +262,7 @@
     {
       "type": "textarea",
       "id": "shop_subtext",
-      "label": "Shop subtitle",
-      "default": "Four permanent 20% Eau de Parfum signatures alongside two limited-batch 30% Extrait de Parfum Reserve releases."
+      "label": "Shop subtitle (if collection description empty)"
     }
   ]
 }

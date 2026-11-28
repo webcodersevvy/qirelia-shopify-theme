@@ -13,13 +13,10 @@
       "type": "featured-collection-grid",
       "settings": {
         "collection": "the-permanent-archive",
-        "title": "01 / THE PERMANENT ARCHIVE",
-        "meta": "04 COMPOSITIONS  ·  20% EDP",
         "products_to_show": 4,
         "show_reserve_badge": false,
         "is_reserve_band": false,
         "show_top_divider": false,
-        "show_empty_state": false,
         "color_scheme": "scheme-1"
       }
     },
@@ -31,6 +28,7 @@
         "heading": "SCENT, ARCHITECTED.",
         "body": "We approach perfumery through structure, negative space, and material restraint. Each composition edits raw botanicals, woods, and mineral musks down to their clearest form—designed to live close to the skin.",
         "link_label": "DISCOVER THE HOUSE →",
+        "link_url": "shopify://pages/about",
         "show_top_divider": true,
         "color_scheme": "scheme-1"
       }
@@ -39,13 +37,10 @@
       "type": "featured-collection-grid",
       "settings": {
         "collection": "the-reserve-editions",
-        "title": "02 / THE RESERVE EDITIONS",
-        "meta": "02 COMPOSITIONS  ·  30% EXTRAIT  ·  50 FLACONS",
         "products_to_show": 2,
         "show_reserve_badge": true,
         "is_reserve_band": true,
         "show_top_divider": true,
-        "show_empty_state": false,
         "color_scheme": "scheme-1"
       }
     },
@@ -59,6 +54,7 @@
         "heading": "FEWER NOTES.\nDEEPER CLARITY.",
         "body": "Complexity lives in the space between ingredients. Zero synthetic colourants, zero ornamental sweetness—only transparent structure and enduring wear.",
         "button_label": "READ THE HOUSE MANIFESTO",
+        "button_link": "shopify://pages/about",
         "button_style": "secondary",
         "show_top_divider": true,
         "color_scheme": "scheme-1"

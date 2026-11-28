@@ -30,7 +30,6 @@
           "settings": {
             "heading": "INGREDIENTS (INCI) & CARE",
             "source": "inci",
-            "content": "<p>Alcohol Denat., Parfum (Fragrance), Aqua (Water). Zero synthetic colourants. Store upright away from direct sunlight and bathroom steam.</p>",
             "open_by_default": false
           }
         },
@@ -38,8 +37,7 @@
           "type": "product-accordion",
           "settings": {
             "heading": "FRAGRANCE SHIPPING & RETURNS",
-            "source": "custom",
-            "content": "<p>Ships via approved Class 3 Limited Quantity ground courier (UN1266). No PO Boxes or APO/FPO delivery. Returns accepted on completely unopened, factory cellophane-sealed flacons only; damaged glass replaced within 48 hours of delivery.</p>",
+            "source": "shipping",
             "open_by_default": false
           }
         }

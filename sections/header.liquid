@@ -1,40 +1,27 @@
 {%- liquid
+  assign primary_menu = section.settings.main_menu
+  if primary_menu == blank
+    assign primary_menu = linklists['main-menu']
+  endif
+  assign right_menu = section.settings.utility_menu
+  if right_menu == blank
+    assign right_menu = linklists['header-utility']
+  endif
+
   assign archive_col = section.settings.archive_collection | default: collections['the-permanent-archive']
   assign reserve_col = section.settings.reserve_collection | default: collections['the-reserve-editions']
-  assign about_page = section.settings.about_page | default: pages['about'] | default: pages['the-house']
   assign contact_page = section.settings.contact_page | default: pages['contact']
   assign guide_page = section.settings.guide_page | default: pages['format-guide'] | default: pages['format-care-guide']
 
-  assign archive_url = archive_col.url | default: routes.collections_url
-  assign reserve_url = reserve_col.url | default: routes.collections_url
-  assign about_url = about_page.url | default: routes.collections_url
-  assign contact_url = contact_page.url | default: routes.root_url
-  assign guide_url = guide_page.url | default: routes.all_products_collection_url
-
-  assign is_collections = false
-  if request.page_type == 'list-collections' or request.page_type == 'collection' and collection.handle != 'all'
-    assign is_collections = true
+  assign mega_link = blank
+  if primary_menu != blank
+    for link in primary_menu.links
+      if link.links.size > 0
+        assign mega_link = link
+        break
+      endif
+    endfor
   endif
-  assign is_shop = false
-  if request.page_type == 'collection' and collection.handle == 'all'
-    assign is_shop = true
-  endif
-  assign is_about = false
-  if request.page_type == 'page' and page.handle == about_page.handle
-    assign is_about = true
-  endif
-  assign is_contact = false
-  if request.page_type == 'page' and page.handle == contact_page.handle
-    assign is_contact = true
-  endif
-  assign is_account = false
-  if request.page_type contains 'customers/'
-    assign is_account = true
-  endif
-
-  assign archive_img = section.settings.archive_image | default: archive_col.featured_image
-  assign reserve_img = section.settings.reserve_image | default: reserve_col.featured_image
-  assign all_img = section.settings.all_image
 -%}
 
 <qirelia-header
@@ -61,38 +48,36 @@
           <span class="q-header__menu-label">{{ 'header.menu_label' | t }}</span>
         </button>
 
-        <ul class="q-header__nav-list">
-          <li data-mega-hover-scope>
-            <a
-              href="{{ routes.collections_url }}"
-              class="q-link-nav{% if is_collections %} is-active{% endif %}"
-              data-mega-trigger
-              aria-expanded="false"
-              aria-controls="QireliaMegaDrawer"
-              {% if is_collections %}aria-current="page"{% endif %}
-            >
-              {{ section.settings.nav_fragrances_label | default: 'Fragrances' }}
-            </a>
-          </li>
-          <li>
-            <a
-              href="{{ routes.all_products_collection_url }}"
-              class="q-link-nav{% if is_shop %} is-active{% endif %}"
-              {% if is_shop %}aria-current="page"{% endif %}
-            >
-              {{ section.settings.nav_shop_label | default: 'Shop' }}
-            </a>
-          </li>
-          <li>
-            <a
-              href="{{ about_url }}"
-              class="q-link-nav{% if is_about %} is-active{% endif %}"
-              {% if is_about %}aria-current="page"{% endif %}
-            >
-              {{ section.settings.nav_house_label | default: 'The House' }}
-            </a>
-          </li>
-        </ul>
+        {%- if primary_menu != blank and primary_menu.links.size > 0 -%}
+          <ul class="q-header__nav-list">
+            {%- for link in primary_menu.links -%}
+              {%- if link.links.size > 0 -%}
+                <li data-mega-hover-scope>
+                  <a
+                    href="{{ link.url }}"
+                    class="q-link-nav{% if link.active or link.child_active %} is-active{% endif %}"
+                    data-mega-trigger
+                    aria-expanded="false"
+                    aria-controls="QireliaMegaDrawer"
+                    {% if link.current %}aria-current="page"{% endif %}
+                  >
+                    {{ link.title }}
+                  </a>
+                </li>
+              {%- else -%}
+                <li>
+                  <a
+                    href="{{ link.url }}"
+                    class="q-link-nav{% if link.active %} is-active{% endif %}"
+                    {% if link.current %}aria-current="page"{% endif %}
+                  >
+                    {{ link.title }}
+                  </a>
+                </li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
       </div>
 
       <a href="{{ routes.root_url }}" class="q-header__logo-link" aria-label="{{ shop.name }}">
@@ -114,22 +99,37 @@
             <li>
               <a
                 href="{{ routes.account_url }}"
-                class="q-link-nav{% if is_account %} is-active{% endif %}"
-                {% if is_account %}aria-current="page"{% endif %}
+                class="q-link-nav{% if request.page_type contains 'customers/' %} is-active{% endif %}"
+                {% if request.page_type contains 'customers/' %}aria-current="page"{% endif %}
               >
                 {{ section.settings.nav_account_label | default: 'Account' }}
               </a>
             </li>
           {%- endif -%}
-          <li>
-            <a
-              href="{{ contact_url }}"
-              class="q-link-nav{% if is_contact %} is-active{% endif %}"
-              {% if is_contact %}aria-current="page"{% endif %}
-            >
-              {{ section.settings.nav_contact_label | default: 'Contact' }}
-            </a>
-          </li>
+
+          {%- if right_menu != blank and right_menu.links.size > 0 -%}
+            {%- for util_link in right_menu.links -%}
+              <li>
+                <a
+                  href="{{ util_link.url }}"
+                  class="q-link-nav{% if util_link.active %} is-active{% endif %}"
+                  {% if util_link.current %}aria-current="page"{% endif %}
+                >
+                  {{ util_link.title }}
+                </a>
+              </li>
+            {%- endfor -%}
+          {%- elsif contact_page != blank -%}
+            <li>
+              <a
+                href="{{ contact_page.url }}"
+                class="q-link-nav{% if page.handle == contact_page.handle %} is-active{% endif %}"
+                {% if page.handle == contact_page.handle %}aria-current="page"{% endif %}
+              >
+                {{ contact_page.title }}
+              </a>
+            </li>
+          {%- endif -%}
         </ul>
 
         <a
@@ -147,131 +147,145 @@
     </nav>
   </header>
 
-  <!-- Fragrances Mega Drawer -->
-  <div
-    id="QireliaMegaDrawer"
-    class="q-drawer q-section--rail"
-    data-drawer="mega"
-    role="region"
-    aria-label="{{ 'header.mega.eyebrow' | t }}"
-  >
-    <div class="q-container--rail">
-      <div class="q-mega__back-bar">
-        <button type="button" class="q-mega__back-btn" data-back-to-menu>
-          {{ 'header.back_to_menu' | t }}
-        </button>
-        <span class="q-mono-spec">{{ 'header.tap_hint' | t }}</span>
-      </div>
-
-      <div class="q-mega__inner">
-        <div>
-          <div class="q-mega__eyebrow">
-            <span class="q-mono-spec">{{ 'header.mega.eyebrow' | t }}</span>
-            <a href="{{ routes.collections_url }}" class="q-mono-spec q-link-editorial">
-              {{ 'header.mega.view_all' | t }}
-            </a>
-          </div>
-
-          <a href="{{ archive_url }}" class="q-mega__row is-active" data-mega-row="archive">
-            <div class="q-mega__row-left">
-              <span class="q-mega__index-group">
-                <span class="q-mega__amber-bar" aria-hidden="true"></span>
-                <span class="q-mega__index">01</span>
-              </span>
-              <div>
-                <div class="q-mega__title">The Permanent Archive</div>
-                <div class="q-mono-spec q-mega__specs">20% EAU DE PARFUM  ·  04 COMPOSITIONS  ·  50 ML &amp; 100 ML</div>
-              </div>
-            </div>
-            <span class="q-mega__arrow" aria-hidden="true">→</span>
-          </a>
-
-          <a href="{{ reserve_url }}" class="q-mega__row" data-mega-row="reserve">
-            <div class="q-mega__row-left">
-              <span class="q-mega__index-group">
-                <span class="q-mega__amber-bar" aria-hidden="true"></span>
-                <span class="q-mega__index">02</span>
-              </span>
-              <div>
-                <div class="q-mega__title">The Reserve Editions</div>
-                <div class="q-mono-spec q-mega__specs">30% EXTRAIT DE PARFUM  ·  02 LIMITED BATCHES  ·  50 FLACONS</div>
-              </div>
-            </div>
-            <span class="q-mega__arrow" aria-hidden="true">→</span>
-          </a>
-
-          <a href="{{ routes.all_products_collection_url }}" class="q-mega__row" data-mega-row="all">
-            <div class="q-mega__row-left">
-              <span class="q-mega__index-group">
-                <span class="q-mega__amber-bar" aria-hidden="true"></span>
-                <span class="q-mega__index">03</span>
-              </span>
-              <div>
-                <div class="q-mega__title">All Fragrances</div>
-                <div class="q-mono-spec q-mega__specs">COMPLETE OLFACTORY LIBRARY  ·  06 COMPOSITIONS</div>
-              </div>
-            </div>
-            <span class="q-mega__arrow" aria-hidden="true">→</span>
-          </a>
-
-          <div class="q-mega__footnote">
-            <span class="q-mono-spec">{{ 'header.mega.footnote' | t }}</span>
-            <a href="{{ guide_url }}" class="q-mono-spec q-link-editorial">
-              {{ 'header.mega.format_guide' | t }}
-            </a>
-          </div>
+  {%- if mega_link != blank and mega_link.links.size > 0 -%}
+    <!-- Fragrances Mega Drawer (driven by Shopify Navigation Menu & Collection Objects) -->
+    <div
+      id="QireliaMegaDrawer"
+      class="q-drawer q-section--rail"
+      data-drawer="mega"
+      role="region"
+      aria-label="{{ 'header.mega.eyebrow' | t }}"
+    >
+      <div class="q-container--rail">
+        <div class="q-mega__back-bar">
+          <button type="button" class="q-mega__back-btn" data-back-to-menu>
+            {{ 'header.back_to_menu' | t }}
+          </button>
+          <span class="q-mono-spec">{{ 'header.tap_hint' | t }}</span>
         </div>
 
-        <div class="q-mega__preview">
-          <div class="q-mega__stage">
-            <a href="{{ archive_url }}" class="q-mega__cover is-active" data-mega-cover="archive">
-              {% render 'media-image',
-                image: archive_img,
-                fallback_asset: 'qirelia-archive-cover.jpg',
-                alt: 'The Permanent Archive',
-                width: 1200,
-                height: 901,
-                sizes: '540px'
-              %}
-            </a>
-            <a href="{{ reserve_url }}" class="q-mega__cover" data-mega-cover="reserve">
-              {% render 'media-image',
-                image: reserve_img,
-                fallback_asset: 'qirelia-reserve-cover.jpg',
-                alt: 'The Reserve Editions',
-                width: 1200,
-                height: 800,
-                sizes: '540px'
-              %}
-            </a>
-            <a href="{{ routes.all_products_collection_url }}" class="q-mega__cover" data-mega-cover="all">
-              {% render 'media-image',
-                image: all_img,
-                fallback_asset: 'qirelia-silice-thumb.jpg',
-                alt: 'All Fragrances',
-                width: 1200,
-                height: 1600,
-                sizes: '540px'
-              %}
-            </a>
+        <div class="q-mega__inner">
+          <div>
+            <div class="q-mega__eyebrow">
+              <span class="q-mono-spec">{{ 'header.mega.eyebrow' | t }}</span>
+              <a href="{{ routes.collections_url }}" class="q-mono-spec q-link-editorial">
+                {{ 'header.mega.view_all' | t }}
+              </a>
+            </div>
+
+            {%- for child_link in mega_link.links -%}
+              {%- liquid
+                assign row_index = forloop.index | prepend: '0' | slice: -2, 2
+                assign row_key = child_link.handle | default: forloop.index
+                assign col_obj = blank
+                if child_link.type == 'collection_link'
+                  assign col_obj = child_link.object
+                elsif child_link.url == routes.all_products_collection_url
+                  assign col_obj = collections['all']
+                endif
+
+                assign row_spec = ''
+                if col_obj != blank
+                  assign row_spec = col_obj.metafields.qirelia.mega_spec.value
+                  if row_spec == blank
+                    assign count_padded = col_obj.products_count | prepend: '0' | slice: -2, 2
+                    assign row_spec = 'collections.general.compositions_count' | t: count: count_padded
+                  endif
+                endif
+              -%}
+              <a
+                href="{{ child_link.url }}"
+                class="q-mega__row{% if forloop.first %} is-active{% endif %}"
+                data-mega-row="{{ row_key }}"
+              >
+                <div class="q-mega__row-left">
+                  <span class="q-mega__index-group">
+                    <span class="q-mega__amber-bar" aria-hidden="true"></span>
+                    <span class="q-mega__index">{{ row_index }}</span>
+                  </span>
+                  <div>
+                    <div class="q-mega__title">{{ child_link.title }}</div>
+                    {%- if row_spec != blank -%}
+                      <div class="q-mono-spec q-mega__specs">{{ row_spec }}</div>
+                    {%- endif -%}
+                  </div>
+                </div>
+                <span class="q-mega__arrow" aria-hidden="true">→</span>
+              </a>
+            {%- endfor -%}
+
+            <div class="q-mega__footnote">
+              <span class="q-mono-spec">{{ 'header.mega.footnote' | t }}</span>
+              {%- if guide_page != blank -%}
+                <a href="{{ guide_page.url }}" class="q-mono-spec q-link-editorial">
+                  {{ 'header.mega.format_guide' | t }}
+                </a>
+              {%- endif -%}
+            </div>
           </div>
 
-          <div class="q-mega__caption-row is-active" data-mega-caption="archive">
-            <span class="q-mono-spec" style="color: var(--q-dark-03);">SILICE · VÉRIDE · LIGNÉ · VÉLA</span>
-            <a href="{{ archive_url }}" class="q-ui-label q-link-editorial">{{ 'header.mega.explore_archive' | t }}</a>
-          </div>
-          <div class="q-mega__caption-row" data-mega-caption="reserve">
-            <span class="q-mono-spec" style="color: var(--q-dark-03);">NO. 01 OLIBAN · NO. 02 ORRIS</span>
-            <a href="{{ reserve_url }}" class="q-ui-label q-link-editorial">{{ 'header.mega.explore_reserve' | t }}</a>
-          </div>
-          <div class="q-mega__caption-row" data-mega-caption="all">
-            <span class="q-mono-spec" style="color: var(--q-dark-03);">ALL 06 COMPOSITIONS · 50 ML &amp; 100 ML</span>
-            <a href="{{ routes.all_products_collection_url }}" class="q-ui-label q-link-editorial">{{ 'header.mega.shop_all' | t }}</a>
+          <div class="q-mega__preview">
+            <div class="q-mega__stage">
+              {%- for child_link in mega_link.links -%}
+                {%- liquid
+                  assign row_key = child_link.handle | default: forloop.index
+                  assign col_obj = blank
+                  if child_link.type == 'collection_link'
+                    assign col_obj = child_link.object
+                  elsif child_link.url == routes.all_products_collection_url
+                    assign col_obj = collections['all']
+                  endif
+                  assign stage_img = col_obj.featured_image | default: col_obj.products.first.featured_image
+                -%}
+                <a
+                  href="{{ child_link.url }}"
+                  class="q-mega__cover{% if forloop.first %} is-active{% endif %}"
+                  data-mega-cover="{{ row_key }}"
+                >
+                  {% render 'media-image',
+                    image: stage_img,
+                    alt: child_link.title,
+                    width: 1200,
+                    height: 900,
+                    sizes: '540px'
+                  %}
+                </a>
+              {%- endfor -%}
+            </div>
+
+            {%- for child_link in mega_link.links -%}
+              {%- liquid
+                assign row_key = child_link.handle | default: forloop.index
+                assign col_obj = blank
+                if child_link.type == 'collection_link'
+                  assign col_obj = child_link.object
+                elsif child_link.url == routes.all_products_collection_url
+                  assign col_obj = collections['all']
+                endif
+
+                assign caption_text = child_link.title | upcase
+                if col_obj != blank and col_obj.products_count > 0
+                  if col_obj.handle == 'all'
+                    assign all_padded = col_obj.all_products_count | default: col_obj.products_count | prepend: '0' | slice: -2, 2
+                    assign caption_text = 'collections.general.compositions_count' | t: count: all_padded
+                  else
+                    assign caption_text = col_obj.products | map: 'title' | slice: 0, 4 | join: ' · '
+                  endif
+                endif
+              -%}
+              <div
+                class="q-mega__caption-row{% if forloop.first %} is-active{% endif %}"
+                data-mega-caption="{{ row_key }}"
+              >
+                <span class="q-mono-spec" style="color: var(--q-dark-03);">{{ caption_text }}</span>
+                <a href="{{ child_link.url }}" class="q-ui-label q-link-editorial">{{ 'header.mega.explore_collection' | t }}</a>
+              </div>
+            {%- endfor -%}
           </div>
         </div>
       </div>
     </div>
-  </div>
+  {%- endif -%}
 
   <!-- Minimalist Bag Drawer -->
   <div
@@ -300,32 +314,39 @@
     aria-label="{{ 'general.accessibility.open_menu' | t }}"
   >
     <div class="q-container--rail q-mobile-drawer__inner">
-      <div class="q-mobile-drawer__links">
-        <button type="button" class="q-mobile-drawer__row" data-open-mobile-mega>
-          <span class="q-mobile-drawer__title">{{ section.settings.nav_fragrances_label | default: 'Fragrances' }}</span>
-          <span class="q-mono-spec">COLLECTIONS →</span>
-        </button>
-        <a href="{{ routes.all_products_collection_url }}" class="q-mobile-drawer__row">
-          <span class="q-mobile-drawer__title">{{ section.settings.nav_shop_label | default: 'Shop' }}</span>
-          <span class="q-mono-spec">ALL 06 COMPOSITIONS</span>
-        </a>
-        <a href="{{ reserve_url }}" class="q-mobile-drawer__row">
-          <span class="q-mobile-drawer__title">Editions</span>
-          <span class="q-mono-spec">30% EXTRAIT RESERVE</span>
-        </a>
-        <a href="{{ about_url }}" class="q-mobile-drawer__row">
-          <span class="q-mobile-drawer__title">{{ section.settings.nav_house_label | default: 'The House' }}</span>
-          <span class="q-mono-spec">PHILOSOPHY &amp; CRAFT</span>
-        </a>
-      </div>
+      {%- if primary_menu != blank and primary_menu.links.size > 0 -%}
+        <div class="q-mobile-drawer__links">
+          {%- for link in primary_menu.links -%}
+            {%- if link.links.size > 0 -%}
+              <button type="button" class="q-mobile-drawer__row" data-open-mobile-mega>
+                <span class="q-mobile-drawer__title">{{ link.title }}</span>
+                <span class="q-mono-spec">{{ link.links.size | prepend: '0' | slice: -2, 2 }} COLLECTIONS →</span>
+              </button>
+            {%- else -%}
+              <a href="{{ link.url }}" class="q-mobile-drawer__row">
+                <span class="q-mobile-drawer__title">{{ link.title }}</span>
+                <span class="q-mono-spec">→</span>
+              </a>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
 
       <div class="q-mobile-drawer__utility">
         {%- if shop.customer_accounts_enabled -%}
-          <a href="{{ routes.account_url }}" class="q-ui-label q-link-nav">ACCOUNT</a>
+          <a href="{{ routes.account_url }}" class="q-ui-label q-link-nav">
+            {{ section.settings.nav_account_label | default: 'Account' }}
+          </a>
         {%- endif -%}
-        <a href="{{ guide_url }}" class="q-ui-label q-link-nav">FORMAT &amp; CARE</a>
-        <a href="{{ routes.search_url }}" class="q-ui-label q-link-nav">SEARCH</a>
-        <a href="{{ contact_url }}" class="q-ui-label q-link-nav">CONTACT</a>
+        <a href="{{ routes.search_url }}" class="q-ui-label q-link-nav">{{ 'general.search.submit' | t }}</a>
+        {%- if right_menu != blank and right_menu.links.size > 0 -%}
+          {%- for util_link in right_menu.links -%}
+            <a href="{{ util_link.url }}" class="q-ui-label q-link-nav">{{ util_link.title }}</a>
+          {%- endfor -%}
+        {%- endif -%}
+        {%- if guide_page != blank -%}
+          <a href="{{ guide_page.url }}" class="q-ui-label q-link-nav">{{ guide_page.title }}</a>
+        {%- endif -%}
       </div>
     </div>
   </div>
@@ -344,30 +365,22 @@
     {
       "type": "text",
       "id": "wordmark_text",
-      "label": "Wordmark text",
-      "default": "QIRÉLIA"
+      "label": "Wordmark text fallback"
     },
     {
       "type": "header",
-      "content": "Navigation labels"
+      "content": "Navigation Menus"
     },
     {
-      "type": "text",
-      "id": "nav_fragrances_label",
-      "label": "Fragrances link label",
-      "default": "Fragrances"
+      "type": "link_list",
+      "id": "main_menu",
+      "label": "Primary navigation menu",
+      "default": "main-menu"
     },
     {
-      "type": "text",
-      "id": "nav_shop_label",
-      "label": "Shop link label",
-      "default": "Shop"
-    },
-    {
-      "type": "text",
-      "id": "nav_house_label",
-      "label": "The House link label",
-      "default": "The House"
+      "type": "link_list",
+      "id": "utility_menu",
+      "label": "Right utility menu"
     },
     {
       "type": "text",
@@ -376,49 +389,23 @@
       "default": "Account"
     },
     {
-      "type": "text",
-      "id": "nav_contact_label",
-      "label": "Contact link label",
-      "default": "Contact"
-    },
-    {
       "type": "header",
-      "content": "Collections & linked pages"
+      "content": "Bag drawer & linked references"
     },
     {
       "type": "collection",
       "id": "archive_collection",
-      "label": "Permanent Archive collection"
-    },
-    {
-      "type": "image_picker",
-      "id": "archive_image",
-      "label": "Permanent Archive mega preview"
+      "label": "Curated primary collection"
     },
     {
       "type": "collection",
       "id": "reserve_collection",
-      "label": "Reserve Editions collection"
-    },
-    {
-      "type": "image_picker",
-      "id": "reserve_image",
-      "label": "Reserve Editions mega preview"
-    },
-    {
-      "type": "image_picker",
-      "id": "all_image",
-      "label": "All Fragrances mega preview"
-    },
-    {
-      "type": "page",
-      "id": "about_page",
-      "label": "The House page"
+      "label": "Curated secondary collection"
     },
     {
       "type": "page",
       "id": "contact_page",
-      "label": "Contact page"
+      "label": "Contact fallback page"
     },
     {
       "type": "page",

@@ -1,4 +1,5 @@
 {%- liquid
+  assign linked_col = section.settings.collection
   assign band_class = 'q-editorial-split-band color-' | append: section.settings.color_scheme | append: ' q-color-scheme'
   if section.settings.compact
     assign band_class = band_class | append: ' q-editorial-split-band--compact'
@@ -19,27 +20,52 @@
     assign media_class = media_class | append: ' q-editorial-split__media--sister'
   endif
 
+  assign split_image = section.settings.image
+  if split_image == blank and linked_col != blank
+    assign split_image = linked_col.featured_image | default: linked_col.products.first.featured_image
+  endif
+
+  assign split_heading = section.settings.heading
+  if split_heading == blank and linked_col != blank
+    assign split_heading = 'DISCOVER ' | append: linked_col.title | upcase
+  endif
+
+  assign split_body = section.settings.body
+  if split_body == blank and linked_col != blank
+    assign split_body = linked_col.description | strip_html
+  endif
+
   assign fallback_file = section.settings.fallback_asset | default: 'qirelia-still-life.jpg'
   assign btn_class = 'q-btn q-btn--secondary'
   if section.settings.button_style == 'primary'
     assign btn_class = 'q-btn q-btn--primary'
   endif
-  assign btn_target = section.settings.button_link | default: pages['about'].url | default: routes.collections_url
+  assign btn_target = section.settings.button_link | default: linked_col.url | default: pages['about'].url | default: routes.collections_url
+  assign media_alt = split_image.alt | default: split_heading
 -%}
 
 <section class="{{ band_class }}">
   <div class="q-container">
     <div class="{{ split_class }}">
       <div class="{{ media_class }}">
-        {%- assign media_alt = section.settings.image.alt | default: section.settings.heading -%}
-        {% render 'media-image',
-          image: section.settings.image,
-          fallback_asset: fallback_file,
-          alt: media_alt,
-          width: 1200,
-          height: 900,
-          sizes: '(max-width: 1023px) 100vw, 54vw'
-        %}
+        {%- if linked_col != blank and split_image != blank -%}
+          {% render 'media-image',
+            image: split_image,
+            alt: media_alt,
+            width: 1200,
+            height: 900,
+            sizes: '(max-width: 1023px) 100vw, 54vw'
+          %}
+        {%- else -%}
+          {% render 'media-image',
+            image: split_image,
+            fallback_asset: fallback_file,
+            alt: media_alt,
+            width: 1200,
+            height: 900,
+            sizes: '(max-width: 1023px) 100vw, 54vw'
+          %}
+        {%- endif -%}
       </div>
 
       <div class="q-editorial-split__copy">
@@ -49,15 +75,15 @@
           {%- if section.settings.eyebrow != blank -%}
             <p class="q-mono-spec" style="margin: 0;">{{ section.settings.eyebrow }}</p>
           {%- endif -%}
-          {%- if section.settings.heading != blank -%}
-            <h2 class="q-h2" style="white-space: pre-line;">{{ section.settings.heading }}</h2>
+          {%- if split_heading != blank -%}
+            <h2 class="q-h2" style="white-space: pre-line;">{{ split_heading }}</h2>
           {%- endif -%}
-          {%- if section.settings.body != blank -%}
+          {%- if split_body != blank -%}
             <p
               class="{% if section.settings.media_scale == 'sister' %}q-body{% else %}q-body-lg{% endif %}"
               style="margin: 0;{% if section.settings.media_scale == 'sister' %} max-width: 520px;{% endif %}"
             >
-              {{ section.settings.body }}
+              {{ split_body }}
             </p>
           {%- endif -%}
           {%- if section.settings.button_label != blank -%}
@@ -80,14 +106,19 @@
   ],
   "settings": [
     {
+      "type": "collection",
+      "id": "collection",
+      "label": "Linked collection (optional dynamic source)"
+    },
+    {
       "type": "image_picker",
       "id": "image",
-      "label": "Image"
+      "label": "Image override"
     },
     {
       "type": "select",
       "id": "fallback_asset",
-      "label": "Default editorial asset (when image unset)",
+      "label": "Default editorial asset (when image & collection unset)",
       "options": [
         { "value": "qirelia-still-life.jpg", "label": "Limestone Flacon Still Life" },
         { "value": "qirelia-flacon-craft.jpg", "label": "Luminous Stillness Study" },
@@ -122,14 +153,12 @@
     {
       "type": "textarea",
       "id": "heading",
-      "label": "Heading",
-      "default": "FEWER NOTES.\nDEEPER CLARITY."
+      "label": "Heading override"
     },
     {
       "type": "textarea",
       "id": "body",
-      "label": "Copy",
-      "default": "Complexity lives in the space between ingredients. Zero synthetic colourants, zero ornamental sweetness—only transparent structure and enduring wear."
+      "label": "Copy override"
     },
     {
       "type": "text",
@@ -140,7 +169,7 @@
     {
       "type": "url",
       "id": "button_link",
-      "label": "Button link"
+      "label": "Button link override"
     },
     {
       "type": "select",

@@ -1,12 +1,16 @@
 {%- liquid
-  assign archive_col = collections['the-permanent-archive']
-  assign reserve_col = collections['the-reserve-editions']
-  assign about_page = pages['about'] | default: pages['the-house']
-  assign contact_page = pages['contact']
-  assign guide_page = pages['format-guide'] | default: pages['format-care-guide']
-  assign terms_page = pages['terms'] | default: pages['terms-conditions']
-  assign disclaimer_page = pages['disclaimer']
-  assign payments_page = pages['payments'] | default: pages['payment-billing']
+  assign menu_1 = section.settings.col_1_menu
+  if menu_1 == blank
+    assign menu_1 = linklists['footer-collections']
+  endif
+  assign menu_2 = section.settings.col_2_menu
+  if menu_2 == blank
+    assign menu_2 = linklists['footer-client-care']
+  endif
+  assign menu_3 = section.settings.col_3_menu
+  if menu_3 == blank
+    assign menu_3 = linklists['footer-the-house']
+  endif
 -%}
 
 <footer class="q-footer">
@@ -16,86 +20,67 @@
         <a href="{{ routes.root_url }}" class="q-footer__wordmark">
           {{ section.settings.wordmark_text | default: shop.name }}
         </a>
-        <p class="q-mono-spec" style="margin: 0; color: var(--q-dark-01);">
-          {{ section.settings.tagline | default: settings.tagline }}
-        </p>
-        <p class="q-body-sm" style="margin: 0; max-width: 360px;">
-          {{ section.settings.description }}
-        </p>
+        {%- if section.settings.tagline != blank or settings.tagline != blank -%}
+          <p class="q-mono-spec" style="margin: 0; color: var(--q-dark-01);">
+            {{ section.settings.tagline | default: settings.tagline }}
+          </p>
+        {%- endif -%}
+        {%- if section.settings.description != blank or shop.description != blank -%}
+          <p class="q-body-sm" style="margin: 0; max-width: 360px;">
+            {{ section.settings.description | default: shop.description }}
+          </p>
+        {%- endif -%}
       </div>
 
       <div class="q-footer__col">
         <h2 class="q-mono-spec" style="margin: 0; color: var(--q-dark-01);">
-          {{ section.settings.col_1_heading | default: 'COLLECTIONS' }}
+          {{ section.settings.col_1_heading | default: menu_1.title | upcase }}
         </h2>
-        <ul class="q-footer__links">
-          {%- if section.settings.col_1_menu != blank -%}
-            {%- for link in section.settings.col_1_menu.links -%}
+        {%- if menu_1 != blank and menu_1.links.size > 0 -%}
+          <ul class="q-footer__links">
+            {%- for link in menu_1.links -%}
               <li>
                 <a href="{{ link.url }}" class="q-body-sm q-link-footer" {% if link.active %}aria-current="page"{% endif %}>
                   {{ link.title }}
                 </a>
               </li>
             {%- endfor -%}
-          {%- else -%}
-            <li><a href="{{ routes.collections_url }}" class="q-body-sm q-link-footer">All Fragrances</a></li>
-            <li><a href="{{ archive_col.url | default: routes.collections_url }}" class="q-body-sm q-link-footer">The Permanent Archive</a></li>
-            <li><a href="{{ reserve_col.url | default: routes.collections_url }}" class="q-body-sm q-link-footer">The Reserve Editions</a></li>
-            <li><a href="{{ routes.all_products_collection_url }}" class="q-body-sm q-link-footer">Shop All Products</a></li>
-          {%- endif -%}
-        </ul>
+          </ul>
+        {%- endif -%}
       </div>
 
       <div class="q-footer__col">
         <h2 class="q-mono-spec" style="margin: 0; color: var(--q-dark-01);">
-          {{ section.settings.col_2_heading | default: 'CLIENT CARE' }}
+          {{ section.settings.col_2_heading | default: menu_2.title | upcase }}
         </h2>
-        <ul class="q-footer__links">
-          {%- if section.settings.col_2_menu != blank -%}
-            {%- for link in section.settings.col_2_menu.links -%}
+        {%- if menu_2 != blank and menu_2.links.size > 0 -%}
+          <ul class="q-footer__links">
+            {%- for link in menu_2.links -%}
               <li>
                 <a href="{{ link.url }}" class="q-body-sm q-link-footer" {% if link.active %}aria-current="page"{% endif %}>
                   {{ link.title }}
                 </a>
               </li>
             {%- endfor -%}
-          {%- else -%}
-            <li><a href="{{ contact_page.url | default: routes.root_url }}" class="q-body-sm q-link-footer">Contact &amp; Guidance</a></li>
-            <li><a href="{{ guide_page.url | default: routes.all_products_collection_url }}" class="q-body-sm q-link-footer">Format &amp; Care Guide</a></li>
-            <li><a href="{{ guide_page.url | default: routes.all_products_collection_url }}" class="q-body-sm q-link-footer">Shipping &amp; Class 3 Handling</a></li>
-            <li><a href="{{ guide_page.url | default: routes.all_products_collection_url }}" class="q-body-sm q-link-footer">Returns &amp; Sealed Policy</a></li>
-            <li><a href="{{ routes.account_url }}" class="q-body-sm q-link-footer">Orders &amp; Tracking</a></li>
-            <li><a href="{{ payments_page.url | default: routes.cart_url }}" class="q-body-sm q-link-footer">Payments &amp; Billing</a></li>
-          {%- endif -%}
-        </ul>
+          </ul>
+        {%- endif -%}
       </div>
 
       <div class="q-footer__col">
         <h2 class="q-mono-spec" style="margin: 0; color: var(--q-dark-01);">
-          {{ section.settings.col_3_heading | default: 'THE HOUSE' }}
+          {{ section.settings.col_3_heading | default: menu_3.title | upcase }}
         </h2>
-        <ul class="q-footer__links">
-          {%- if section.settings.col_3_menu != blank -%}
-            {%- for link in section.settings.col_3_menu.links -%}
+        {%- if menu_3 != blank and menu_3.links.size > 0 -%}
+          <ul class="q-footer__links">
+            {%- for link in menu_3.links -%}
               <li>
                 <a href="{{ link.url }}" class="q-body-sm q-link-footer" {% if link.active %}aria-current="page"{% endif %}>
                   {{ link.title }}
                 </a>
               </li>
             {%- endfor -%}
-          {%- else -%}
-            <li><a href="{{ about_page.url | default: routes.collections_url }}" class="q-body-sm q-link-footer">About QIRÉLIA</a></li>
-            <li><a href="{{ about_page.url | default: routes.collections_url }}" class="q-body-sm q-link-footer">Olfactory Philosophy</a></li>
-            {%- if settings.social_instagram_url != blank -%}
-              <li><a href="{{ settings.social_instagram_url }}" class="q-body-sm q-link-footer" target="_blank" rel="noopener">Instagram</a></li>
-            {%- else -%}
-              <li><a href="{{ routes.search_url }}" class="q-body-sm q-link-footer">Search Archive</a></li>
-            {%- endif -%}
-            <li><a href="{{ routes.account_url }}" class="q-body-sm q-link-footer">Client Account</a></li>
-            <li><a href="{{ terms_page.url | default: routes.root_url }}" class="q-body-sm q-link-footer">Terms &amp; Conditions</a></li>
-            <li><a href="{{ disclaimer_page.url | default: routes.root_url }}" class="q-body-sm q-link-footer">Disclaimer</a></li>
-          {%- endif -%}
-        </ul>
+          </ul>
+        {%- endif -%}
       </div>
     </div>
 
@@ -103,11 +88,15 @@
       <hr class="q-hairline">
       <div class="q-footer__copyright">
         <p class="q-mono-spec" style="margin: 0;">
-          {{ section.settings.copyright_left | default: '© 2026 QIRÉLIA PARFUMS. ALL RIGHTS RESERVED.' }}
+          {%- assign current_year = 'now' | date: '%Y' -%}
+          {%- capture default_copyright -%}© {{ current_year }} {{ shop.name | upcase }}. ALL RIGHTS RESERVED.{%- endcapture -%}
+          {{ section.settings.copyright_left | default: default_copyright }}
         </p>
-        <p class="q-mono-spec" style="margin: 0;">
-          {{ section.settings.copyright_right | default: '20% EAU DE PARFUM  ·  30% EXTRAIT DE PARFUM' }}
-        </p>
+        {%- if section.settings.copyright_right != blank -%}
+          <p class="q-mono-spec" style="margin: 0;">
+            {{ section.settings.copyright_right }}
+          </p>
+        {%- endif -%}
       </div>
     </div>
   </div>
@@ -132,8 +121,7 @@
     {
       "type": "textarea",
       "id": "description",
-      "label": "House summary",
-      "default": "QIRÉLIA is a contemporary women’s fragrance house dedicated to olfactory clarity, restrained raw materials, and skin-close presence."
+      "label": "House summary"
     },
     {
       "type": "header",
@@ -179,8 +167,7 @@
     {
       "type": "text",
       "id": "copyright_left",
-      "label": "Copyright notice",
-      "default": "© 2026 QIRÉLIA PARFUMS. ALL RIGHTS RESERVED."
+      "label": "Copyright notice override"
     },
     {
       "type": "text",

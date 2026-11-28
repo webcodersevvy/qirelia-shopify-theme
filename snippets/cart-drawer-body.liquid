@@ -1,14 +1,19 @@
 {% doc %}
-  Renders the Minimalist Bag Drawer inner content (empty state with curated signatures, or live items).
+  Renders the Minimalist Bag Drawer inner content using live cart items or live store featured compositions.
 
-  @param {object} [curated_collection_primary] - Optional collection for curated link 1
-  @param {object} [curated_collection_secondary] - Optional collection for curated link 2
-  @param {object} [guide_page] - Optional format guide page
+  @param {object} [curated_collection_primary] - Collection for primary curated signature
+  @param {object} [curated_collection_secondary] - Collection for secondary curated signature
+  @param {object} [guide_page] - Format and Care Guide page object
 {% enddoc %}
 {%- liquid
-  assign archive_url = curated_collection_primary.url | default: routes.collections_url
-  assign reserve_url = curated_collection_secondary.url | default: routes.collections_url
-  assign guide_url = guide_page.url | default: routes.all_products_collection_url
+  assign primary_prod = curated_collection_primary.products.first
+  assign secondary_prod = curated_collection_secondary.products.first
+  if primary_prod == blank and collections['all'].products.size > 0
+    assign primary_prod = collections['all'].products[0]
+  endif
+  if secondary_prod == blank and collections['all'].products.size > 1
+    assign secondary_prod = collections['all'].products[1]
+  endif
 -%}
 <div class="q-container--rail">
   {%- if cart.item_count == 0 -%}
@@ -37,24 +42,37 @@
           </button>
         </div>
         <hr class="q-hairline">
-        <a href="{{ archive_url }}" class="q-bag-drawer__curated-row">
-          <span class="q-body-sm q-link-nav" style="text-transform: none; letter-spacing: 0.01em;">
-            SILICE · 20% Eau de Parfum
-          </span>
-          <span class="q-mono-spec" style="color: var(--q-dark-01);">$195</span>
-        </a>
-        <a href="{{ reserve_url }}" class="q-bag-drawer__curated-row">
-          <span class="q-body-sm q-link-nav" style="text-transform: none; letter-spacing: 0.01em;">
-            NO. 01 OLIBAN · 30% Extrait Reserve
-          </span>
-          <span class="q-mono-spec" style="color: var(--q-dark-01);">$310</span>
-        </a>
-        <a href="{{ guide_url }}" class="q-bag-drawer__curated-row">
-          <span class="q-body-sm q-link-nav" style="text-transform: none; letter-spacing: 0.01em;">
-            Format &amp; Class 3 Shipping Guide
-          </span>
-          <span class="q-mono-spec" style="color: var(--q-dark-01);">{{ 'cart.drawer.view_link' | t }}</span>
-        </a>
+
+        {%- if primary_prod != blank -%}
+          <a href="{{ primary_prod.url }}" class="q-bag-drawer__curated-row">
+            <span class="q-body-sm q-link-nav" style="text-transform: none; letter-spacing: 0.01em;">
+              {{ primary_prod.title }}{% if primary_prod.metafields.qirelia.concentration.value != blank %} · {{ primary_prod.metafields.qirelia.concentration.value }}{% endif %}
+            </span>
+            <span class="q-mono-spec" style="color: var(--q-dark-01);">
+              {{ primary_prod.price_min | money_without_trailing_zeros }}
+            </span>
+          </a>
+        {%- endif -%}
+
+        {%- if secondary_prod != blank and secondary_prod.id != primary_prod.id -%}
+          <a href="{{ secondary_prod.url }}" class="q-bag-drawer__curated-row">
+            <span class="q-body-sm q-link-nav" style="text-transform: none; letter-spacing: 0.01em;">
+              {{ secondary_prod.title }}{% if secondary_prod.metafields.qirelia.concentration.value != blank %} · {{ secondary_prod.metafields.qirelia.concentration.value }}{% endif %}
+            </span>
+            <span class="q-mono-spec" style="color: var(--q-dark-01);">
+              {{ secondary_prod.price_min | money_without_trailing_zeros }}
+            </span>
+          </a>
+        {%- endif -%}
+
+        {%- if guide_page != blank -%}
+          <a href="{{ guide_page.url }}" class="q-bag-drawer__curated-row">
+            <span class="q-body-sm q-link-nav" style="text-transform: none; letter-spacing: 0.01em;">
+              {{ guide_page.title }}
+            </span>
+            <span class="q-mono-spec" style="color: var(--q-dark-01);">{{ 'cart.drawer.view_link' | t }}</span>
+          </a>
+        {%- endif -%}
       </div>
     </div>
   {%- else -%}
@@ -71,7 +89,8 @@
         {%- for item in cart.items -%}
           <div class="q-bag-drawer__item">
             <a href="{{ item.url }}" class="q-bag-drawer__thumb">
-              {% render 'media-image', image: item.image, alt: item.title, sizes: '80px' %}
+              {%- assign item_alt = item.image.alt | default: item.title -%}
+              {% render 'media-image', image: item.image, alt: item_alt, sizes: '80px' %}
             </a>
             <div style="display: flex; flex-direction: column; gap: 6px; min-width: 0;">
               <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;">

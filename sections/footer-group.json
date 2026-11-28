@@ -4,7 +4,11 @@
   "sections": {
     "footer": {
       "type": "footer",
-      "settings": {}
+      "settings": {
+        "col_1_menu": "footer-collections",
+        "col_2_menu": "footer-client-care",
+        "col_3_menu": "footer-the-house"
+      }
     }
   },
   "order": [

@@ -15,18 +15,27 @@
       if meta_inci != blank
         assign body_html = meta_inci
       endif
+    when 'shipping'
+      assign meta_shipping = target_product.metafields.qirelia.shipping_note.value
+      if meta_shipping != blank
+        assign body_html = meta_shipping
+      elsif shop.shipping_policy != blank and shop.shipping_policy.body != blank
+        assign body_html = shop.shipping_policy.body
+      endif
   endcase
 -%}
 
-<details class="q-accordion" {% if block.settings.open_by_default %}open{% endif %} {{ block.shopify_attributes }}>
-  <summary class="q-accordion__trigger">
-    <span class="q-accordion__title">{{ block.settings.heading }}</span>
-    <span class="q-accordion__sign" aria-hidden="true"></span>
-  </summary>
-  <div class="q-accordion__body q-body-sm">
-    {{ body_html }}
-  </div>
-</details>
+{%- if body_html != blank -%}
+  <details class="q-accordion" {% if block.settings.open_by_default %}open{% endif %} {{ block.shopify_attributes }}>
+    <summary class="q-accordion__trigger">
+      <span class="q-accordion__title">{{ block.settings.heading }}</span>
+      <span class="q-accordion__sign" aria-hidden="true"></span>
+    </summary>
+    <div class="q-accordion__body q-body-sm">
+      {{ body_html }}
+    </div>
+  </details>
+{%- endif -%}
 
 {% stylesheet %}
   .q-accordion[open] .q-accordion__sign::after {
@@ -59,15 +68,15 @@
       "options": [
         { "value": "custom", "label": "Custom text" },
         { "value": "story", "label": "Olfactory story & product description" },
-        { "value": "inci", "label": "INCI & care metafield (with fallback)" }
+        { "value": "inci", "label": "INCI & care metafield" },
+        { "value": "shipping", "label": "Product shipping metafield or store policy" }
       ],
       "default": "custom"
     },
     {
       "type": "richtext",
       "id": "content",
-      "label": "Fallback / custom content",
-      "default": "<p>Ships via approved Class 3 Limited Quantity ground courier (UN1266). No PO Boxes or APO/FPO delivery. Returns accepted on completely unopened, factory cellophane-sealed flacons only; damaged glass replaced within 48 hours of delivery.</p>"
+      "label": "Fallback / custom content"
     },
     {
       "type": "checkbox",

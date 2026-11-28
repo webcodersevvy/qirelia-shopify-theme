@@ -4,7 +4,10 @@
   "sections": {
     "header": {
       "type": "header",
-      "settings": {}
+      "settings": {
+        "main_menu": "main-menu",
+        "utility_menu": "header-utility"
+      }
     }
   },
   "order": [
