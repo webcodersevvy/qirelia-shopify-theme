@@ -1,94 +1,124 @@
 {
   "sections": {
-    "header": {
-      "type": "page-header",
-      "settings": {
-        "color_scheme": "scheme-1",
-        "show_hero_image": false,
-        "eyebrow": "COSMETIC, SAFETY & CONCEPT DISCLOSURE  ·  QIRÉLIA",
-        "heading": "DISCLAIMER",
-        "subtext": "Important disclosures regarding QIRÉLIA’s concept-house specifications, cosmetic allergen guidance, flammable liquid handling, and natural botanical variation.",
-        "show_bottom_divider": false
-      }
-    },
     "main": {
-      "type": "principles-grid",
+      "type": "disclaimer-document",
       "blocks": {
-        "d1": {
-          "type": "principle-card",
+        "m1": {
+          "type": "metadata_item",
           "settings": {
-            "title": "01 / ALLERGENS & PATCH TESTING",
-            "body": "Fine fragrances combine natural botanical extracts and aroma-molecules that may contain declarable fragrance allergens (such as Limonene, Linalool, Coumarin, or Citral). Always review the complete printed INCI ingredient list on the rigid outer box and perform a small skin patch test prior to regular wear. Discontinue use immediately if irritation occurs.",
-            "color_scheme": "scheme-2"
+            "label": "BRAND STATUS",
+            "value": "Fictional Concept · Not a Real Commercial Entity"
           }
         },
-        "d2": {
-          "type": "principle-card",
+        "m2": {
+          "type": "metadata_item",
           "settings": {
-            "title": "02 / FLAMMABLE LIQUID SAFETY",
-            "body": "Eau de Parfum and Extrait de Parfum formulations are alcohol-based and flammable until completely dry on skin. Keep flacons away from open flames, lit candles, sparks, and high heat sources. For external cosmetic use only; avoid spraying near eyes, broken skin, or delicate untreated textiles.",
-            "color_scheme": "scheme-2"
+            "label": "CONTENT & MEDIA",
+            "value": "AI-Generated Imagery, Video & Curated Stock"
           }
         },
-        "d3": {
-          "type": "principle-card",
+        "m3": {
+          "type": "metadata_item",
           "settings": {
-            "title": "03 / NATURAL BOTANICAL COLOUR VARIATION",
-            "body": "QIRÉLIA prohibits synthetic liquid dyes. Natural raw materials such as aged Florentine orris butter, Omani frankincense, cistus labdanum, and vanilla bean extract impart subtle tints ranging from pale silver-straw to deep warm amber, which may deepen slightly over time—this is natural and does not indicate spoilage.",
-            "color_scheme": "scheme-2"
+            "label": "INTENDED USAGE",
+            "value": "Personal Portfolio & Showcase Only"
           }
         },
-        "d4": {
-          "type": "principle-card",
+        "c1": {
+          "type": "clause",
           "settings": {
-            "title": "04 / WEAR DURATION & SKIN CHEMISTRY",
-            "body": "Published wear windows (6–8 hours for 20% Eau de Parfum; 10–12+ hours for 30% Extrait de Parfum) and sillage descriptors are indicative sensory profiles only. Actual longevity and projection vary significantly based on individual skin pH, hydration, ambient climate, and application method.",
-            "color_scheme": "scheme-2"
+            "heading": "01. Fictional Brand & Non-Commercial Status",
+            "body": "<p>QIRÉLIA—along with its collections (The Permanent Archive and The Reserve Editions), fragrance titles, pricing, SKU codes, batch limits, client profiles, and sample order records—is an entirely fictional concept created for creative and technical exploration. QIRÉLIA does not exist as a real-world company, registered trademark, or retail store. Any resemblance to existing brands, products, or individuals is purely coincidental.</p>"
           }
         },
-        "d5": {
-          "type": "principle-card",
+        "c2": {
+          "type": "clause",
           "settings": {
-            "title": "05 / IMAGERY & PACKAGING REPRESENTATION",
-            "body": "Editorial still lifes, glass caustics, and bottle proportions displayed across the storefront represent artistic direction. Minor tolerances in flint glass weight, uncoated cotton stock grain, and liquid refraction may occur between batches.",
-            "color_scheme": "scheme-2"
+            "heading": "02. Portfolio & Showcase Usage Only",
+            "body": "<p>This website, its visual identity, Brand Toolkit 1.0, and interactive storefront prototypes are published strictly for personal portfolio showcase and professional capability demonstration by Sewak Singh (Millé Studio). No portion of this project is intended for commercial sales, public retail distribution, advertising, or commercial licensing.</p>"
           }
         },
-        "d6": {
-          "type": "principle-card",
+        "c3": {
+          "type": "clause",
           "settings": {
-            "title": "06 / REGULATORY & CLIENT INQUIRIES",
-            "body": "Nothing on this website constitutes medical, dermatological, or legal advice. For ingredient clarifications, safety inquiries, or formal legal correspondence, please reach our Client Care desk directly via Contact & Guidance or review our Terms & Conditions.",
-            "color_scheme": "scheme-2"
+            "heading": "03. AI-Generated & AI-Assisted Content Disclosure",
+            "body": "<p>This project relies extensively on Artificial Intelligence (AI) tools for creative direction and asset production. Visuals—including flacon renders, editorial still-life imagery, macro material textures, video elements, and campaign photography—as well as AI-assisted strategy, copywriting, and sample product metadata may be generated or assisted by AI systems. All AI-created and AI-assisted content is used strictly for conceptual, non-commercial portfolio illustration.</p>"
+          }
+        },
+        "c4": {
+          "type": "clause",
+          "settings": {
+            "heading": "04. Third-Party Stock Media & Attribution",
+            "body": "<p>Where curated third-party stock photography, typography, or placeholder media appear alongside AI-generated visuals, all rights remain with their respective creators and platforms under their applicable open or standard licenses. No copyright or ownership is claimed over third-party stock assets, which are included solely to complete realistic portfolio mockups.</p>"
+          }
+        },
+        "c5": {
+          "type": "clause",
+          "settings": {
+            "heading": "05. No Real Transactions, Checkout, or Payment Processing",
+            "body": "<p>All e-commerce interfaces on this site—including Add to Bag, Shopping Bag, Checkout, Payment &amp; Billing, Sign In, Account, and Order History pages—are functional UI/UX demonstrations only. No real orders are processed, no funds are charged, and no products will be fulfilled. Visitors must not enter genuine payment card details, banking credentials, or sensitive personal data into any demonstration form.</p>"
+          }
+        },
+        "c6": {
+          "type": "clause",
+          "settings": {
+            "heading": "06. Fictional Formulations — Not Cosmetic or Regulatory Advice",
+            "body": "<p>All olfactory pyramids, raw material narratives, concentration ratios (20% Eau de Parfum and 30% Extrait de Parfum), INCI allergen notes, and Class 3 ground shipping descriptions are fictional creative copy written to emulate a luxury fragrance house. No fragrance or formulation has been physically compounded, stability-tested, IFRA-certified, or registered with cosmetic regulators such as US FDA/MoCRA, EU CPNP, or UK SCPN. Nothing on this site constitutes perfumery, cosmetic safety, dermatological, or regulatory advice.</p>"
+          }
+        },
+        "c7": {
+          "type": "clause",
+          "settings": {
+            "heading": "07. Intellectual Property, Liability & Removal Requests",
+            "body": "<p>The original website layout, design system, and interaction architecture are presented as portfolio work by Sewak Singh (Millé Studio). This project is provided “as is” for visual and technical demonstration without warranties of any kind. If you are a copyright, trademark, or likeness rights holder and believe any AI-generated or third-party asset used here inadvertently conflicts with your rights, please reach out via the Contact page for immediate review and prompt removal.</p>"
+          }
+        },
+        "l1": {
+          "type": "related_link",
+          "settings": {
+            "label": "TERMS & CONDITIONS  →",
+            "url": "shopify://pages/terms"
+          }
+        },
+        "l2": {
+          "type": "related_link",
+          "settings": {
+            "label": "ABOUT THIS CONCEPT  →",
+            "url": "shopify://pages/about"
+          }
+        },
+        "l3": {
+          "type": "related_link",
+          "settings": {
+            "label": "CONTACT / REMOVAL REQUESTS  →",
+            "url": "shopify://pages/contact"
           }
         }
       },
       "block_order": [
-        "d1",
-        "d2",
-        "d3",
-        "d4",
-        "d5",
-        "d6"
+        "m1",
+        "m2",
+        "m3",
+        "c1",
+        "c2",
+        "c3",
+        "c4",
+        "c5",
+        "c6",
+        "c7",
+        "l1",
+        "l2",
+        "l3"
       ],
       "settings": {
         "color_scheme": "scheme-1",
-        "show_top_divider": false,
-        "columns": "2",
-        "card_gap": "compact",
-        "padding_top": 16,
-        "padding_bottom": 96,
-        "notice_heading": "IMPORTANT NOTICE  ·  CONCEPT BRAND ARCHITECTURE & REGULATORY PREREQUISITES",
-        "notice_body": "QIRÉLIA is presented as a luxury concept fragrance house. All proposed concentrations (20% Eau de Parfum / 30% Extrait de Parfum), olfactory pyramids, pricing, and batch sizes represent concept specifications. Commercial physical release requires certified perfumer formulation, IFRA 51st Amendment certification, EU/UK Cosmetic Product Safety Reports (CPSR), US MoCRA listing, full verified INCI allergen labeling, and Nice Class 3 trademark clearance.",
-        "secondary_cta_label": "READ TERMS & CONDITIONS",
-        "secondary_cta_url": "shopify://pages/terms",
-        "primary_cta_label": "CONTACT CLIENT CARE",
-        "primary_cta_url": "shopify://pages/contact"
+        "eyebrow": "CONCEPT PROJECT  ·  PORTFOLIO & AI CONTENT NOTICE",
+        "heading": "PROJECT & AI DISCLAIMER",
+        "intro": "QIRÉLIA is a fictional, non-commercial luxury fragrance concept brand created strictly for design, art direction, and e-commerce engineering portfolio presentation by Sewak Singh (Millé Studio). No physical products are manufactured, sold, or shipped through this website."
       }
     }
   },
   "order": [
-    "header",
     "main"
   ]
 }

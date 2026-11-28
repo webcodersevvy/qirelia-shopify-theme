@@ -1496,6 +1496,120 @@ button {
   gap: 32px;
 }
 
+/* Project & AI Disclaimer (Framer 1:1 Editorial Column) */
+.q-disclaimer-section {
+  padding: 88px 48px 128px;
+}
+
+.q-disclaimer-column {
+  width: 100%;
+  max-width: 820px;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+.q-disclaimer-header {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.q-disclaimer-eyebrow {
+  margin: 0;
+  color: var(--q-dark-04);
+}
+
+.q-disclaimer-heading {
+  margin: 0;
+}
+
+.q-disclaimer-intro {
+  margin: 0;
+  color: var(--q-dark-03);
+}
+
+.q-disclaimer-meta {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  padding: 24px 28px;
+  background-color: var(--q-light-02);
+  border: var(--q-hairline);
+}
+
+.q-disclaimer-meta__item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.q-disclaimer-meta__label {
+  margin: 0;
+  color: var(--q-dark-04);
+}
+
+.q-disclaimer-meta__value {
+  margin: 0;
+  font-family: var(--q-font-body, "Satoshi", -apple-system, BlinkMacSystemFont, sans-serif);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.45;
+  color: var(--q-dark-01);
+}
+
+.q-disclaimer-clauses {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.q-disclaimer-clause {
+  border-top: var(--q-hairline);
+  padding: 32px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.q-disclaimer-clause__heading {
+  margin: 0;
+  font-family: var(--q-font-display, "Bodoni Moda", Georgia, serif);
+  font-size: 24px;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1.22;
+  color: var(--q-dark-01);
+}
+
+.q-disclaimer-clause__body {
+  margin: 0;
+  color: var(--q-dark-03);
+}
+
+.q-disclaimer-clause__body p {
+  margin: 0;
+}
+
+.q-disclaimer-clause__body p + p {
+  margin-top: 10px;
+}
+
+.q-disclaimer-links {
+  border-top: var(--q-hairline);
+  padding-top: 28px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 28px;
+}
+
+.q-disclaimer-link {
+  display: inline-block;
+}
+
 /* Contact & Auth */
 .q-contact-split {
   display: flex;
@@ -1775,6 +1889,15 @@ button {
     align-items: flex-start;
     gap: 18px;
   }
+
+  .q-disclaimer-section {
+    padding: 64px 32px 96px;
+  }
+
+  .q-disclaimer-meta {
+    gap: 20px;
+    padding: 20px 24px;
+  }
 }
 
 @media (max-width: 809.98px) {
@@ -1958,5 +2081,25 @@ button {
   .q-footer__columns {
     grid-template-columns: 1fr;
     gap: 32px;
+  }
+
+  .q-disclaimer-section {
+    padding: 44px 20px 80px;
+  }
+
+  .q-disclaimer-column {
+    gap: 28px;
+  }
+
+  .q-disclaimer-meta {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    padding: 20px;
+  }
+
+  .q-disclaimer-links {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
   }
 }

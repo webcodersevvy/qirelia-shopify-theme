@@ -1,0 +1,161 @@
+{%- liquid
+  assign metadata_blocks = section.blocks | where: 'type', 'metadata_item'
+  assign clause_blocks = section.blocks | where: 'type', 'clause'
+  assign link_blocks = section.blocks | where: 'type', 'related_link'
+-%}
+
+<section class="color-{{ section.settings.color_scheme }} q-color-scheme q-disclaimer-section">
+  <div class="q-disclaimer-column">
+    <header class="q-disclaimer-header">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="q-mono-spec q-disclaimer-eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h1 class="q-h1 q-disclaimer-heading">{{ section.settings.heading | escape }}</h1>
+      {%- endif -%}
+      {%- if section.settings.intro != blank -%}
+        <p class="q-body-lg q-disclaimer-intro">{{ section.settings.intro | escape }}</p>
+      {%- endif -%}
+    </header>
+
+    {%- if metadata_blocks.size > 0 -%}
+      <div class="q-disclaimer-meta" role="list">
+        {%- for block in metadata_blocks -%}
+          <div class="q-disclaimer-meta__item" role="listitem" {{ block.shopify_attributes }}>
+            {%- if block.settings.label != blank -%}
+              <p class="q-mono-spec q-disclaimer-meta__label">{{ block.settings.label | escape }}</p>
+            {%- endif -%}
+            {%- if block.settings.value != blank -%}
+              <p class="q-disclaimer-meta__value">{{ block.settings.value | escape }}</p>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- if clause_blocks.size > 0 -%}
+      <div class="q-disclaimer-clauses">
+        {%- for block in clause_blocks -%}
+          <article class="q-disclaimer-clause" {{ block.shopify_attributes }}>
+            {%- if block.settings.heading != blank -%}
+              <h2 class="q-disclaimer-clause__heading">{{ block.settings.heading | escape }}</h2>
+            {%- endif -%}
+            {%- if block.settings.body != blank -%}
+              <div class="q-body q-disclaimer-clause__body">{{ block.settings.body }}</div>
+            {%- endif -%}
+          </article>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- if link_blocks.size > 0 -%}
+      <nav class="q-disclaimer-links" aria-label="Related legal and contact links">
+        {%- for block in link_blocks -%}
+          {%- if block.settings.label != blank -%}
+            <a
+              href="{{ block.settings.url | default: routes.root_url }}"
+              class="q-mono-spec q-link-editorial q-disclaimer-link"
+              {{ block.shopify_attributes }}
+            >
+              {{ block.settings.label | escape }}
+            </a>
+          {%- endif -%}
+        {%- endfor -%}
+      </nav>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Project & AI Disclaimer",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "CONCEPT PROJECT  ·  PORTFOLIO & AI CONTENT NOTICE"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "PROJECT & AI DISCLAIMER"
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Intro summary",
+      "default": "QIRÉLIA is a fictional, non-commercial luxury fragrance concept brand created strictly for design, art direction, and e-commerce engineering portfolio presentation by Sewak Singh (Millé Studio). No physical products are manufactured, sold, or shipped through this website."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "metadata_item",
+      "name": "Metadata Item",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "BRAND STATUS"
+        },
+        {
+          "type": "text",
+          "id": "value",
+          "label": "Value",
+          "default": "Fictional Concept · Not a Real Commercial Entity"
+        }
+      ]
+    },
+    {
+      "type": "clause",
+      "name": "Disclaimer Clause",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Clause heading",
+          "default": "01. Fictional Brand & Non-Commercial Status"
+        },
+        {
+          "type": "richtext",
+          "id": "body",
+          "label": "Clause body",
+          "default": "<p>QIRÉLIA is an entirely fictional concept created for creative and technical exploration.</p>"
+        }
+      ]
+    },
+    {
+      "type": "related_link",
+      "name": "Related Link",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Link label",
+          "default": "TERMS & CONDITIONS  →"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link destination"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Project & AI Disclaimer",
+      "category": "Editorial"
+    }
+  ]
+}
+{% endschema %}
