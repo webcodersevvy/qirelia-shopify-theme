@@ -65,7 +65,7 @@ button {
   position: fixed;
   top: -100px;
   left: 16px;
-  z-index: 200;
+  z-index: var(--q-z-skip, 300);
   padding: 12px 20px;
   background: var(--q-dark-01);
   color: var(--q-light-01);
@@ -114,7 +114,7 @@ button {
 .q-header-section {
   position: sticky;
   top: 0;
-  z-index: 50;
+  z-index: var(--q-z-header, 100);
   background-color: var(--q-light-01);
 }
 
@@ -131,7 +131,7 @@ button {
 
 .q-header__rail {
   position: relative;
-  z-index: 10;
+  z-index: var(--q-z-nav, 30);
   height: 84px;
   padding-inline: var(--q-gutter-rail);
   background-color: var(--q-light-01);
@@ -275,16 +275,18 @@ button {
 }
 
 /* Drawers under Sticky Header */
+#qirelia-drawer-backdrop,
 .q-drawer-backdrop {
   position: fixed;
   inset: 0;
-  z-index: 40;
+  z-index: var(--q-z-backdrop, 10);
   background-color: rgba(20, 20, 20, 0.18);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.28s var(--q-ease-out);
 }
 
+#qirelia-drawer-backdrop.is-visible,
 .q-drawer-backdrop.is-visible {
   opacity: 1;
   pointer-events: auto;
@@ -295,6 +297,7 @@ button {
   top: 100%;
   left: 0;
   right: 0;
+  z-index: var(--q-z-drawer, 20);
   background-color: var(--q-light-01);
   border-top: var(--q-hairline);
   border-bottom: var(--q-hairline);
@@ -309,6 +312,7 @@ button {
 }
 
 .q-drawer.is-open {
+  z-index: var(--q-z-drawer-active, 25);
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
@@ -1107,6 +1111,7 @@ button {
   width: 41%;
   position: sticky;
   top: 96px;
+  z-index: var(--q-z-sticky, 10);
   display: flex;
   flex-direction: column;
   gap: 36px;
@@ -1479,6 +1484,7 @@ button {
   gap: 12px;
   position: sticky;
   top: 108px;
+  z-index: var(--q-z-sticky, 10);
 }
 
 .q-legal-clauses {

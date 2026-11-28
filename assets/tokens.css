@@ -53,6 +53,17 @@
   /* Transitions */
   --q-ease: cubic-bezier(0.2, 0, 0, 1);
   --q-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Stacking Layers (backdrop sits behind all navigation & drawer layers) */
+  --q-z-base: 0;
+  --q-z-raised: 1;
+  --q-z-sticky: 10;
+  --q-z-backdrop: 10;
+  --q-z-drawer: 20;
+  --q-z-drawer-active: 25;
+  --q-z-nav: 30;
+  --q-z-header: 100;
+  --q-z-skip: 300;
 }
 
 /* Color scheme surface utility */
