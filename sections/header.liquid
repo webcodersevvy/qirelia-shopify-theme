@@ -89,7 +89,19 @@
             eager: true
           %}
         {%- else -%}
-          <span class="q-header__wordmark">{{ section.settings.wordmark_text | default: shop.name }}</span>
+          {%- liquid
+            assign logo_tracking = section.settings.logo_letter_spacing | times: 0.01 | append: 'em'
+            assign logo_font_stack = 'var(--q-font-display, "Bodoni Moda", Georgia, serif)'
+            if section.settings.logo_font_family == 'body'
+              assign logo_font_stack = 'var(--q-font-body, "Satoshi", sans-serif)'
+            elsif section.settings.logo_font_family == 'mono'
+              assign logo_font_stack = 'var(--q-font-mono, monospace)'
+            endif
+          -%}
+          <span
+            class="q-header__wordmark"
+            style="--q-logo-font: {{ logo_font_stack }}; --q-logo-size: {{ section.settings.logo_font_size }}px; --q-logo-size-mobile: {{ section.settings.logo_font_size_mobile }}px; --q-logo-weight: {{ section.settings.logo_font_weight }}; --q-logo-tracking: {{ logo_tracking }}; --q-logo-transform: {{ section.settings.logo_text_transform }}; --q-logo-color: {{ section.settings.logo_color }};"
+          >{{ section.settings.wordmark_text | default: shop.name }}</span>
         {%- endif -%}
       </a>
 
@@ -366,6 +378,82 @@
       "type": "text",
       "id": "wordmark_text",
       "label": "Wordmark text fallback"
+    },
+    {
+      "type": "header",
+      "content": "Brand Logo Text Styles"
+    },
+    {
+      "type": "select",
+      "id": "logo_font_family",
+      "label": "Font family",
+      "options": [
+        { "value": "display", "label": "Display Serif" },
+        { "value": "body", "label": "Body Sans" },
+        { "value": "mono", "label": "Monospace" }
+      ],
+      "default": "display"
+    },
+    {
+      "type": "range",
+      "id": "logo_font_size",
+      "label": "Desktop font size",
+      "min": 16,
+      "max": 56,
+      "step": 1,
+      "unit": "px",
+      "default": 29
+    },
+    {
+      "type": "range",
+      "id": "logo_font_size_mobile",
+      "label": "Mobile font size",
+      "min": 14,
+      "max": 36,
+      "step": 1,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "select",
+      "id": "logo_font_weight",
+      "label": "Font weight",
+      "options": [
+        { "value": "300", "label": "Light (300)" },
+        { "value": "400", "label": "Regular (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi-bold (600)" },
+        { "value": "700", "label": "Bold (700)" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "range",
+      "id": "logo_letter_spacing",
+      "label": "Letter spacing (x0.01 em)",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "default": 32,
+      "info": "32 equals 0.32em architectural tracking."
+    },
+    {
+      "type": "select",
+      "id": "logo_text_transform",
+      "label": "Text case",
+      "options": [
+        { "value": "uppercase", "label": "Uppercase" },
+        { "value": "none", "label": "As typed" },
+        { "value": "capitalize", "label": "Capitalize" },
+        { "value": "lowercase", "label": "Lowercase" }
+      ],
+      "default": "uppercase"
+    },
+    {
+      "type": "color",
+      "id": "logo_color",
+      "label": "Text color",
+      "default": "#141414"
     },
     {
       "type": "header",

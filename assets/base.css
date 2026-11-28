@@ -182,13 +182,14 @@ button {
 }
 
 .q-header__wordmark {
-  font-family: var(--q-font-display, "Bodoni Moda", Georgia, serif);
-  font-size: 29px;
-  font-weight: 400;
+  font-family: var(--q-logo-font, var(--q-font-display, "Bodoni Moda", Georgia, serif));
+  font-size: var(--q-logo-size, 29px);
+  font-weight: var(--q-logo-weight, 400);
   line-height: 0.95;
-  letter-spacing: 0.32em;
-  text-indent: 0.32em;
-  color: var(--q-dark-01);
+  letter-spacing: var(--q-logo-tracking, 0.32em);
+  text-indent: var(--q-logo-tracking, 0.32em);
+  text-transform: var(--q-logo-transform, uppercase);
+  color: var(--q-logo-color, var(--q-dark-01));
   white-space: nowrap;
 }
 
@@ -1621,12 +1622,13 @@ button {
 }
 
 .q-footer__wordmark {
-  font-family: var(--q-font-display, "Bodoni Moda", Georgia, serif);
-  font-size: 28px;
-  font-weight: 400;
+  font-family: var(--q-footer-logo-font, var(--q-font-display, "Bodoni Moda", Georgia, serif));
+  font-size: var(--q-footer-logo-size, 28px);
+  font-weight: var(--q-footer-logo-weight, 400);
   line-height: 1;
-  letter-spacing: 0.16em;
-  color: var(--q-dark-01);
+  letter-spacing: var(--q-footer-logo-tracking, 0.16em);
+  text-transform: var(--q-footer-logo-transform, uppercase);
+  color: var(--q-footer-logo-color, var(--q-dark-01));
   text-decoration: none;
 }
 
@@ -1794,9 +1796,9 @@ button {
   }
 
   .q-header__wordmark {
-    font-size: 20px;
-    letter-spacing: 0.22em;
-    text-indent: 0.22em;
+    font-size: var(--q-logo-size-mobile, 20px);
+    letter-spacing: var(--q-logo-tracking, 0.22em);
+    text-indent: var(--q-logo-tracking, 0.22em);
   }
 
   .q-header__bag-trigger .q-link-nav {

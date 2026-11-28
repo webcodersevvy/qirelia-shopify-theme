@@ -17,7 +17,20 @@
   <div class="q-container q-footer__inner">
     <div class="q-footer__columns">
       <div class="q-footer__anchor">
-        <a href="{{ routes.root_url }}" class="q-footer__wordmark">
+        {%- liquid
+          assign footer_logo_tracking = section.settings.footer_logo_letter_spacing | times: 0.01 | append: 'em'
+          assign footer_logo_font = 'var(--q-font-display, "Bodoni Moda", Georgia, serif)'
+          if section.settings.footer_logo_font_family == 'body'
+            assign footer_logo_font = 'var(--q-font-body, "Satoshi", sans-serif)'
+          elsif section.settings.footer_logo_font_family == 'mono'
+            assign footer_logo_font = 'var(--q-font-mono, monospace)'
+          endif
+        -%}
+        <a
+          href="{{ routes.root_url }}"
+          class="q-footer__wordmark"
+          style="--q-footer-logo-font: {{ footer_logo_font }}; --q-footer-logo-size: {{ section.settings.footer_logo_font_size }}px; --q-footer-logo-weight: {{ section.settings.footer_logo_font_weight }}; --q-footer-logo-tracking: {{ footer_logo_tracking }}; --q-footer-logo-transform: {{ section.settings.footer_logo_text_transform }}; --q-footer-logo-color: {{ section.settings.footer_logo_color }};"
+        >
           {{ section.settings.wordmark_text | default: shop.name }}
         </a>
         {%- if section.settings.tagline != blank or settings.tagline != blank -%}
@@ -111,6 +124,72 @@
       "id": "wordmark_text",
       "label": "Wordmark",
       "default": "QIRÉLIA"
+    },
+    {
+      "type": "header",
+      "content": "Brand Wordmark Text Styles"
+    },
+    {
+      "type": "select",
+      "id": "footer_logo_font_family",
+      "label": "Font family",
+      "options": [
+        { "value": "display", "label": "Display Serif" },
+        { "value": "body", "label": "Body Sans" },
+        { "value": "mono", "label": "Monospace" }
+      ],
+      "default": "display"
+    },
+    {
+      "type": "range",
+      "id": "footer_logo_font_size",
+      "label": "Font size",
+      "min": 16,
+      "max": 52,
+      "step": 1,
+      "unit": "px",
+      "default": 28
+    },
+    {
+      "type": "select",
+      "id": "footer_logo_font_weight",
+      "label": "Font weight",
+      "options": [
+        { "value": "300", "label": "Light (300)" },
+        { "value": "400", "label": "Regular (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi-bold (600)" },
+        { "value": "700", "label": "Bold (700)" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "range",
+      "id": "footer_logo_letter_spacing",
+      "label": "Letter spacing (x0.01 em)",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "default": 16,
+      "info": "16 equals 0.16em tracking."
+    },
+    {
+      "type": "select",
+      "id": "footer_logo_text_transform",
+      "label": "Text case",
+      "options": [
+        { "value": "uppercase", "label": "Uppercase" },
+        { "value": "none", "label": "As typed" },
+        { "value": "capitalize", "label": "Capitalize" },
+        { "value": "lowercase", "label": "Lowercase" }
+      ],
+      "default": "uppercase"
+    },
+    {
+      "type": "color",
+      "id": "footer_logo_color",
+      "label": "Text color",
+      "default": "#141414"
     },
     {
       "type": "text",
